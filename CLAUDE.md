@@ -196,6 +196,27 @@ When running in CI, the dev environment is **not** pre-configured. Dependencies 
 - **Skip the setup script** for tasks that only read code — architecture questions, code review, documentation, etc.
 - The script is idempotent and safe to run multiple times.
 
+## Self-Hosted Deployment
+
+This fork is deployed at **https://crm.tob.sh**. Deployment configs are in `deploy/`.
+
+### API Access
+
+To access the Twenty API (locally or from scripts), you need three secrets:
+- `TWENTY_API_KEY` — Twenty API key (generate in CRM under Settings → Accounts → API Keys)
+- `CF_ACCESS_CLIENT_ID` — Cloudflare Access service token client ID
+- `CF_ACCESS_CLIENT_SECRET` — Cloudflare Access service token client secret
+
+The CF Access credentials are required because `crm.tob.sh` is behind Cloudflare Zero Trust. Without them, API calls get redirected to the login page.
+
+**To obtain these secrets, contact Johannes Schulz.**
+
+Copy `deploy/.env.example` to `deploy/.env` and fill in the values. Scripts like `setup-data-model.sh` read from these environment variables.
+
+### Fork Management
+
+This fork uses **StGit** to maintain patches on top of upstream `twentyhq/twenty`. See `.claude/skills/managing-stgit-fork/` for the full workflow. The `stgit-patches` branch holds the patch stack.
+
 ## Important Files
 - `nx.json` - Nx workspace configuration with task definitions
 - `tsconfig.base.json` - Base TypeScript configuration
