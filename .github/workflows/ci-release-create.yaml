@@ -24,6 +24,7 @@ defaults:
 
 jobs:
   create_pr:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 10
     runs-on: depot-ubuntu-24.04
     steps:

@@ -15,6 +15,7 @@ permissions:
 
 jobs:
   changed-files:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 5
     runs-on: depot-ubuntu-24.04
     outputs:

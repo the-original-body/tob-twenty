@@ -24,7 +24,7 @@ concurrency:
 
 jobs:
   trigger-preview:
-    if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened' || (github.event.action == 'labeled' && github.event.label.name == 'preview-app')
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 5
     runs-on: depot-ubuntu-24.04
     steps:

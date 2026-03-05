@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   qa_report:
+    if: false  # disabled: upstream workflow not needed in fork
     name: Generate QA Report
     runs-on: depot-ubuntu-24.04
     steps:

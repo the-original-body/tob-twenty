@@ -24,9 +24,9 @@ concurrency:
 
 jobs:
   danger-js:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 5
     runs-on: depot-ubuntu-24.04
-    if: github.event.action != 'closed'
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
@@ -37,9 +37,9 @@ jobs:
           DANGER_GITHUB_API_TOKEN: ${{ github.token }}
 
   congratulate:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 3
     runs-on: depot-ubuntu-24.04
-    if: github.event.action == 'closed' && github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
