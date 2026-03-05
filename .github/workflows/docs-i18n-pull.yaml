@@ -33,6 +33,7 @@ concurrency:
 
 jobs:
   pull_docs_translations:
+    if: false  # disabled: upstream workflow not needed in fork
     name: Pull docs translations
     runs-on: depot-ubuntu-24.04
     steps:

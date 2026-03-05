@@ -21,6 +21,7 @@ permissions:
 
 jobs:
   changed-files-check:
+    if: false  # disabled: upstream workflow not needed in fork
     uses: ./.github/workflows/changed-files.yaml
     with:
       files: |
@@ -31,8 +32,8 @@ jobs:
         .github/workflows/ci-breaking-changes.yaml
 
   api-breaking-changes:
+    if: false  # disabled: upstream workflow not needed in fork
     needs: changed-files-check
-    if: needs.changed-files-check.outputs.any_changed == 'true'
     timeout-minutes: 45
     runs-on: depot-ubuntu-24.04
     services:

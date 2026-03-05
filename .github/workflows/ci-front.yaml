@@ -19,6 +19,7 @@ env:
 
 jobs:
   changed-files-check:
+    if: false  # disabled: upstream workflow not needed in fork
     uses: ./.github/workflows/changed-files.yaml
     with:
       files: |
@@ -30,6 +31,7 @@ jobs:
         packages/twenty-sdk/**
         !packages/twenty-sdk/package.json
   changed-files-check-e2e:
+    if: false  # disabled: upstream workflow not needed in fork
     uses: ./.github/workflows/changed-files.yaml
     with:
       files: |
@@ -39,8 +41,8 @@ jobs:
         playwright.config.ts
         .github/workflows/ci-front.yaml
   front-sb-build:
+    if: false  # disabled: upstream workflow not needed in fork
     needs: changed-files-check
-    if: needs.changed-files-check.outputs.any_changed == 'true'
     timeout-minutes: 30
     runs-on: ubuntu-latest-8-cores
     env:
@@ -67,6 +69,7 @@ jobs:
         with:
           key: ${{ env.STORYBOOK_BUILD_CACHE_KEY_FOR_SAVE_ACTION }}
   front-sb-test:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 30
     runs-on: ubuntu-latest-8-cores
     needs: front-sb-build
@@ -114,6 +117,7 @@ jobs:
           name: coverage-artifacts-${{ matrix.storybook_scope }}-${{ github.run_id }}-${{ matrix.shard }}
           path: packages/twenty-front/coverage/storybook/coverage-shard-${{matrix.shard}}.json
   merge-reports-and-check-coverage:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 30
     runs-on: depot-ubuntu-24.04
     needs: front-sb-test
@@ -140,8 +144,8 @@ jobs:
       - name: Checking coverage
         run: npx nx storybook:coverage twenty-front --checkCoverage=true --configuration=${{ matrix.storybook_scope }}
   front-chromatic-deployment:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 30
-    if: false
     needs: front-sb-build
     runs-on: ubuntu-latest-8-cores
     env:
@@ -166,8 +170,8 @@ jobs:
       - name: Publish to Chromatic
         run: npx nx run twenty-front:chromatic:ci
   front-task:
+    if: false  # disabled: upstream workflow not needed in fork
     needs: changed-files-check
-    if: needs.changed-files-check.outputs.any_changed == 'true'
     timeout-minutes: 30
     runs-on: depot-ubuntu-24.04
     env:
@@ -208,8 +212,8 @@ jobs:
         with:
           key: ${{ steps.restore-task-cache.outputs.cache-primary-key }}
   front-build:
+    if: false  # disabled: upstream workflow not needed in fork
     needs: changed-files-check
-    if: needs.changed-files-check.outputs.any_changed == 'true'
     timeout-minutes: 30
     runs-on: ubuntu-latest-8-cores
     env:
@@ -236,13 +240,9 @@ jobs:
           path: packages/twenty-front/build
           retention-days: 1
   e2e-test:
+    if: false  # disabled: upstream workflow not needed in fork
     runs-on: depot-ubuntu-24.04
     needs: [changed-files-check-e2e, front-build]
-    if: |
-      always() &&
-      needs.changed-files-check-e2e.outputs.any_changed == 'true' &&
-      (needs.front-build.result == 'success' || needs.front-build.result == 'skipped') &&
-      (github.event_name == 'push' || github.event_name == 'merge_group' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'run-e2e')))
     timeout-minutes: 30
     env:
       NODE_OPTIONS: "--max-old-space-size=10240"
@@ -344,7 +344,7 @@ jobs:
           retention-days: 30
 
   ci-front-status-check:
-    if: always() && !cancelled()
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 5
     runs-on: depot-ubuntu-24.04
     needs:
@@ -361,7 +361,7 @@ jobs:
         if: contains(needs.*.result, 'failure')
         run: exit 1
   ci-e2e-status-check:
-    if: always() && !cancelled()
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 5
     runs-on: depot-ubuntu-24.04
     needs: [changed-files-check-e2e, e2e-test]

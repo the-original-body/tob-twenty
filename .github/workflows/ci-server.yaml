@@ -17,6 +17,7 @@ env:
 
 jobs:
   changed-files-check:
+    if: false  # disabled: upstream workflow not needed in fork
     uses: ./.github/workflows/changed-files.yaml
     with:
       files: |
@@ -28,8 +29,8 @@ jobs:
         packages/twenty-emails/**
         packages/twenty-shared/**
   server-setup:
+    if: false  # disabled: upstream workflow not needed in fork
     needs: changed-files-check
-    if: needs.changed-files-check.outputs.any_changed == 'true'
     timeout-minutes: 30
     runs-on: ubuntu-latest-8-cores
     services:
@@ -142,6 +143,7 @@ jobs:
         with:
           key: ${{ steps.restore-server-setup-cache.outputs.cache-primary-key }}
   server-test:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 30
     runs-on: ubuntu-latest-8-cores
     needs: server-setup
@@ -163,6 +165,7 @@ jobs:
           tasks: test
 
   server-integration-test:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 30
     runs-on: ubuntu-latest-8-cores
     needs: server-setup
@@ -248,7 +251,7 @@ jobs:
           configuration: 'with-db-reset'
           args: --shard=${{ matrix.shard }}/${{ env.SHARD_COUNTER }}
   ci-server-status-check:
-    if: always() && !cancelled()
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 5
     runs-on: depot-ubuntu-24.04
     needs: [changed-files-check, server-setup, server-test, server-integration-test]

@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   extract_translations:
+    if: false  # disabled: upstream workflow not needed in fork
     name: Extract and upload translations
     runs-on: depot-ubuntu-24.04
     steps:

@@ -10,6 +10,7 @@ on:
 
 jobs:
   preview-environment:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 310
     runs-on: depot-ubuntu-24.04
     steps:

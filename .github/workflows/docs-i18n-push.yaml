@@ -20,6 +20,7 @@ concurrency:
 
 jobs:
   push_docs:
+    if: false  # disabled: upstream workflow not needed in fork
     name: Push documentation to Crowdin
     runs-on: depot-ubuntu-24.04
     steps:

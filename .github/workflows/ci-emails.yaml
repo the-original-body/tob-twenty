@@ -16,14 +16,15 @@ concurrency:
 
 jobs:
   changed-files-check:
+    if: false  # disabled: upstream workflow not needed in fork
     uses: ./.github/workflows/changed-files.yaml
     with:
       files: |
         package.json
         packages/twenty-emails/**
   emails-test:
+    if: false  # disabled: upstream workflow not needed in fork
     needs: changed-files-check
-    if: needs.changed-files-check.outputs.any_changed == 'true'
     timeout-minutes: 10
     runs-on: ubuntu-latest-8-cores
     steps:
@@ -54,7 +55,7 @@ jobs:
           # Kill the server
           kill $SERVER_PID
   ci-emails-status-check:
-    if: always() && !cancelled()
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 5
     runs-on: depot-ubuntu-24.04
     needs: [changed-files-check, emails-test]

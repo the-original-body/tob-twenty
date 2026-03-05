@@ -14,14 +14,15 @@ concurrency:
 
 jobs:
   changed-files-check:
+    if: false  # disabled: upstream workflow not needed in fork
     uses: ./.github/workflows/changed-files.yaml
     with:
       files: |
         packages/twenty-sdk/**
         !packages/twenty-sdk/package.json
   sdk-test:
+    if: false  # disabled: upstream workflow not needed in fork
     needs: changed-files-check
-    if: needs.changed-files-check.outputs.any_changed == 'true'
     timeout-minutes: 30
     runs-on: depot-ubuntu-24.04
     strategy:
@@ -49,10 +50,10 @@ jobs:
           tag: scope:sdk
           tasks: ${{ matrix.task }}
   sdk-e2e-test:
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 30
     runs-on: ubuntu-latest-8-cores
     needs: [changed-files-check, sdk-test]
-    if: needs.changed-files-check.outputs.any_changed == 'true'
     services:
       postgres:
         image: twentycrm/twenty-postgres-spilo
@@ -92,7 +93,7 @@ jobs:
           tag: scope:sdk
           tasks: test:e2e
   ci-sdk-status-check:
-    if: always() && !cancelled()
+    if: false  # disabled: upstream workflow not needed in fork
     timeout-minutes: 5
     runs-on: depot-ubuntu-24.04
     needs: [changed-files-check, sdk-test, sdk-e2e-test]
