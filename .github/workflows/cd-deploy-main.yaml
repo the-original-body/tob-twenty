@@ -10,6 +10,7 @@ on:
 
 jobs:
   deploy-main:
+    if: false  # disabled: upstream workflow, dispatches to twentyhq/twenty-infra
     timeout-minutes: 3
     runs-on: depot-ubuntu-24.04
     steps:
