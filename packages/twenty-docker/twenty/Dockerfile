@@ -1,4 +1,5 @@
 # Base image for common dependencies
+# CD pipeline: GHCR push → Watchtower auto-deploy
 FROM node:24-alpine AS common-deps
 
 WORKDIR /app
