@@ -1,6 +1,5 @@
 import { DASHBOARD_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/DashboardActionsConfig';
 import { DEFAULT_RECORD_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/DefaultRecordActionsConfig';
-import { TOB_SUBSCRIPTION_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig';
 import { WORKFLOW_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowActionsConfig';
 import { WORKFLOW_RUNS_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowRunsActionsConfig';
 import { WORKFLOW_VERSIONS_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowVersionsActionsConfig';
@@ -39,10 +38,6 @@ export const getActionConfig = ({
       return DEFAULT_RECORD_ACTIONS_CONFIG;
     }
     default: {
-      // Custom object routing by nameSingular
-      if (objectMetadataItem.nameSingular === 'tobSubscription') {
-        return TOB_SUBSCRIPTION_ACTIONS_CONFIG;
-      }
       return DEFAULT_RECORD_ACTIONS_CONFIG;
     }
   }
