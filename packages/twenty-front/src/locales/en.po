@@ -1236,13 +1236,13 @@ msgstr "Aggregate Chart"
 #: src/pages/settings/roles/SettingsRoleAddObjectLevel.tsx
 #: src/pages/settings/logic-functions/SettingsLogicFunctionDetail.tsx
 #: src/pages/settings/ai/SettingsSkillForm.tsx
+#: src/pages/settings/ai/SettingsAIPrompts.tsx
+#: src/pages/settings/ai/SettingsAI.tsx
+#: src/pages/settings/ai/SettingsAI.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentForm.tsx
-#: src/pages/settings/ai/SettingsAIPrompts.tsx
-#: src/pages/settings/ai/SettingsAI.tsx
-#: src/pages/settings/ai/SettingsAI.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/utils/getActionHeaderTypeOrThrow.ts
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 #: src/modules/settings/roles/role-permissions/object-level-permissions/object-form/components/SettingsRolePermissionsObjectLevelObjectForm.tsx
@@ -2396,6 +2396,9 @@ msgstr "Can't scan? Copy the"
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
 #: src/modules/object-record/record-update-multiple/components/UpdateMultipleRecordsFooter.tsx
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
 #: src/modules/action-menu/actions/record-actions/constants/DefaultRecordActionsConfig.tsx
 #: src/modules/action-menu/actions/record-actions/constants/DashboardActionsConfig.tsx
 msgid "Cancel"
@@ -2447,6 +2450,11 @@ msgstr "Cancel plan switching?"
 msgid "Cancel your subscription"
 msgstr "Cancel your subscription"
 
+#. js-lingui-id: hB2+E3
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+msgid "Cannot calculate"
+msgstr "Cannot calculate"
+
 #. js-lingui-id: 8fbdLj
 #: src/modules/ui/feedback/snack-bar-manager/utils/sanitizeMessageToRenderInSnackbar.ts
 #: src/modules/ui/feedback/snack-bar-manager/utils/sanitizeMessageToRenderInSnackbar.ts
@@ -2458,6 +2466,11 @@ msgstr "Cannot display message"
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
 msgid "Cannot impersonate selected user"
 msgstr "Cannot impersonate selected user"
+
+#. js-lingui-id: ySIbSI
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+msgid "Cannot pause a withdrawn subscription"
+msgstr "Cannot pause a withdrawn subscription"
 
 #. js-lingui-id: H1Ddy9
 #: src/modules/object-record/record-field/ui/meta-types/input/hooks/useOpenFilesFieldInput.tsx
@@ -2509,6 +2522,12 @@ msgstr "Change node type"
 #: src/modules/settings/profile/components/SetOrChangePassword.tsx
 msgid "Change Password"
 msgstr "Change Password"
+
+#. js-lingui-id: jZop76
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
+#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
+msgid "Change Payment Plan"
+msgstr "Change Payment Plan"
 
 #. js-lingui-id: EYSFEW
 #: src/pages/settings/domains/SettingsDomain.tsx
@@ -2982,6 +3001,16 @@ msgstr "Confirm deletion of {roleName} role? This cannot be undone. All members 
 #: src/modules/billing/components/internal/MeteredPriceSelector.tsx
 msgid "Confirm downgrade"
 msgstr "Confirm downgrade"
+
+#. js-lingui-id: G41/E3
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
+msgid "Confirm Extension"
+msgstr "Confirm Extension"
+
+#. js-lingui-id: 3QWAjm
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+msgid "Confirm Pause"
+msgstr "Confirm Pause"
 
 #. js-lingui-id: 28b8wO
 #: src/modules/settings/members/components/MemberPermissionsTab.tsx
@@ -3591,6 +3620,17 @@ msgstr "Currency Code"
 #: src/modules/billing/components/internal/SubscriptionInfoRowContainer.tsx
 msgid "Current"
 msgstr "Current"
+
+#. js-lingui-id: doBjqe
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
+msgid ""
+"Current payment status: {currentPaymentStatus}\n"
+"\n"
+"Switch to: {newPaymentLabel}"
+msgstr ""
+"Current payment status: {currentPaymentStatus}\n"
+"\n"
+"Switch to: {newPaymentLabel}"
 
 #. js-lingui-id: 6YzXhC
 #: src/modules/settings/admin-panel/config-variables/components/ConfigVariableHelpText.tsx
@@ -5685,6 +5725,21 @@ msgstr "Export workflows"
 msgid "Expression"
 msgstr "Expression"
 
+#. js-lingui-id: 54SO/B
+#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
+msgid "Extend"
+msgstr "Extend"
+
+#. js-lingui-id: NPSp7Q
+#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
+msgid "Extend / Renew"
+msgstr "Extend / Renew"
+
+#. js-lingui-id: Ld6JPA
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
+msgid "Extend / Renew Subscription"
+msgstr "Extend / Renew Subscription"
+
 #. js-lingui-id: uE7S0L
 #: src/modules/billing/components/SettingsBillingCreditsSection.tsx
 msgid "Extra Credits Used"
@@ -5716,6 +5771,11 @@ msgstr "Failed to {translatedOperationType} {translatedMetadataName}. Related {r
 #: src/pages/settings/ai/components/SettingsSkillsTable.tsx
 msgid "Failed to activate skill"
 msgstr "Failed to activate skill"
+
+#. js-lingui-id: Bv4ZMg
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
+msgid "Failed to change payment plan"
+msgstr "Failed to change payment plan"
 
 #. js-lingui-id: WM7GKt
 #: src/pages/settings/ai/components/SettingsToolsTable.tsx
@@ -5752,6 +5812,11 @@ msgstr "Failed to evaluate turn"
 msgid "Failed to execute evaluation input"
 msgstr "Failed to execute evaluation input"
 
+#. js-lingui-id: iGitwl
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
+msgid "Failed to extend subscription"
+msgstr "Failed to extend subscription"
+
 #. js-lingui-id: Ukrbw5
 #: src/modules/ai/components/AIChatErrorMessage.tsx
 msgid "Failed to get response"
@@ -5781,6 +5846,11 @@ msgstr "Failed to merge records. Please try again."
 #: src/modules/ai/components/RoutingDebugDisplay.tsx
 msgid "Failed to parse context: {contextValue}"
 msgstr "Failed to parse context: {contextValue}"
+
+#. js-lingui-id: eNpRki
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+msgid "Failed to pause subscription"
+msgstr "Failed to pause subscription"
 
 #. js-lingui-id: A/P7PX
 #: src/modules/settings/admin-panel/config-variables/hooks/useConfigVariableActions.ts
@@ -6972,6 +7042,11 @@ msgstr "Installed"
 #: src/pages/settings/applications/components/SettingsApplicationsTable.tsx
 msgid "Installed applications"
 msgstr "Installed applications"
+
+#. js-lingui-id: tQfbqJ
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
+msgid "Installments"
+msgstr "Installments"
 
 #. js-lingui-id: AwUsnG
 #: src/pages/settings/data-model/constants/SettingsObjectTableMetadata.ts
@@ -9141,6 +9216,13 @@ msgstr "Not empty"
 msgid "Not Found"
 msgstr "Not Found"
 
+#. js-lingui-id: MTqQMG
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
+msgid "Not set"
+msgstr "Not set"
+
 #. js-lingui-id: 51G4/+
 #: src/modules/object-record/record-field/ui/meta-types/display/components/ForbiddenFieldDisplay.tsx
 #: src/modules/activities/emails/components/EmailThreadNotShared.tsx
@@ -9677,6 +9759,11 @@ msgstr "Page Not Found | Twenty"
 msgid "Page Views"
 msgstr "Page Views"
 
+#. js-lingui-id: UkLE4y
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
+msgid "Paid (Upfront)"
+msgstr "Paid (Upfront)"
+
 #. js-lingui-id: ijBN4V
 #: src/modules/advanced-text-editor/extensions/slash-command/DefaultSlashCommands.ts
 msgid "paragraph"
@@ -9725,6 +9812,27 @@ msgstr "Paste the code below"
 #: src/modules/settings/logic-functions/components/tabs/SettingsLogicFunctionTriggersTab.tsx
 msgid "Path"
 msgstr "Path"
+
+#. js-lingui-id: IgrLD/
+#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
+msgid "Pause"
+msgstr "Pause"
+
+#. js-lingui-id: +/bQSd
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
+msgid "Pause Subscription"
+msgstr "Pause Subscription"
+
+#. js-lingui-id: 621rYf
+#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
+msgid "Payment"
+msgstr "Payment"
+
+#. js-lingui-id: BfOXn9
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
+msgid "Payment plan changed to {newPaymentLabel}"
+msgstr "Payment plan changed to {newPaymentLabel}"
 
 #. js-lingui-id: UbRKMZ
 #: src/pages/settings/emailing-domains/utils/getEmailingDomainStatusText.ts
@@ -11923,8 +12031,8 @@ msgstr "Sorry, something went wrong"
 #: src/modules/object-record/record-table/record-table-header/components/RecordTableColumnHeadDropdownMenu.tsx
 #: src/modules/object-record/object-sort-dropdown/components/ObjectSortDropdownButton.tsx
 #: src/modules/object-record/object-sort-dropdown/components/ObjectSortDropdownButton.tsx
-#: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownRecordGroupsContent.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownRecordGroupSortContent.tsx
+#: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownRecordGroupsContent.tsx
 msgid "Sort"
 msgstr "Sort"
 
@@ -12173,6 +12281,11 @@ msgstr "Subscription"
 msgid "Subscription activated."
 msgstr "Subscription activated."
 
+#. js-lingui-id: J0fDTr
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
+msgid "Subscription extended by {extensionMonths} months"
+msgstr "Subscription extended by {extensionMonths} months"
+
 #. js-lingui-id: gvXPJz
 #: src/modules/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Subscription has been switched to {oppositPlan} Plan."
@@ -12182,6 +12295,11 @@ msgstr "Subscription has been switched to {oppositPlan} Plan."
 #: src/modules/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Subscription has been switched to Yearly."
 msgstr "Subscription has been switched to Yearly."
+
+#. js-lingui-id: f3DwC6
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+msgid "Subscription paused for {pauseDurationWeeks} weeks"
+msgstr "Subscription paused for {pauseDurationWeeks} weeks"
 
 #. js-lingui-id: nQcG+x
 #: src/modules/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -12245,6 +12363,11 @@ msgstr "Support"
 #: src/pages/settings/profile/appearance/components/LocalePicker.tsx
 msgid "Swedish"
 msgstr "Swedish"
+
+#. js-lingui-id: O/pEiJ
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
+msgid "Switch to {newPaymentLabel}"
+msgstr "Switch to {newPaymentLabel}"
 
 #. js-lingui-id: dpXnFC
 #: src/modules/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -12814,6 +12937,36 @@ msgstr "This will cancel the scheduled interval change and keep your current bil
 #: src/modules/billing/hooks/useBillingWording.ts
 msgid "This will cancel the scheduled plan change and keep your current plan ({planKeyWord})."
 msgstr "This will cancel the scheduled plan change and keep your current plan ({planKeyWord})."
+
+#. js-lingui-id: ZeL1NS
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
+msgid ""
+"This will extend the subscription by {extensionMonths} months.\n"
+"\n"
+"Current end date: {currentEndDateStr}\n"
+"New end date: {newEndDateStr}"
+msgstr ""
+"This will extend the subscription by {extensionMonths} months.\n"
+"\n"
+"Current end date: {currentEndDateStr}\n"
+"New end date: {newEndDateStr}"
+
+#. js-lingui-id: RHmpUt
+#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
+msgid ""
+"This will pause the subscription for {pauseDurationWeeks} weeks.\n"
+"\n"
+"Current end date: {currentEndDateStr}\n"
+"New end date: {newEndDateStr}\n"
+"\n"
+"Access status will be set to \"Paused\"."
+msgstr ""
+"This will pause the subscription for {pauseDurationWeeks} weeks.\n"
+"\n"
+"Current end date: {currentEndDateStr}\n"
+"New end date: {newEndDateStr}\n"
+"\n"
+"Access status will be set to \"Paused\"."
 
 #. js-lingui-id: XGDxrH
 #: src/pages/settings/data-model/SettingsObjectFieldEdit.tsx
@@ -13557,8 +13710,8 @@ msgstr "Useful for pivot/junction tables"
 #: src/pages/settings/SettingsTwoFactorAuthenticationMethod.tsx
 #: src/pages/settings/SettingsProfile.tsx
 #: src/pages/settings/profile/appearance/components/SettingsExperience.tsx
-#: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAIPrompts.tsx
+#: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/accounts/SettingsNewAccount.tsx
 #: src/pages/settings/accounts/SettingsAccountsEmails.tsx
 #: src/pages/settings/accounts/SettingsAccountsConfigurationStepEmail.tsx
@@ -14149,12 +14302,12 @@ msgstr "Workflows"
 #: src/pages/settings/applications/SettingsApplications.tsx
 #: src/pages/settings/applications/SettingsApplicationDetails.tsx
 #: src/pages/settings/ai/SettingsSkillForm.tsx
+#: src/pages/settings/ai/SettingsAIPrompts.tsx
+#: src/pages/settings/ai/SettingsAI.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentForm.tsx
-#: src/pages/settings/ai/SettingsAIPrompts.tsx
-#: src/pages/settings/ai/SettingsAI.tsx
 #: src/modules/views/view-picker/components/ViewPickerListContent.tsx
 #: src/modules/sign-in-background-mock/components/SignInAppNavigationDrawerMock.tsx
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
