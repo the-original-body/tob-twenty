@@ -31,5 +31,4 @@ export enum CoreObjectNameSingular {
   MessageChannelMessageAssociation = 'messageChannelMessageAssociation',
   WorkflowVersion = 'workflowVersion',
   WorkflowRun = 'workflowRun',
-  TobSubscription = 'tobSubscription',
 }
