@@ -1241,13 +1241,13 @@ msgstr ""
 #: src/pages/settings/roles/SettingsRoleAddObjectLevel.tsx
 #: src/pages/settings/logic-functions/SettingsLogicFunctionDetail.tsx
 #: src/pages/settings/ai/SettingsSkillForm.tsx
-#: src/pages/settings/ai/SettingsAIPrompts.tsx
-#: src/pages/settings/ai/SettingsAI.tsx
-#: src/pages/settings/ai/SettingsAI.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentForm.tsx
+#: src/pages/settings/ai/SettingsAIPrompts.tsx
+#: src/pages/settings/ai/SettingsAI.tsx
+#: src/pages/settings/ai/SettingsAI.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/utils/getActionHeaderTypeOrThrow.ts
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts
 #: src/modules/settings/roles/role-permissions/object-level-permissions/object-form/components/SettingsRolePermissionsObjectLevelObjectForm.tsx
@@ -2401,9 +2401,6 @@ msgstr "Не можете сканувати? Скопіюйте"
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
 #: src/modules/object-record/record-update-multiple/components/UpdateMultipleRecordsFooter.tsx
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
 #: src/modules/action-menu/actions/record-actions/constants/DefaultRecordActionsConfig.tsx
 #: src/modules/action-menu/actions/record-actions/constants/DashboardActionsConfig.tsx
 msgid "Cancel"
@@ -2455,11 +2452,6 @@ msgstr "Скасувати перемикання плану?"
 msgid "Cancel your subscription"
 msgstr "Скасувати підписку"
 
-#. js-lingui-id: hB2+E3
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-msgid "Cannot calculate"
-msgstr ""
-
 #. js-lingui-id: 8fbdLj
 #: src/modules/ui/feedback/snack-bar-manager/utils/sanitizeMessageToRenderInSnackbar.ts
 #: src/modules/ui/feedback/snack-bar-manager/utils/sanitizeMessageToRenderInSnackbar.ts
@@ -2471,11 +2463,6 @@ msgstr ""
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
 msgid "Cannot impersonate selected user"
 msgstr "Не можливо імітувати вибраного користувача"
-
-#. js-lingui-id: ySIbSI
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-msgid "Cannot pause a withdrawn subscription"
-msgstr ""
 
 #. js-lingui-id: H1Ddy9
 #: src/modules/object-record/record-field/ui/meta-types/input/hooks/useOpenFilesFieldInput.tsx
@@ -2527,12 +2514,6 @@ msgstr "Змінити тип вузла"
 #: src/modules/settings/profile/components/SetOrChangePassword.tsx
 msgid "Change Password"
 msgstr "Змінити пароль"
-
-#. js-lingui-id: jZop76
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
-#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
-msgid "Change Payment Plan"
-msgstr ""
 
 #. js-lingui-id: EYSFEW
 #: src/pages/settings/domains/SettingsDomain.tsx
@@ -3006,16 +2987,6 @@ msgstr "Підтвердьте видалення ролі {roleName}? Це не
 #: src/modules/billing/components/internal/MeteredPriceSelector.tsx
 msgid "Confirm downgrade"
 msgstr "Підтвердити пониження"
-
-#. js-lingui-id: G41/E3
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
-msgid "Confirm Extension"
-msgstr ""
-
-#. js-lingui-id: 3QWAjm
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-msgid "Confirm Pause"
-msgstr ""
 
 #. js-lingui-id: 28b8wO
 #: src/modules/settings/members/components/MemberPermissionsTab.tsx
@@ -3625,14 +3596,6 @@ msgstr "Код валюти"
 #: src/modules/billing/components/internal/SubscriptionInfoRowContainer.tsx
 msgid "Current"
 msgstr "Зараз"
-
-#. js-lingui-id: doBjqe
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
-msgid ""
-"Current payment status: {currentPaymentStatus}\n"
-"\n"
-"Switch to: {newPaymentLabel}"
-msgstr ""
 
 #. js-lingui-id: 6YzXhC
 #: src/modules/settings/admin-panel/config-variables/components/ConfigVariableHelpText.tsx
@@ -5727,21 +5690,6 @@ msgstr "Експортувати робочі процеси"
 msgid "Expression"
 msgstr "Вираз"
 
-#. js-lingui-id: 54SO/B
-#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
-msgid "Extend"
-msgstr ""
-
-#. js-lingui-id: NPSp7Q
-#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
-msgid "Extend / Renew"
-msgstr ""
-
-#. js-lingui-id: Ld6JPA
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
-msgid "Extend / Renew Subscription"
-msgstr ""
-
 #. js-lingui-id: uE7S0L
 #: src/modules/billing/components/SettingsBillingCreditsSection.tsx
 msgid "Extra Credits Used"
@@ -5772,11 +5720,6 @@ msgstr ""
 #. js-lingui-id: vJiM7T
 #: src/pages/settings/ai/components/SettingsSkillsTable.tsx
 msgid "Failed to activate skill"
-msgstr ""
-
-#. js-lingui-id: Bv4ZMg
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
-msgid "Failed to change payment plan"
 msgstr ""
 
 #. js-lingui-id: WM7GKt
@@ -5814,11 +5757,6 @@ msgstr ""
 msgid "Failed to execute evaluation input"
 msgstr ""
 
-#. js-lingui-id: iGitwl
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
-msgid "Failed to extend subscription"
-msgstr ""
-
 #. js-lingui-id: Ukrbw5
 #: src/modules/ai/components/AIChatErrorMessage.tsx
 msgid "Failed to get response"
@@ -5848,11 +5786,6 @@ msgstr "Не вдалося об’єднати записи. Будь ласк�
 #: src/modules/ai/components/RoutingDebugDisplay.tsx
 msgid "Failed to parse context: {contextValue}"
 msgstr "Не вдалося розібрати контекст: {contextValue}"
-
-#. js-lingui-id: eNpRki
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-msgid "Failed to pause subscription"
-msgstr ""
 
 #. js-lingui-id: A/P7PX
 #: src/modules/settings/admin-panel/config-variables/hooks/useConfigVariableActions.ts
@@ -7044,11 +6977,6 @@ msgstr ""
 #: src/pages/settings/applications/components/SettingsApplicationsTable.tsx
 msgid "Installed applications"
 msgstr "Встановлені застосунки"
-
-#. js-lingui-id: tQfbqJ
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
-msgid "Installments"
-msgstr ""
 
 #. js-lingui-id: AwUsnG
 #: src/pages/settings/data-model/constants/SettingsObjectTableMetadata.ts
@@ -9218,13 +9146,6 @@ msgstr "Не пустий"
 msgid "Not Found"
 msgstr "Не знайдено"
 
-#. js-lingui-id: MTqQMG
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
-msgid "Not set"
-msgstr ""
-
 #. js-lingui-id: 51G4/+
 #: src/modules/object-record/record-field/ui/meta-types/display/components/ForbiddenFieldDisplay.tsx
 #: src/modules/activities/emails/components/EmailThreadNotShared.tsx
@@ -9761,11 +9682,6 @@ msgstr "Сторінку не знайдено | Twenty"
 msgid "Page Views"
 msgstr ""
 
-#. js-lingui-id: UkLE4y
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
-msgid "Paid (Upfront)"
-msgstr ""
-
 #. js-lingui-id: ijBN4V
 #: src/modules/advanced-text-editor/extensions/slash-command/DefaultSlashCommands.ts
 msgid "paragraph"
@@ -9814,27 +9730,6 @@ msgstr "Вставте код нижче"
 #: src/modules/settings/logic-functions/components/tabs/SettingsLogicFunctionTriggersTab.tsx
 msgid "Path"
 msgstr "Шлях"
-
-#. js-lingui-id: IgrLD/
-#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
-msgid "Pause"
-msgstr ""
-
-#. js-lingui-id: +/bQSd
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
-msgid "Pause Subscription"
-msgstr ""
-
-#. js-lingui-id: 621rYf
-#: src/modules/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig.tsx
-msgid "Payment"
-msgstr ""
-
-#. js-lingui-id: BfOXn9
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
-msgid "Payment plan changed to {newPaymentLabel}"
-msgstr ""
 
 #. js-lingui-id: UbRKMZ
 #: src/pages/settings/emailing-domains/utils/getEmailingDomainStatusText.ts
@@ -12033,8 +11928,8 @@ msgstr "Вибачте, щось пішло не так"
 #: src/modules/object-record/record-table/record-table-header/components/RecordTableColumnHeadDropdownMenu.tsx
 #: src/modules/object-record/object-sort-dropdown/components/ObjectSortDropdownButton.tsx
 #: src/modules/object-record/object-sort-dropdown/components/ObjectSortDropdownButton.tsx
-#: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownRecordGroupSortContent.tsx
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownRecordGroupsContent.tsx
+#: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownRecordGroupSortContent.tsx
 msgid "Sort"
 msgstr "Сортування"
 
@@ -12283,11 +12178,6 @@ msgstr "Підписка"
 msgid "Subscription activated."
 msgstr "Підписка активована."
 
-#. js-lingui-id: J0fDTr
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
-msgid "Subscription extended by {extensionMonths} months"
-msgstr ""
-
 #. js-lingui-id: gvXPJz
 #: src/modules/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Subscription has been switched to {oppositPlan} Plan."
@@ -12297,11 +12187,6 @@ msgstr "Підписка переключена на {oppositPlan} план."
 #: src/modules/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Subscription has been switched to Yearly."
 msgstr "Перехід на передплату <b>на рік</b> здійснено."
-
-#. js-lingui-id: f3DwC6
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-msgid "Subscription paused for {pauseDurationWeeks} weeks"
-msgstr ""
 
 #. js-lingui-id: nQcG+x
 #: src/modules/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -12365,11 +12250,6 @@ msgstr "Підтримка"
 #: src/pages/settings/profile/appearance/components/LocalePicker.tsx
 msgid "Swedish"
 msgstr "Шведська"
-
-#. js-lingui-id: O/pEiJ
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ChangePaymentPlanAction.tsx
-msgid "Switch to {newPaymentLabel}"
-msgstr ""
 
 #. js-lingui-id: dpXnFC
 #: src/modules/billing/components/SettingsBillingSubscriptionInfo.tsx
@@ -12939,26 +12819,6 @@ msgstr "Це скасує заплановані зміни інтервалу �
 #: src/modules/billing/hooks/useBillingWording.ts
 msgid "This will cancel the scheduled plan change and keep your current plan ({planKeyWord})."
 msgstr "Це скасує заплановані зміни плану та залишить ваш поточний план ({planKeyWord})."
-
-#. js-lingui-id: ZeL1NS
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/ExtendSubscriptionAction.tsx
-msgid ""
-"This will extend the subscription by {extensionMonths} months.\n"
-"\n"
-"Current end date: {currentEndDateStr}\n"
-"New end date: {newEndDateStr}"
-msgstr ""
-
-#. js-lingui-id: RHmpUt
-#: src/modules/action-menu/actions/record-actions/single-record/subscription-actions/components/PauseSubscriptionAction.tsx
-msgid ""
-"This will pause the subscription for {pauseDurationWeeks} weeks.\n"
-"\n"
-"Current end date: {currentEndDateStr}\n"
-"New end date: {newEndDateStr}\n"
-"\n"
-"Access status will be set to \"Paused\"."
-msgstr ""
 
 #. js-lingui-id: XGDxrH
 #: src/pages/settings/data-model/SettingsObjectFieldEdit.tsx
@@ -13702,8 +13562,8 @@ msgstr ""
 #: src/pages/settings/SettingsTwoFactorAuthenticationMethod.tsx
 #: src/pages/settings/SettingsProfile.tsx
 #: src/pages/settings/profile/appearance/components/SettingsExperience.tsx
-#: src/pages/settings/ai/SettingsAIPrompts.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
+#: src/pages/settings/ai/SettingsAIPrompts.tsx
 #: src/pages/settings/accounts/SettingsNewAccount.tsx
 #: src/pages/settings/accounts/SettingsAccountsEmails.tsx
 #: src/pages/settings/accounts/SettingsAccountsConfigurationStepEmail.tsx
@@ -14294,12 +14154,12 @@ msgstr "Робочі процеси"
 #: src/pages/settings/applications/SettingsApplications.tsx
 #: src/pages/settings/applications/SettingsApplicationDetails.tsx
 #: src/pages/settings/ai/SettingsSkillForm.tsx
-#: src/pages/settings/ai/SettingsAIPrompts.tsx
-#: src/pages/settings/ai/SettingsAI.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentTurnDetail.tsx
 #: src/pages/settings/ai/SettingsAgentForm.tsx
+#: src/pages/settings/ai/SettingsAIPrompts.tsx
+#: src/pages/settings/ai/SettingsAI.tsx
 #: src/modules/views/view-picker/components/ViewPickerListContent.tsx
 #: src/modules/sign-in-background-mock/components/SignInAppNavigationDrawerMock.tsx
 #: src/modules/settings/roles/role-permissions/permission-flags/hooks/useSettingsRolePermissionFlagConfig.ts

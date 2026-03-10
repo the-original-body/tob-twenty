@@ -92,26 +92,6 @@ services:
       retries: 20
     restart: always
 
-  setup-subscriptions:
-    image: python:3.12-slim
-    volumes:
-      - ./add-subscription-fields.sh:/scripts/add-subscription-fields.sh
-      - ./create-subscription-views.py:/scripts/create-subscription-views.py
-    environment:
-      TWENTY_API_URL: http://twenty-server:3000
-      TWENTY_API_KEY: ${TWENTY_API_KEY}
-    depends_on:
-      twenty-server:
-        condition: service_healthy
-    restart: "no"
-    entrypoint:
-      - /bin/bash
-      - -c
-      - |
-        apt-get update -qq && apt-get install -y -qq curl jq > /dev/null 2>&1
-        bash /scripts/add-subscription-fields.sh
-        python3 /scripts/create-subscription-views.py
-
   twenty-worker:
     image: ${IMAGE}:${TAG}
     labels:
