@@ -1,6 +1,5 @@
 import { DASHBOARD_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/DashboardActionsConfig';
 import { DEFAULT_RECORD_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/DefaultRecordActionsConfig';
-import { TOB_SUBSCRIPTION_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/TobSubscriptionActionsConfig';
 import { WORKFLOW_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowActionsConfig';
 import { WORKFLOW_RUNS_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowRunsActionsConfig';
 import { WORKFLOW_VERSIONS_ACTIONS_CONFIG } from '@/action-menu/actions/record-actions/constants/WorkflowVersionsActionsConfig';
@@ -34,9 +33,6 @@ export const getActionConfig = ({
     }
     case CoreObjectNameSingular.WorkspaceMember: {
       return WORKSPACE_MEMBERS_ACTIONS_CONFIG;
-    }
-    case CoreObjectNameSingular.TobSubscription: {
-      return TOB_SUBSCRIPTION_ACTIONS_CONFIG;
     }
     case CoreObjectNameSingular.Company: {
       return DEFAULT_RECORD_ACTIONS_CONFIG;
