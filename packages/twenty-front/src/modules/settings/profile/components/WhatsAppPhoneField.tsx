@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 
 import { currentWorkspaceMemberState } from '@/auth/states/currentWorkspaceMemberState';
@@ -25,7 +24,6 @@ const StyledCallingCodeWrapper = styled.div`
 `;
 
 export const WhatsAppPhoneField = () => {
-  const { t } = useLingui();
   const currentWorkspaceMember = useRecoilValueV2(
     currentWorkspaceMemberState,
   );
@@ -103,7 +101,7 @@ export const WhatsAppPhoneField = () => {
       <StyledCallingCodeWrapper>
         <SettingsTextInput
           instanceId={`whatsapp-calling-code-${currentWorkspaceMember?.id}`}
-          label={t`Calling Code`}
+          label="Calling Code"
           value={callingCode}
           onChange={handleCallingCodeChange}
           placeholder="+49"
@@ -111,7 +109,7 @@ export const WhatsAppPhoneField = () => {
       </StyledCallingCodeWrapper>
       <SettingsTextInput
         instanceId={`whatsapp-phone-${currentWorkspaceMember?.id}`}
-        label={t`Phone Number`}
+        label="Phone Number"
         value={phoneNumber}
         onChange={handlePhoneNumberChange}
         placeholder="176 1234567"

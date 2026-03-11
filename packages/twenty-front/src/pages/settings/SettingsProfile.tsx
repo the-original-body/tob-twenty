@@ -69,8 +69,8 @@ export const SettingsProfile = () => {
         </Section>
         <Section>
           <H2Title
-            title={t`WhatsApp Phone`}
-            description={t`Your WhatsApp number used to link your WAHA session`}
+            title="WhatsApp Phone"
+            description="Your WhatsApp number used to link your WAHA session"
           />
           <WhatsAppPhoneField />
         </Section>
