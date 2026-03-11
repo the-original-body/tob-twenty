@@ -31,6 +31,9 @@ export enum AppPath {
 
   Authorize = '/authorize',
 
+  // WhatsApp Chat
+  WhatsAppChat = '/chat',
+
   // 404 page not found
   NotFoundWildcard = '*',
   NotFound = '/not-found',
