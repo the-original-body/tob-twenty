@@ -1,0 +1,172 @@
+import styled from '@emotion/styled';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { IconPlayerPause, IconPlayerPlay } from 'twenty-ui/display';
+import { WHATSAPP_BRIDGE_URL } from '@/whatsapp-chat/constants/WhatsAppBridgeUrl';
+
+const StyledContainer = styled.div`
+  align-items: center;
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(2)};
+  min-width: 200px;
+  padding: ${({ theme }) => theme.spacing(1)} 0;
+`;
+
+const StyledPlayButton = styled.button`
+  align-items: center;
+  background: ${({ theme }) => theme.color.blue};
+  border: none;
+  border-radius: 50%;
+  color: ${({ theme }) => theme.font.color.inverted};
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  height: 32px;
+  justify-content: center;
+  width: 32px;
+
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
+const StyledWaveform = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const StyledProgressBar = styled.div`
+  background: ${({ theme }) => theme.background.transparent.medium};
+  border-radius: 2px;
+  cursor: pointer;
+  height: 4px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+`;
+
+const StyledProgress = styled.div<{ width: number }>`
+  background: ${({ theme }) => theme.color.blue};
+  border-radius: 2px;
+  height: 100%;
+  transition: width 100ms linear;
+  width: ${({ width }) => width}%;
+`;
+
+const StyledDuration = styled.span`
+  color: ${({ theme }) => theme.font.color.tertiary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+`;
+
+const resolveMediaUrl = (mediaUrl: string): string => {
+  if (mediaUrl.startsWith('http://') || mediaUrl.startsWith('https://')) {
+    return mediaUrl;
+  }
+
+  if (mediaUrl.startsWith('/')) {
+    return `${WHATSAPP_BRIDGE_URL}${mediaUrl}`;
+  }
+
+  return `${WHATSAPP_BRIDGE_URL}/media/${mediaUrl}`;
+};
+
+const formatDuration = (seconds: number): string => {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
+type VoiceMessageProps = {
+  mediaUrl: string;
+};
+
+export const VoiceMessage = ({ mediaUrl }: VoiceMessageProps) => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const resolvedUrl = resolveMediaUrl(mediaUrl);
+
+  useEffect(() => {
+    const audio = new Audio(resolvedUrl);
+    audioRef.current = audio;
+
+    audio.addEventListener('loadedmetadata', () => {
+      setDuration(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      setCurrentTime(audio.currentTime);
+
+      if (audio.duration > 0) {
+        setProgress((audio.currentTime / audio.duration) * 100);
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      setIsPlaying(false);
+      setProgress(0);
+      setCurrentTime(0);
+    });
+
+    return () => {
+      audio.pause();
+      audio.src = '';
+    };
+  }, [resolvedUrl]);
+
+  const togglePlay = useCallback(() => {
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+
+    setIsPlaying(!isPlaying);
+  }, [isPlaying]);
+
+  const handleProgressClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const audio = audioRef.current;
+
+      if (!audio || !duration) return;
+
+      const rect = e.currentTarget.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+
+      audio.currentTime = ratio * duration;
+    },
+    [duration],
+  );
+
+  const displayTime = isPlaying || currentTime > 0 ? currentTime : duration;
+
+  return (
+    <StyledContainer>
+      <StyledPlayButton onClick={togglePlay}>
+        {isPlaying ? (
+          <IconPlayerPause size={16} />
+        ) : (
+          <IconPlayerPlay size={16} />
+        )}
+      </StyledPlayButton>
+      <StyledWaveform>
+        <StyledProgressBar onClick={handleProgressClick}>
+          <StyledProgress width={progress} />
+        </StyledProgressBar>
+        <StyledDuration>
+          {displayTime > 0 ? formatDuration(displayTime) : '0:00'}
+        </StyledDuration>
+      </StyledWaveform>
+    </StyledContainer>
+  );
+};
