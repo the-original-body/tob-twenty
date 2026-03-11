@@ -70,7 +70,7 @@ def get_existing_views(object_id):
 
 def delete_view(view_id):
     result = gql(
-        """mutation DeleteView($id: ID!) {
+        """mutation DeleteView($id: String!) {
             deleteCoreView(id: $id) { id }
         }""",
         {"id": view_id},
