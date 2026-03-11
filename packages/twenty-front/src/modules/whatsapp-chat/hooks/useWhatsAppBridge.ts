@@ -24,10 +24,10 @@ export const useWhatsAppBridge = () => {
         headers.set('Content-Type', 'application/json');
       }
 
-      if (tokenPair?.accessOrWorkspaceAgnosticToken) {
+      if (tokenPair?.accessOrWorkspaceAgnosticToken?.token) {
         headers.set(
           'Authorization',
-          `Bearer ${tokenPair.accessOrWorkspaceAgnosticToken}`,
+          `Bearer ${tokenPair.accessOrWorkspaceAgnosticToken.token}`,
         );
       }
 
@@ -59,7 +59,7 @@ export const useWhatsAppBridge = () => {
   const getWebSocketUrl = useCallback(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const host = window.location.host;
-    const token = tokenPair?.accessOrWorkspaceAgnosticToken ?? '';
+    const token = tokenPair?.accessOrWorkspaceAgnosticToken?.token ?? '';
 
     return `${protocol}//${host}${WHATSAPP_BRIDGE_URL}/ws?token=${encodeURIComponent(token)}`;
   }, [tokenPair]);
