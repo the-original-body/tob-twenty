@@ -79,7 +79,9 @@ export const sortNavigationMenuItems = (
       if (isNavigationMenuItemLink(navigationMenuItem)) {
         const linkUrl = (navigationMenuItem.link ?? '').trim();
         const normalizedLink =
-          linkUrl.startsWith('http://') || linkUrl.startsWith('https://')
+          linkUrl.startsWith('http://') ||
+          linkUrl.startsWith('https://') ||
+          linkUrl.startsWith('/')
             ? linkUrl
             : `https://${linkUrl}`;
         const displayFields: NavigationMenuItemDisplayFields = {
