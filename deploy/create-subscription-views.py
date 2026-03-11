@@ -84,9 +84,8 @@ def delete_view(view_id):
 
 def create_view(name, object_id, icon, position, existing_views):
     if name in existing_views:
-        print(f"  View '{name}' exists — deleting to recreate with correct filters")
-        delete_view(existing_views[name])
-        del existing_views[name]
+        print(f"  View '{name}' already exists — keeping it (ID: {existing_views[name]})")
+        return None
 
     result = gql(
         """mutation CreateView($input: CreateViewInput!) {
