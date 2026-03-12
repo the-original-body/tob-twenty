@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 
 import { IconX } from 'twenty-ui/display';
 import { useWhatsAppBridge } from '@/whatsapp-chat/hooks/useWhatsAppBridge';
+import { useContact } from '@/whatsapp-chat/hooks/useContact';
 import { type WaConversation } from '@/whatsapp-chat/types/WhatsAppTypes';
 
 const StyledContainer = styled.div`
@@ -10,8 +11,8 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-width: 280px;
-  width: 280px;
+  min-width: 300px;
+  width: 300px;
 `;
 
 const StyledHeader = styled.div`
@@ -108,6 +109,45 @@ const StyledFieldValue = styled.span`
   font-size: ${({ theme }) => theme.font.size.sm};
 `;
 
+const StyledBadge = styled.span<{ variant: 'success' | 'warning' | 'neutral' | 'danger' }>`
+  background: ${({ theme, variant }) => {
+    switch (variant) {
+      case 'success':
+        return theme.color.green + '20';
+      case 'warning':
+        return theme.color.orange + '20';
+      case 'danger':
+        return theme.color.red + '20';
+      default:
+        return theme.background.transparent.lighter;
+    }
+  }};
+  border-radius: ${({ theme }) => theme.border.radius.sm};
+  color: ${({ theme, variant }) => {
+    switch (variant) {
+      case 'success':
+        return theme.color.green;
+      case 'warning':
+        return theme.color.orange;
+      case 'danger':
+        return theme.color.red;
+      default:
+        return theme.font.color.secondary;
+    }
+  }};
+  display: inline-block;
+  font-size: ${({ theme }) => theme.font.size.xs};
+  font-weight: ${({ theme }) => theme.font.weight.medium};
+  padding: 2px 8px;
+  width: fit-content;
+`;
+
+const StyledBadgeRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing(1)};
+`;
+
 const StyledAssignInput = styled.input`
   background: ${({ theme }) => theme.background.transparent.lighter};
   border: 1px solid ${({ theme }) => theme.border.color.medium};
@@ -137,6 +177,32 @@ const StyledAssignButton = styled.button`
   }
 `;
 
+const StyledLoadingText = styled.span`
+  color: ${({ theme }) => theme.font.color.light};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  font-style: italic;
+`;
+
+const StyledDivider = styled.div`
+  background: ${({ theme }) => theme.border.color.light};
+  height: 1px;
+  width: 100%;
+`;
+
+const formatDate = (isoString: string | null): string => {
+  if (!isoString) return '—';
+
+  const date = new Date(isoString);
+
+  if (isNaN(date.getTime())) return isoString;
+
+  return date.toLocaleDateString([], {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+};
+
 type ConversationDetailsProps = {
   conversation: WaConversation;
   onClose: () => void;
@@ -149,11 +215,15 @@ export const ConversationDetails = ({
   onUpdate,
 }: ConversationDetailsProps) => {
   const { bridgeFetch } = useWhatsAppBridge();
+  const { contact, loading: contactLoading } = useContact(
+    conversation.leadPhoneNumber,
+  );
   const [assignEmail, setAssignEmail] = useState(
     conversation.assignedToEmail ?? '',
   );
 
   const displayName =
+    contact?.fullName ||
     conversation.leadFullName ||
     conversation.whatsappName ||
     conversation.leadPhoneNumber;
@@ -208,10 +278,30 @@ export const ConversationDetails = ({
               <StyledFieldValue>{conversation.whatsappName}</StyledFieldValue>
             </StyledField>
           )}
-          {conversation.leadFullName && (
+          {(contact?.fullName || conversation.leadFullName) && (
             <StyledField>
               <StyledFieldLabel>Full Name</StyledFieldLabel>
-              <StyledFieldValue>{conversation.leadFullName}</StyledFieldValue>
+              <StyledFieldValue>
+                {contact?.fullName || conversation.leadFullName}
+              </StyledFieldValue>
+            </StyledField>
+          )}
+          {contact?.email && (
+            <StyledField>
+              <StyledFieldLabel>Email</StyledFieldLabel>
+              <StyledFieldValue>{contact.email}</StyledFieldValue>
+            </StyledField>
+          )}
+          {contact?.country && (
+            <StyledField>
+              <StyledFieldLabel>Country</StyledFieldLabel>
+              <StyledFieldValue>{contact.country}</StyledFieldValue>
+            </StyledField>
+          )}
+          {contact?.source && (
+            <StyledField>
+              <StyledFieldLabel>Source</StyledFieldLabel>
+              <StyledFieldValue>{contact.source}</StyledFieldValue>
             </StyledField>
           )}
           <StyledField>
@@ -220,14 +310,113 @@ export const ConversationDetails = ({
           </StyledField>
         </StyledSection>
 
+        <StyledDivider />
+
+        {contactLoading && (
+          <StyledLoadingText>Loading contact data...</StyledLoadingText>
+        )}
+
+        {contact && (
+          <>
+            <StyledSection>
+              <StyledSectionTitle>Client Status</StyledSectionTitle>
+              <StyledBadgeRow>
+                {contact.isClient && (
+                  <StyledBadge variant="success">Bexio Client</StyledBadge>
+                )}
+                {contact.isActiveMainProgramClient && (
+                  <StyledBadge variant="success">Active LZR</StyledBadge>
+                )}
+                {contact.isMainProgramClient && !contact.isActiveMainProgramClient && (
+                  <StyledBadge variant="neutral">Main Program</StyledBadge>
+                )}
+                {contact.isTrainingCertClient && (
+                  <StyledBadge variant="neutral">Training Cert</StyledBadge>
+                )}
+                {contact.isFinishingLzr30Days && (
+                  <StyledBadge variant="warning">Finishing in 30d</StyledBadge>
+                )}
+                {!contact.isClient && !contact.isMainProgramClient && (
+                  <StyledBadge variant="neutral">Not a client</StyledBadge>
+                )}
+              </StyledBadgeRow>
+              {contact.bexioClientId && (
+                <StyledField>
+                  <StyledFieldLabel>Bexio ID</StyledFieldLabel>
+                  <StyledFieldValue>{contact.bexioClientId}</StyledFieldValue>
+                </StyledField>
+              )}
+            </StyledSection>
+
+            <StyledSection>
+              <StyledSectionTitle>Contract</StyledSectionTitle>
+              <StyledBadgeRow>
+                <StyledBadge
+                  variant={contact.contractIsSigned ? 'success' : 'neutral'}
+                >
+                  Contract: {contact.contractIsSigned ? 'Signed' : 'Not signed'}
+                </StyledBadge>
+                {contact.pandadocIsSigned && (
+                  <StyledBadge variant="success">PandaDoc</StyledBadge>
+                )}
+                {contact.docusealIsSigned && (
+                  <StyledBadge variant="success">DocuSeal</StyledBadge>
+                )}
+              </StyledBadgeRow>
+            </StyledSection>
+
+            {(contact.lzrStartDate || contact.lzrEndDate) && (
+              <StyledSection>
+                <StyledSectionTitle>LZR Program</StyledSectionTitle>
+                {contact.lzrStartDate && (
+                  <StyledField>
+                    <StyledFieldLabel>Start Date</StyledFieldLabel>
+                    <StyledFieldValue>
+                      {formatDate(contact.lzrStartDate)}
+                    </StyledFieldValue>
+                  </StyledField>
+                )}
+                {contact.lzrEndDate && (
+                  <StyledField>
+                    <StyledFieldLabel>End Date</StyledFieldLabel>
+                    <StyledFieldValue>
+                      {formatDate(contact.lzrEndDate)}
+                    </StyledFieldValue>
+                  </StyledField>
+                )}
+                {contact.lzrMonthDuration && (
+                  <StyledField>
+                    <StyledFieldLabel>Duration</StyledFieldLabel>
+                    <StyledFieldValue>
+                      {contact.lzrMonthDuration} months
+                    </StyledFieldValue>
+                  </StyledField>
+                )}
+              </StyledSection>
+            )}
+
+            <StyledDivider />
+          </>
+        )}
+
+        {!contact && !contactLoading && (
+          <>
+            <StyledSection>
+              <StyledSectionTitle>Status</StyledSectionTitle>
+              <StyledField>
+                <StyledFieldLabel>Client</StyledFieldLabel>
+                <StyledFieldValue>
+                  {conversation.isClient ? 'Yes' : 'No'}
+                </StyledFieldValue>
+              </StyledField>
+            </StyledSection>
+
+            <StyledDivider />
+          </>
+        )}
+
         <StyledSection>
-          <StyledSectionTitle>Status</StyledSectionTitle>
-          <StyledField>
-            <StyledFieldLabel>Client</StyledFieldLabel>
-            <StyledFieldValue>
-              {conversation.isClient ? 'Yes' : 'No'}
-            </StyledFieldValue>
-          </StyledField>
+          <StyledSectionTitle>Conversation</StyledSectionTitle>
           <StyledField>
             <StyledFieldLabel>Messages</StyledFieldLabel>
             <StyledFieldValue>
@@ -250,12 +439,18 @@ export const ConversationDetails = ({
 
         <StyledSection>
           <StyledSectionTitle>Assignment</StyledSectionTitle>
-          {conversation.assignedToName && (
+          {(contact?.tobAssignedName || conversation.assignedToName) && (
             <StyledField>
               <StyledFieldLabel>Currently assigned to</StyledFieldLabel>
               <StyledFieldValue>
-                {conversation.assignedToName}
+                {contact?.tobAssignedName || conversation.assignedToName}
               </StyledFieldValue>
+            </StyledField>
+          )}
+          {contact?.tobAssignedEmail && (
+            <StyledField>
+              <StyledFieldLabel>Assigned email</StyledFieldLabel>
+              <StyledFieldValue>{contact.tobAssignedEmail}</StyledFieldValue>
             </StyledField>
           )}
           <StyledAssignInput
