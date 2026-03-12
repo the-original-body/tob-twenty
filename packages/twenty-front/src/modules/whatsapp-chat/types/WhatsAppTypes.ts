@@ -19,6 +19,8 @@ export interface WaConversation {
   justusProgram?: string;
   justusDuration?: string;
   closeLeadId?: string;
+  closeLeadUrl?: string;
+  closeLeadStatus?: string;
   coachLeadOwnerEmail?: string;
   coachLeadOwnerName?: string;
   contractIsSigned?: boolean;

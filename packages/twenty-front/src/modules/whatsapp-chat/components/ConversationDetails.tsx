@@ -4,6 +4,8 @@ import { useCallback, useState } from 'react';
 import { IconX } from 'twenty-ui/display';
 import { useWhatsAppBridge } from '@/whatsapp-chat/hooks/useWhatsAppBridge';
 import { useContact } from '@/whatsapp-chat/hooks/useContact';
+import { useCloseCalls } from '@/whatsapp-chat/hooks/useCloseCalls';
+import { useCloseOpportunities } from '@/whatsapp-chat/hooks/useCloseOpportunities';
 import { type WaConversation } from '@/whatsapp-chat/types/WhatsAppTypes';
 
 // ── Styled components ───────────────────────────────────────────
@@ -264,6 +266,46 @@ const StyledPipelineConnector = styled.div<{ active: boolean }>`
   width: 8px;
 `;
 
+const StyledCard = styled.div`
+  background: ${({ theme }) => theme.background.transparent.lighter};
+  border: 1px solid ${({ theme }) => theme.border.color.light};
+  border-radius: ${({ theme }) => theme.border.radius.md};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing(1)};
+  padding: ${({ theme }) => theme.spacing(2)};
+`;
+
+const StyledCardHeader = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledCardTitle = styled.span`
+  color: ${({ theme }) => theme.font.color.primary};
+  font-size: ${({ theme }) => theme.font.size.sm};
+  font-weight: ${({ theme }) => theme.font.weight.medium};
+`;
+
+const StyledCardMeta = styled.span`
+  color: ${({ theme }) => theme.font.color.tertiary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+`;
+
+const StyledCardBody = styled.span`
+  color: ${({ theme }) => theme.font.color.secondary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  line-height: 1.4;
+`;
+
+const StyledEmptyState = styled.div`
+  color: ${({ theme }) => theme.font.color.light};
+  font-size: ${({ theme }) => theme.font.size.sm};
+  padding: ${({ theme }) => theme.spacing(4)} 0;
+  text-align: center;
+`;
+
 // ── Helpers ─────────────────────────────────────────────────────
 
 const formatDate = (isoString: string | null): string => {
@@ -277,7 +319,7 @@ const formatDate = (isoString: string | null): string => {
   });
 };
 
-type TabId = 'profile' | 'conversation' | 'assignment';
+type TabId = 'profile' | 'conversation' | 'assignment' | 'calls' | 'opportunities';
 
 // ── Component ───────────────────────────────────────────────────
 
@@ -296,6 +338,11 @@ export const ConversationDetails = ({
   const { contact, loading: contactLoading } = useContact(
     conversation.leadPhoneNumber,
   );
+  const { calls, loading: callsLoading } = useCloseCalls(
+    conversation.leadPhoneNumber,
+  );
+  const { opportunities, loading: opportunitiesLoading } =
+    useCloseOpportunities(conversation.leadPhoneNumber);
   const [activeTab, setActiveTab] = useState<TabId>('profile');
   const [assignEmail, setAssignEmail] = useState(
     conversation.assignedToEmail ?? '',
@@ -359,6 +406,18 @@ export const ConversationDetails = ({
           onClick={() => setActiveTab('assignment')}
         >
           Assignment
+        </StyledTab>
+        <StyledTab
+          isActive={activeTab === 'calls'}
+          onClick={() => setActiveTab('calls')}
+        >
+          Calls{calls.length > 0 ? ` (${calls.length})` : ''}
+        </StyledTab>
+        <StyledTab
+          isActive={activeTab === 'opportunities'}
+          onClick={() => setActiveTab('opportunities')}
+        >
+          Opps{opportunities.length > 0 ? ` (${opportunities.length})` : ''}
         </StyledTab>
       </StyledTabs>
 
@@ -460,23 +519,23 @@ export const ConversationDetails = ({
                   <StyledSectionTitle>Contract Pipeline</StyledSectionTitle>
                   <StyledPipelineRow>
                     <StyledPipelineStep
-                      active={!!contact.contractIsSigned || !!contact.pandadocIsSigned || !!contact.docusealIsSigned}
+                      active={!!contact.contractSent || !!contact.contractIsSigned}
                     >
                       SA
                     </StyledPipelineStep>
                     <StyledPipelineConnector
-                      active={!!contact.pandadocIsSigned || !!contact.docusealIsSigned}
+                      active={!!contact.contractSent}
                     />
                     <StyledPipelineStep
-                      active={!!contact.pandadocIsSigned || !!contact.docusealIsSigned}
+                      active={!!contact.contractSent}
                     >
                       SENT
                     </StyledPipelineStep>
                     <StyledPipelineConnector
-                      active={!!contact.pandadocIsSigned || !!contact.docusealIsSigned}
+                      active={!!contact.contractViewed}
                     />
                     <StyledPipelineStep
-                      active={!!contact.pandadocIsSigned || !!contact.docusealIsSigned}
+                      active={!!contact.contractViewed}
                     >
                       VIEW
                     </StyledPipelineStep>
@@ -496,6 +555,46 @@ export const ConversationDetails = ({
                     )}
                   </StyledBadgeRow>
                 </StyledSection>
+
+                {(contact.justusProgram || contact.closeLeadStatus) && (
+                  <StyledSection>
+                    <StyledSectionTitle>Close.io</StyledSectionTitle>
+                    {contact.justusProgram && (
+                      <StyledField>
+                        <StyledFieldLabel>Program</StyledFieldLabel>
+                        <StyledFieldValue>
+                          {contact.justusProgram}
+                          {contact.justusDuration
+                            ? ` (${contact.justusDuration})`
+                            : ''}
+                        </StyledFieldValue>
+                      </StyledField>
+                    )}
+                    {contact.closeLeadStatus && (
+                      <StyledField>
+                        <StyledFieldLabel>Lead Status</StyledFieldLabel>
+                        <StyledFieldValue>
+                          {contact.closeLeadStatus}
+                        </StyledFieldValue>
+                      </StyledField>
+                    )}
+                    {contact.closeLeadUrl && (
+                      <StyledField>
+                        <StyledFieldLabel>Close Link</StyledFieldLabel>
+                        <StyledFieldValue>
+                          <a
+                            href={contact.closeLeadUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: 'inherit', textDecoration: 'underline' }}
+                          >
+                            Open in Close
+                          </a>
+                        </StyledFieldValue>
+                      </StyledField>
+                    )}
+                  </StyledSection>
+                )}
 
                 {(contact.lzrStartDate || contact.lzrEndDate) && (
                   <StyledSection>
@@ -604,6 +703,117 @@ export const ConversationDetails = ({
                   {formatDate(conversation.lastMessageAt)}
                 </StyledFieldValue>
               </StyledField>
+            </StyledSection>
+          </>
+        )}
+
+        {/* ── Calls Tab ───────────────────────────────────── */}
+        {activeTab === 'calls' && (
+          <>
+            <StyledSection>
+              <StyledSectionTitle>Close.io Calls</StyledSectionTitle>
+              {callsLoading && (
+                <StyledLoadingText>Loading calls...</StyledLoadingText>
+              )}
+              {!callsLoading && calls.length === 0 && (
+                <StyledEmptyState>No calls recorded</StyledEmptyState>
+              )}
+              {calls.map((call) => (
+                <StyledCard key={call.id}>
+                  <StyledCardHeader>
+                    <StyledCardTitle>
+                      {call.direction === 'outbound' ? 'Outgoing' : 'Incoming'}
+                      {call.disposition ? ` · ${call.disposition}` : ''}
+                    </StyledCardTitle>
+                    <StyledCardMeta>
+                      {call.dateCreated ? formatDate(call.dateCreated) : ''}
+                    </StyledCardMeta>
+                  </StyledCardHeader>
+                  <StyledCardBody>
+                    {call.duration != null && (
+                      <span>
+                        {Math.floor(call.duration / 60)}m{' '}
+                        {call.duration % 60}s
+                      </span>
+                    )}
+                    {call.userName && <span> · {call.userName}</span>}
+                    {call.status && <span> · {call.status}</span>}
+                  </StyledCardBody>
+                  {call.note && (
+                    <StyledCardBody>{call.note}</StyledCardBody>
+                  )}
+                </StyledCard>
+              ))}
+            </StyledSection>
+          </>
+        )}
+
+        {/* ── Opportunities Tab ──────────────────────────────── */}
+        {activeTab === 'opportunities' && (
+          <>
+            <StyledSection>
+              <StyledSectionTitle>Close.io Opportunities</StyledSectionTitle>
+              {opportunitiesLoading && (
+                <StyledLoadingText>Loading opportunities...</StyledLoadingText>
+              )}
+              {!opportunitiesLoading && opportunities.length === 0 && (
+                <StyledEmptyState>No opportunities found</StyledEmptyState>
+              )}
+              {opportunities.map((opp) => (
+                <StyledCard key={opp.id}>
+                  <StyledCardHeader>
+                    <StyledCardTitle>
+                      {opp.statusLabel || opp.statusType || 'Unknown'}
+                    </StyledCardTitle>
+                    <StyledBadge
+                      variant={
+                        opp.statusType === 'won'
+                          ? 'success'
+                          : opp.statusType === 'lost'
+                            ? 'danger'
+                            : 'info'
+                      }
+                    >
+                      {opp.statusType || 'open'}
+                    </StyledBadge>
+                  </StyledCardHeader>
+                  {(opp.value != null || opp.confidence != null) && (
+                    <StyledCardBody>
+                      {opp.value != null && (
+                        <span>
+                          Value: {opp.value}
+                          {opp.valuePeriod ? `/${opp.valuePeriod}` : ''}
+                        </span>
+                      )}
+                      {opp.confidence != null && (
+                        <span>
+                          {opp.value != null ? ' · ' : ''}
+                          Confidence: {opp.confidence}%
+                        </span>
+                      )}
+                    </StyledCardBody>
+                  )}
+                  <StyledCardMeta>
+                    {opp.userName && <span>{opp.userName}</span>}
+                    {opp.dateCreated && (
+                      <span>
+                        {opp.userName ? ' · ' : ''}
+                        Created {formatDate(opp.dateCreated)}
+                      </span>
+                    )}
+                    {opp.dateWon && <span> · Won {formatDate(opp.dateWon)}</span>}
+                    {opp.dateLost && (
+                      <span> · Lost {formatDate(opp.dateLost)}</span>
+                    )}
+                  </StyledCardMeta>
+                  {opp.note && (
+                    <StyledCardBody>{opp.note}</StyledCardBody>
+                  )}
+                  {opp.leadName && (
+                    <StyledCardMeta>Lead: {opp.leadName}</StyledCardMeta>
+                  )}
+                </StyledCard>
+              ))}
             </StyledSection>
           </>
         )}

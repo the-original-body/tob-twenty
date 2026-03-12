@@ -21,10 +21,17 @@ export interface TobContact {
   lzrMonthDuration: string | null;
   bexioClientId: string | null;
   contractIsSigned: boolean;
+  contractSent: boolean;
+  contractViewed: boolean;
   pandadocIsSigned: boolean;
   docusealIsSigned: boolean;
   tobAssignedName: string | null;
   tobAssignedEmail: string | null;
+  closeLeadId: string | null;
+  closeLeadUrl: string | null;
+  closeLeadStatus: string | null;
+  justusProgram: string | null;
+  justusDuration: string | null;
 }
 
 export const useContact = (phone: string | undefined) => {
