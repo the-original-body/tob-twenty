@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
+import { useCallback, useState } from 'react';
 
 import { IconCheck } from 'twenty-ui/display';
 import { type WaMessage } from '@/whatsapp-chat/types/WhatsAppTypes';
 import { MediaDisplay } from '@/whatsapp-chat/components/MediaDisplay';
+import { MessageContextMenu } from '@/whatsapp-chat/components/MessageContextMenu';
 import { VoiceMessage } from '@/whatsapp-chat/components/VoiceMessage';
 
 const StyledRow = styled.div<{ fromAgent: boolean }>`
@@ -119,11 +121,31 @@ const StatusIcon = ({ status }: { status: WaMessage['status'] }) => {
 
 type ChatMessageProps = {
   message: WaMessage;
+  onDelete?: (message: WaMessage) => void;
 };
 
-export const ChatMessage = ({ message }: ChatMessageProps) => {
+export const ChatMessage = ({ message, onDelete }: ChatMessageProps) => {
+  const [contextMenu, setContextMenu] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+
   const isVoice =
     message.hasMedia && message.mediaMimetype?.startsWith('audio/');
+
+  const handleContextMenu = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      setContextMenu({ x: e.clientX, y: e.clientY });
+    },
+    [],
+  );
+
+  const handleCopy = useCallback((msg: WaMessage) => {
+    if (msg.body) {
+      navigator.clipboard.writeText(msg.body);
+    }
+  }, []);
 
   if (message.isDeleted) {
     return (
@@ -133,7 +155,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
             This message was deleted
           </StyledDeletedMessage>
           <StyledFooter>
-            <StyledTime>{formatMessageTime(message.messageTimestamp)}</StyledTime>
+            <StyledTime>
+              {formatMessageTime(message.messageTimestamp)}
+            </StyledTime>
           </StyledFooter>
         </StyledBubble>
       </StyledRow>
@@ -142,7 +166,10 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
   return (
     <StyledRow fromAgent={message.fromAgent}>
-      <StyledBubble fromAgent={message.fromAgent}>
+      <StyledBubble
+        fromAgent={message.fromAgent}
+        onContextMenu={handleContextMenu}
+      >
         {message.hasMedia && message.mediaUrl && !isVoice && (
           <MediaDisplay
             mediaUrl={message.mediaUrl}
@@ -169,6 +196,16 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
           )}
         </StyledFooter>
       </StyledBubble>
+
+      {contextMenu && (
+        <MessageContextMenu
+          message={message}
+          position={contextMenu}
+          onClose={() => setContextMenu(null)}
+          onCopy={handleCopy}
+          onDelete={onDelete}
+        />
+      )}
     </StyledRow>
   );
 };

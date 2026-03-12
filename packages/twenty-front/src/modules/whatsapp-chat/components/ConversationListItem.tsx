@@ -99,6 +99,17 @@ const StyledUnreadDot = styled.div`
   width: 8px;
 `;
 
+const StyledMessageCount = styled.span`
+  background: ${({ theme }) => theme.background.transparent.medium};
+  border-radius: ${({ theme }) => theme.border.radius.pill};
+  color: ${({ theme }) => theme.font.color.tertiary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  font-weight: ${({ theme }) => theme.font.weight.medium};
+  min-width: 20px;
+  padding: 1px 6px;
+  text-align: center;
+`;
+
 const StyledPinIcon = styled.div`
   color: ${({ theme }) => theme.font.color.light};
   display: flex;
@@ -167,9 +178,18 @@ export const ConversationListItem = ({
       isSelected={isSelected}
       onClick={() => onClick(conversation.id)}
     >
-      <StyledAvatar isClient={conversation.isClient}>
-        {getInitials(conversation)}
-      </StyledAvatar>
+      <div style={{ position: 'relative' }}>
+        <StyledAvatar isClient={conversation.isClient}>
+          {getInitials(conversation)}
+        </StyledAvatar>
+        {(conversation.messageCount ?? 0) > 0 && (
+          <StyledMessageCount
+            style={{ position: 'absolute', bottom: -4, right: -4 }}
+          >
+            {conversation.messageCount}
+          </StyledMessageCount>
+        )}
+      </div>
       <StyledContent>
         <StyledTopRow>
           <StyledName>{displayName}</StyledName>
