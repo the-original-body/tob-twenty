@@ -11,12 +11,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
-import {
-  IconSearch,
-  IconSettings,
-  IconSparkles,
-  IconVideo,
-} from 'twenty-ui/display';
+import { IconSearch, IconSettings, IconSparkles } from 'twenty-ui/display';
 import { useIsMobile } from 'twenty-ui/utilities';
 import { FeatureFlagKey } from '~/generated-metadata/graphql';
 
@@ -60,11 +55,6 @@ export const MainNavigationDrawerFixedItems = () => {
             mouseUpNavigation={true}
           />
         )}
-        <NavigationDrawerItem
-          label={t`Transcripts`}
-          to="/meeting-transcripts"
-          Icon={IconVideo}
-        />
         <NavigationDrawerItem
           label={t`Settings`}
           to={getSettingsPath(SettingsPath.ProfilePage)}

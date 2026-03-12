@@ -1,37 +1,77 @@
 import styled from '@emotion/styled';
 import { useCallback, useState } from 'react';
 
-import { IconArchive, IconPinned, IconPinnedOff } from 'twenty-ui/display';
+import {
+  IconArchive,
+  IconBriefcase,
+  IconMail,
+  IconPhone,
+  IconPinned,
+  IconPinnedOff,
+  IconSend,
+  IconUser,
+  IconUsers,
+} from 'twenty-ui/display';
 import { type WaConversation } from '@/whatsapp-chat/types/WhatsAppTypes';
 
 // ── Program colors ──────────────────────────────────────────────
 
-const PROGRAM_COLORS: Record<string, { bg: string; text: string }> = {
-  JP: { bg: '#dbeafe', text: '#1d4ed8' },
-  BPA: { bg: '#cffafe', text: '#0e7490' },
-  BPE: { bg: '#e0e7ff', text: '#4338ca' },
-  CERT: { bg: '#d1fae5', text: '#047857' },
-  Alumni: { bg: '#f1f5f9', text: '#475569' },
-  Canceled: { bg: '#ffe4e6', text: '#be123c' },
-  Lead: { bg: '#f5f5f4', text: '#78716c' },
+const PROGRAM_COLORS: Record<string, { bg: string; border: string; text: string }> = {
+  JP: { bg: '#dbeafe', border: '#93c5fd', text: '#1d4ed8' },
+  BPA: { bg: '#cffafe', border: '#67e8f9', text: '#0e7490' },
+  BPE: { bg: '#e0e7ff', border: '#a5b4fc', text: '#4338ca' },
+  CERT: { bg: '#d1fae5', border: '#6ee7b7', text: '#047857' },
+  Alumni: { bg: '#f1f5f9', border: '#cbd5e1', text: '#475569' },
+  Canceled: { bg: '#ffe4e6', border: '#fda4af', text: '#be123c' },
+  Lead: { bg: '#f5f5f4', border: '#d6d3d1', text: '#78716c' },
+};
+
+// ── Pipeline step icons (SVG paths for SA/SENT/VIEW/SIGN) ──────
+
+const PIPELINE_ICONS = {
+  SA: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 4v16" /><path d="M17 4v16" /><path d="M19 4H9.5a4.5 4.5 0 0 0 0 9H13" />
+    </svg>
+  ),
+  SENT: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
+    </svg>
+  ),
+  VIEW: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" />
+    </svg>
+  ),
+  SIGN: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+    </svg>
+  ),
 };
 
 // ── Styled components ───────────────────────────────────────────
 
 const StyledItem = styled.div<{ isSelected: boolean }>`
-  align-items: flex-start;
   background: ${({ isSelected, theme }) =>
     isSelected ? theme.background.transparent.light : 'transparent'};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
+  border-radius: ${({ theme }) => theme.border.radius.md};
   cursor: pointer;
   display: flex;
-  gap: ${({ theme }) => theme.spacing(3)};
-  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
+  flex-direction: column;
+  padding: ${({ theme }) => theme.spacing(2.5)} ${({ theme }) => theme.spacing(3)};
   transition: background 120ms ease;
 
   &:hover {
     background: ${({ theme }) => theme.background.transparent.lighter};
   }
+`;
+
+const StyledCompactRow = styled.div`
+  align-items: center;
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(3)};
 `;
 
 const StyledAvatar = styled.div<{ isClient?: boolean }>`
@@ -66,10 +106,10 @@ const StyledTopRow = styled.div`
   gap: ${({ theme }) => theme.spacing(2)};
 `;
 
-const StyledNameRow = styled.div`
+const StyledNameGroup = styled.div`
   align-items: center;
   display: flex;
-  gap: ${({ theme }) => theme.spacing(1)};
+  gap: ${({ theme }) => theme.spacing(1.5)};
   min-width: 0;
 `;
 
@@ -80,6 +120,34 @@ const StyledName = styled.span<{ isUnread?: boolean }>`
     isUnread ? theme.font.weight.semiBold : theme.font.weight.medium};
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const StyledNeedsReplyDot = styled.div`
+  background: ${({ theme }) => theme.color.orange};
+  border-radius: 50%;
+  flex-shrink: 0;
+  height: 8px;
+  width: 8px;
+`;
+
+const StyledRightGroup = styled.div`
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  gap: ${({ theme }) => theme.spacing(2)};
+`;
+
+const StyledProgramBadge = styled.span<{ bg: string; border: string; text: string }>`
+  background: ${({ bg }) => bg};
+  border: 1px solid ${({ border }) => border};
+  border-radius: ${({ theme }) => theme.border.radius.pill};
+  color: ${({ text }) => text};
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 3px 8px;
   white-space: nowrap;
 `;
 
@@ -123,55 +191,9 @@ const StyledUnreadDot = styled.div`
   width: 8px;
 `;
 
-const StyledNeedsReplyDot = styled.div`
-  background: ${({ theme }) => theme.color.orange};
-  border-radius: 50%;
-  height: 8px;
-  width: 8px;
-`;
-
 const StyledPinIcon = styled.div`
   color: ${({ theme }) => theme.font.color.light};
   display: flex;
-`;
-
-const StyledProgramBadge = styled.span<{ bg: string; text: string }>`
-  background: ${({ bg }) => bg};
-  border-radius: 3px;
-  color: ${({ text }) => text};
-  flex-shrink: 0;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1;
-  padding: 2px 5px;
-  white-space: nowrap;
-`;
-
-const StyledTagsRow = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 4px;
-  margin-top: 1px;
-`;
-
-const StyledContractPipeline = styled.div`
-  align-items: center;
-  display: flex;
-  gap: 2px;
-`;
-
-const StyledPipelineStep = styled.div<{ active: boolean }>`
-  background: ${({ active, theme }) =>
-    active ? theme.color.green + '30' : theme.background.transparent.lighter};
-  border-radius: 2px;
-  color: ${({ active, theme }) =>
-    active ? theme.color.green : theme.font.color.light};
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  line-height: 1;
-  padding: 2px 3px;
 `;
 
 const StyledMessageCount = styled.span`
@@ -187,6 +209,165 @@ const StyledMessageCount = styled.span`
   right: -4px;
   text-align: center;
 `;
+
+// ── Visual pipeline (circles + connecting lines) ────────────────
+
+const StyledPipelineContainer = styled.div`
+  align-items: center;
+  background: ${({ theme }) => theme.background.primary};
+  border: 1px solid ${({ theme }) => theme.border.color.light};
+  border-radius: ${({ theme }) => theme.border.radius.md};
+  display: flex;
+  gap: 0;
+  justify-content: space-between;
+  margin-top: ${({ theme }) => theme.spacing(2)};
+  padding: ${({ theme }) => theme.spacing(2.5)} ${({ theme }) => theme.spacing(3)};
+`;
+
+const StyledPipelineStepWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 1;
+`;
+
+const StyledPipelineCircle = styled.div<{ active: boolean }>`
+  align-items: center;
+  background: ${({ active }) => (active ? '#ffffff' : 'transparent')};
+  border: 2px solid ${({ active, theme }) =>
+    active ? theme.color.green : theme.border.color.medium};
+  border-radius: 50%;
+  color: ${({ active, theme }) =>
+    active ? theme.color.green : theme.font.color.light};
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+`;
+
+const StyledPipelineLine = styled.div<{ active: boolean }>`
+  background: ${({ active, theme }) =>
+    active ? theme.color.green : theme.border.color.medium};
+  flex: 1;
+  height: 2px;
+  margin-bottom: 20px;
+`;
+
+const StyledPipelineLabel = styled.span<{ active: boolean }>`
+  color: ${({ active, theme }) =>
+    active ? theme.font.color.primary : theme.font.color.light};
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+`;
+
+// ── Expanded detail styles ──────────────────────────────────────
+
+const StyledExpandedSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing(1.5)};
+  margin-top: ${({ theme }) => theme.spacing(2)};
+`;
+
+const StyledDetailRow = styled.div`
+  align-items: center;
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(2)};
+`;
+
+const StyledDetailIcon = styled.span`
+  align-items: center;
+  color: ${({ theme }) => theme.font.color.light};
+  display: flex;
+  flex-shrink: 0;
+  width: 16px;
+`;
+
+const StyledDetailLabel = styled.span`
+  color: ${({ theme }) => theme.font.color.tertiary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  min-width: 52px;
+`;
+
+const StyledDetailValue = styled.span`
+  color: ${({ theme }) => theme.font.color.primary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const StyledDetailLink = styled.a`
+  color: ${({ theme }) => theme.color.blue};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  overflow: hidden;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const StyledLeadStatusBadge = styled.span<{ statusType?: string }>`
+  background: ${({ statusType }) => {
+    switch (statusType) {
+      case 'active':
+        return '#dbeafe';
+      case 'won':
+        return '#d1fae5';
+      case 'lost':
+        return '#ffe4e6';
+      default:
+        return '#f1f5f9';
+    }
+  }};
+  border-radius: 3px;
+  color: ${({ statusType }) => {
+    switch (statusType) {
+      case 'active':
+        return '#1d4ed8';
+      case 'won':
+        return '#047857';
+      case 'lost':
+        return '#be123c';
+      default:
+        return '#475569';
+    }
+  }};
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 2px 5px;
+`;
+
+// ── Compact pipeline (shown when not selected) ──────────────────
+
+const StyledCompactPipeline = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 2px;
+  margin-top: 1px;
+`;
+
+const StyledCompactStep = styled.div<{ active: boolean }>`
+  background: ${({ active, theme }) =>
+    active ? theme.color.green + '30' : theme.background.transparent.lighter};
+  border-radius: 2px;
+  color: ${({ active, theme }) =>
+    active ? theme.color.green : theme.font.color.light};
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  padding: 2px 3px;
+`;
+
+// ── Context menu styles ─────────────────────────────────────────
 
 const StyledContextOverlay = styled.div`
   bottom: 0;
@@ -276,6 +457,37 @@ const getInitials = (conversation: WaConversation): string => {
   return parts[0].slice(0, 2).toUpperCase();
 };
 
+// ── Sub-components ──────────────────────────────────────────────
+
+const VisualPipeline = ({ conversation }: { conversation: WaConversation }) => {
+  const steps = [
+    { key: 'SA', active: !!conversation.completedStrukturanalyse },
+    { key: 'SENT', active: !!conversation.contractSent },
+    { key: 'VIEW', active: !!conversation.contractViewed },
+    { key: 'SIGN', active: !!conversation.contractIsSigned },
+  ] as const;
+
+  return (
+    <StyledPipelineContainer>
+      {steps.map((step, i) => (
+        <div key={step.key} style={{ display: 'contents' }}>
+          {i > 0 && (
+            <StyledPipelineLine active={step.active} />
+          )}
+          <StyledPipelineStepWrapper>
+            <StyledPipelineCircle active={step.active}>
+              {PIPELINE_ICONS[step.key]}
+            </StyledPipelineCircle>
+            <StyledPipelineLabel active={step.active}>
+              {step.key}
+            </StyledPipelineLabel>
+          </StyledPipelineStepWrapper>
+        </div>
+      ))}
+    </StyledPipelineContainer>
+  );
+};
+
 // ── Component ───────────────────────────────────────────────────
 
 type ConversationListItemProps = {
@@ -308,7 +520,6 @@ export const ConversationListItem = ({
   const previewPrefix = conversation.lastMessageFromAgent ? 'You: ' : '';
 
   const needsReply = !conversation.lastMessageFromAgent;
-  const showNeedsReply = needsReply && !conversation.isUnread;
 
   const program = conversation.justusProgram;
   const duration = conversation.justusDuration;
@@ -324,7 +535,6 @@ export const ConversationListItem = ({
     (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      // Adjust position to avoid going off-screen
       const x = Math.min(e.clientX, window.innerWidth - 200);
       const y = Math.min(e.clientY, window.innerHeight - 200);
       setContextMenu({ x, y });
@@ -343,68 +553,167 @@ export const ConversationListItem = ({
         onClick={() => onClick(conversation.id)}
         onContextMenu={handleContextMenu}
       >
-        <StyledAvatar isClient={conversation.isClient}>
-          {getInitials(conversation)}
-          {(conversation.messageCount ?? 0) > 0 && (
-            <StyledMessageCount>{conversation.messageCount}</StyledMessageCount>
-          )}
-        </StyledAvatar>
+        {/* ── Compact row (always visible) ── */}
+        <StyledCompactRow>
+          <StyledAvatar isClient={conversation.isClient}>
+            {getInitials(conversation)}
+            {(conversation.messageCount ?? 0) > 0 && (
+              <StyledMessageCount>{conversation.messageCount}</StyledMessageCount>
+            )}
+          </StyledAvatar>
 
-        <StyledContent>
-          <StyledTopRow>
-            <StyledNameRow>
-              <StyledName isUnread={conversation.isUnread}>
-                {displayName}
-              </StyledName>
-              {programColor && program && (
-                <StyledProgramBadge bg={programColor.bg} text={programColor.text}>
-                  {program}
-                  {duration ? ` ${duration}` : ''}
-                </StyledProgramBadge>
-              )}
-            </StyledNameRow>
-            <StyledTimestamp isUnread={conversation.isUnread}>
-              {formatTimestamp(conversation.lastMessageAt)}
-            </StyledTimestamp>
-          </StyledTopRow>
+          <StyledContent>
+            <StyledTopRow>
+              <StyledNameGroup>
+                <StyledName isUnread={conversation.isUnread}>
+                  {displayName}
+                </StyledName>
+                {needsReply && <StyledNeedsReplyDot />}
+              </StyledNameGroup>
+              <StyledRightGroup>
+                {programColor && program && (
+                  <StyledProgramBadge
+                    bg={programColor.bg}
+                    border={programColor.border}
+                    text={programColor.text}
+                  >
+                    {program}
+                    {duration ? ` ${duration}` : ''}
+                  </StyledProgramBadge>
+                )}
+                <StyledTimestamp isUnread={conversation.isUnread}>
+                  {formatTimestamp(conversation.lastMessageAt)}
+                </StyledTimestamp>
+              </StyledRightGroup>
+            </StyledTopRow>
 
-          <StyledBottomRow>
-            <StyledPreview isUnread={conversation.isUnread}>
-              {previewPrefix}
-              {conversation.lastMessageBody}
-            </StyledPreview>
-            <StyledBadges>
-              {conversation.isPinned && (
-                <StyledPinIcon>
-                  <IconPinned size={14} />
-                </StyledPinIcon>
-              )}
-              {conversation.isUnread && <StyledUnreadDot />}
-              {showNeedsReply && <StyledNeedsReplyDot />}
-            </StyledBadges>
-          </StyledBottomRow>
+            <StyledBottomRow>
+              <StyledPreview isUnread={conversation.isUnread}>
+                {previewPrefix}
+                {conversation.lastMessageBody}
+              </StyledPreview>
+              <StyledBadges>
+                {conversation.isPinned && (
+                  <StyledPinIcon>
+                    <IconPinned size={14} />
+                  </StyledPinIcon>
+                )}
+                {conversation.isUnread && <StyledUnreadDot />}
+              </StyledBadges>
+            </StyledBottomRow>
 
-          {hasPipeline && (
-            <StyledTagsRow>
-              <StyledContractPipeline>
-                <StyledPipelineStep
-                  active={!!conversation.completedStrukturanalyse}
-                >
+            {/* Compact pipeline badges (when not selected) */}
+            {hasPipeline && !isSelected && (
+              <StyledCompactPipeline>
+                <StyledCompactStep active={!!conversation.completedStrukturanalyse}>
                   SA
-                </StyledPipelineStep>
-                <StyledPipelineStep active={!!conversation.contractSent}>
+                </StyledCompactStep>
+                <StyledCompactStep active={!!conversation.contractSent}>
                   SENT
-                </StyledPipelineStep>
-                <StyledPipelineStep active={!!conversation.contractViewed}>
+                </StyledCompactStep>
+                <StyledCompactStep active={!!conversation.contractViewed}>
                   VIEW
-                </StyledPipelineStep>
-                <StyledPipelineStep active={!!conversation.contractIsSigned}>
+                </StyledCompactStep>
+                <StyledCompactStep active={!!conversation.contractIsSigned}>
                   SIGN
-                </StyledPipelineStep>
-              </StyledContractPipeline>
-            </StyledTagsRow>
-          )}
-        </StyledContent>
+                </StyledCompactStep>
+              </StyledCompactPipeline>
+            )}
+          </StyledContent>
+        </StyledCompactRow>
+
+        {/* ── Expanded section (selected only) ── */}
+        {isSelected && (
+          <>
+            <StyledExpandedSection>
+              <StyledDetailRow>
+                <StyledDetailIcon>
+                  <IconPhone size={14} />
+                </StyledDetailIcon>
+                <StyledDetailLabel>Phone</StyledDetailLabel>
+                <StyledDetailValue>
+                  {conversation.leadPhoneNumber}
+                </StyledDetailValue>
+              </StyledDetailRow>
+
+              {conversation.contactEmail && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconMail size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Email</StyledDetailLabel>
+                  <StyledDetailValue>
+                    {conversation.contactEmail}
+                  </StyledDetailValue>
+                </StyledDetailRow>
+              )}
+
+              <StyledDetailRow>
+                <StyledDetailIcon>
+                  <IconUser size={14} />
+                </StyledDetailIcon>
+                <StyledDetailLabel>Owner</StyledDetailLabel>
+                <StyledDetailValue>
+                  {conversation.assignedToName || 'Unassigned'}
+                </StyledDetailValue>
+              </StyledDetailRow>
+
+              {conversation.coachLeadOwnerName && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconUsers size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Coach</StyledDetailLabel>
+                  <StyledDetailValue>
+                    {conversation.coachLeadOwnerName}
+                  </StyledDetailValue>
+                </StyledDetailRow>
+              )}
+
+              {conversation.closeLeadStatus && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconBriefcase size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Lead</StyledDetailLabel>
+                  <StyledLeadStatusBadge
+                    statusType={
+                      conversation.closeLeadStatus.toLowerCase().includes('won')
+                        ? 'won'
+                        : conversation.closeLeadStatus
+                              .toLowerCase()
+                              .includes('lost')
+                          ? 'lost'
+                          : 'active'
+                    }
+                  >
+                    {conversation.closeLeadStatus}
+                  </StyledLeadStatusBadge>
+                </StyledDetailRow>
+              )}
+
+              {conversation.closeLeadUrl && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconSend size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Close</StyledDetailLabel>
+                  <StyledDetailLink
+                    href={conversation.closeLeadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Open in Close
+                  </StyledDetailLink>
+                </StyledDetailRow>
+              )}
+            </StyledExpandedSection>
+
+            {/* Visual pipeline (Foundry-style circles + lines) */}
+            {hasPipeline && <VisualPipeline conversation={conversation} />}
+          </>
+        )}
       </StyledItem>
 
       {contextMenu && (

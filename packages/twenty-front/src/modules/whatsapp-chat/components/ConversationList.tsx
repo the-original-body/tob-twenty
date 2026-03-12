@@ -2,9 +2,14 @@ import styled from '@emotion/styled';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { IconChevronDown } from 'twenty-ui/display';
+import { useRecoilValueV2 } from '@/ui/utilities/state/jotai/hooks/useRecoilValueV2';
+import { currentWorkspaceMemberState } from '@/auth/states/currentWorkspaceMemberState';
 import { ConversationListItem } from '@/whatsapp-chat/components/ConversationListItem';
 import {
   ConversationFilters,
+  type AssignmentFilter,
+  type NeedsReplyThreshold,
+  type SegmentFilter,
   type SortOrder,
   type StateFilter,
 } from '@/whatsapp-chat/components/ConversationFilters';
@@ -15,13 +20,22 @@ import {
   type WaSession,
 } from '@/whatsapp-chat/types/WhatsAppTypes';
 
+const CLIENT_PROGRAMS = new Set(['JP', 'BPA', 'BPE', 'CERT']);
+
+const NEEDS_REPLY_HOURS: Record<NeedsReplyThreshold, number> = {
+  any: 0,
+  '24h': 24,
+  '48h': 48,
+  '72h': 72,
+};
+
 const StyledContainer = styled.div`
   border-right: 1px solid ${({ theme }) => theme.border.color.medium};
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 340px;
-  min-width: 340px;
+  width: 380px;
+  min-width: 380px;
 `;
 
 const StyledHeader = styled.div`
@@ -118,11 +132,21 @@ export const ConversationList = ({
   onArchive,
   onToggleRead,
 }: ConversationListProps) => {
+  const currentMember = useRecoilValueV2(currentWorkspaceMemberState);
+  const currentUserEmail = currentMember?.userEmail ?? '';
+
   const [search, setSearch] = useState('');
   const [selectedSession, setSelectedSession] = useState<string>('');
   const [stateFilter, setStateFilter] = useState<StateFilter>('all');
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
   const [showArchived, setShowArchived] = useState(false);
+  const [assignmentFilter, setAssignmentFilter] =
+    useState<AssignmentFilter>('all');
+  const [segmentFilter, setSegmentFilter] = useState<SegmentFilter>('all');
+  const [needsReplyThreshold, setNeedsReplyThreshold] =
+    useState<NeedsReplyThreshold>('any');
+  const [selectedPrograms, setSelectedPrograms] = useState<string[]>([]);
+  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
   const previousConversationsRef = useRef<WaConversation[]>([]);
 
   const { conversations, loading, hasMore, loadMore } = useConversations({
@@ -138,6 +162,22 @@ export const ConversationList = ({
     onConversationsLoaded(conversations);
   }
 
+  // Compute available filter values from loaded conversations
+  const { availablePrograms, availableDurations } = useMemo(() => {
+    const programs = new Set<string>();
+    const durations = new Set<string>();
+
+    for (const c of conversations) {
+      if (c.justusProgram) programs.add(c.justusProgram);
+      if (c.justusDuration) durations.add(c.justusDuration);
+    }
+
+    return {
+      availablePrograms: Array.from(programs).sort(),
+      availableDurations: Array.from(durations).sort(),
+    };
+  }, [conversations]);
+
   // Apply local filters
   const filteredConversations = useMemo(() => {
     let result = conversations;
@@ -149,11 +189,58 @@ export const ConversationList = ({
       result = result.filter((c) => c.isArchived);
     }
 
+    // Assignment filter
+    if (assignmentFilter === 'me') {
+      result = result.filter(
+        (c) =>
+          c.assignedToEmail === currentUserEmail ||
+          c.coachLeadOwnerEmail === currentUserEmail,
+      );
+    } else if (assignmentFilter === 'unassigned') {
+      result = result.filter(
+        (c) => !c.assignedToEmail && !c.coachLeadOwnerEmail,
+      );
+    }
+
+    // Segment filter
+    if (segmentFilter === 'clients') {
+      result = result.filter(
+        (c) => c.isClient || CLIENT_PROGRAMS.has(c.justusProgram ?? ''),
+      );
+    } else if (segmentFilter === 'leads') {
+      result = result.filter(
+        (c) => !c.isClient && !CLIENT_PROGRAMS.has(c.justusProgram ?? ''),
+      );
+    }
+
     // State filter
     if (stateFilter === 'unread') {
       result = result.filter((c) => c.isUnread || !c.lastMessageFromAgent);
     } else if (stateFilter === 'needs_reply') {
-      result = result.filter((c) => !c.lastMessageFromAgent);
+      const thresholdHours = NEEDS_REPLY_HOURS[needsReplyThreshold];
+      const now = Date.now();
+
+      result = result.filter((c) => {
+        if (c.lastMessageFromAgent) return false;
+        if (thresholdHours === 0) return true;
+        const lastAt = new Date(c.lastMessageAt).getTime();
+        const hoursSince = (now - lastAt) / (1000 * 60 * 60);
+        return hoursSince >= thresholdHours;
+      });
+    }
+
+    // Program filter
+    if (selectedPrograms.length > 0) {
+      result = result.filter((c) =>
+        selectedPrograms.includes(c.justusProgram ?? ''),
+      );
+    }
+
+    // Duration filter
+    if (selectedDurations.length > 0) {
+      result = result.filter((c) =>
+        selectedDurations.includes(c.justusDuration ?? ''),
+      );
     }
 
     // Sort
@@ -168,7 +255,34 @@ export const ConversationList = ({
     });
 
     return result;
-  }, [conversations, stateFilter, sortOrder, showArchived]);
+  }, [
+    conversations,
+    stateFilter,
+    sortOrder,
+    showArchived,
+    assignmentFilter,
+    segmentFilter,
+    needsReplyThreshold,
+    selectedPrograms,
+    selectedDurations,
+    currentUserEmail,
+  ]);
+
+  const hasActiveFilters =
+    assignmentFilter !== 'all' ||
+    segmentFilter !== 'all' ||
+    stateFilter !== 'all' ||
+    selectedPrograms.length > 0 ||
+    selectedDurations.length > 0;
+
+  const handleClearFilters = useCallback(() => {
+    setAssignmentFilter('all');
+    setSegmentFilter('all');
+    setStateFilter('all');
+    setNeedsReplyThreshold('any');
+    setSelectedPrograms([]);
+    setSelectedDurations([]);
+  }, []);
 
   const pinnedConversations = filteredConversations.filter((c) => c.isPinned);
   const unpinnedConversations = filteredConversations.filter(
@@ -211,8 +325,22 @@ export const ConversationList = ({
           onSortOrderChange={setSortOrder}
           showArchived={showArchived}
           onShowArchivedChange={setShowArchived}
+          assignmentFilter={assignmentFilter}
+          onAssignmentFilterChange={setAssignmentFilter}
+          segmentFilter={segmentFilter}
+          onSegmentFilterChange={setSegmentFilter}
+          needsReplyThreshold={needsReplyThreshold}
+          onNeedsReplyThresholdChange={setNeedsReplyThreshold}
+          selectedPrograms={selectedPrograms}
+          onSelectedProgramsChange={setSelectedPrograms}
+          selectedDurations={selectedDurations}
+          onSelectedDurationsChange={setSelectedDurations}
+          availablePrograms={availablePrograms}
+          availableDurations={availableDurations}
           resultCount={filteredConversations.length}
           totalCount={conversations.length}
+          hasActiveFilters={hasActiveFilters}
+          onClearFilters={handleClearFilters}
         />
       </StyledHeader>
 
@@ -225,8 +353,8 @@ export const ConversationList = ({
           <StyledEmptyState>
             {search
               ? 'No conversations match your search'
-              : stateFilter !== 'all'
-                ? 'No conversations match this filter'
+              : hasActiveFilters
+                ? 'No conversations match these filters'
                 : showArchived
                   ? 'No archived conversations'
                   : 'No conversations yet'}
