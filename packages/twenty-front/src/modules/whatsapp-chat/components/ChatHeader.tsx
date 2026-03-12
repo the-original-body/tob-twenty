@@ -1,22 +1,29 @@
 import styled from '@emotion/styled';
-import { useCallback } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import {
   IconArchive,
-  IconDotsVertical,
   IconPinned,
   IconPinnedOff,
   IconUser,
 } from 'twenty-ui/display';
-import { type WaConversation } from '@/whatsapp-chat/types/WhatsAppTypes';
+import { type WaConversation, type WaLabel } from '@/whatsapp-chat/types/WhatsAppTypes';
+import { LabelBadge } from '@/whatsapp-chat/components/LabelBadge';
+import { LabelPicker } from '@/whatsapp-chat/components/LabelPicker';
 
 const StyledContainer = styled.div`
-  align-items: center;
   border-bottom: 1px solid ${({ theme }) => theme.border.color.medium};
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 56px;
+`;
+
+const StyledTopRow = styled.div`
+  align-items: center;
   display: flex;
   gap: ${({ theme }) => theme.spacing(3)};
   justify-content: space-between;
-  min-height: 56px;
   padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
 `;
 
@@ -86,8 +93,41 @@ const StyledIconButton = styled.button`
   }
 `;
 
+const StyledLabelsRow = styled.div`
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing(1)};
+  padding: 0 ${({ theme }) => theme.spacing(3)} ${({ theme }) => theme.spacing(2)};
+  position: relative;
+`;
+
+const StyledAddLabelButton = styled.button`
+  align-items: center;
+  background: none;
+  border: 1px dashed ${({ theme }) => theme.border.color.medium};
+  border-radius: ${({ theme }) => theme.border.radius.pill};
+  color: ${({ theme }) => theme.font.color.tertiary};
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 11px;
+  gap: 2px;
+  line-height: 1;
+  padding: 2px 8px;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.font.color.secondary};
+    color: ${({ theme }) => theme.font.color.secondary};
+  }
+`;
+
 type ChatHeaderProps = {
   conversation: WaConversation;
+  labels: WaLabel[];
+  onAddLabel: (name: string, color: string) => Promise<unknown>;
+  onRemoveLabel: (labelId: string) => void;
   onTogglePin?: (id: string, isPinned: boolean) => void;
   onArchive?: (id: string) => void;
   onToggleDetails?: () => void;
@@ -95,10 +135,16 @@ type ChatHeaderProps = {
 
 export const ChatHeader = ({
   conversation,
+  labels,
+  onAddLabel,
+  onRemoveLabel,
   onTogglePin,
   onArchive,
   onToggleDetails,
 }: ChatHeaderProps) => {
+  const [showPicker, setShowPicker] = useState(false);
+  const addButtonRef = useRef<HTMLButtonElement>(null);
+
   const displayName =
     conversation.leadFullName ||
     conversation.whatsappName ||
@@ -125,36 +171,62 @@ export const ChatHeader = ({
 
   return (
     <StyledContainer>
-      <StyledLeft>
-        <StyledAvatar>{initials || '?'}</StyledAvatar>
-        <StyledInfo>
-          <StyledName>{displayName}</StyledName>
-          {showPhone && (
-            <StyledPhone>{conversation.leadPhoneNumber}</StyledPhone>
-          )}
-        </StyledInfo>
-      </StyledLeft>
-      <StyledRight>
-        {onTogglePin && (
-          <StyledIconButton onClick={handleTogglePin} title="Toggle pin">
-            {conversation.isPinned ? (
-              <IconPinnedOff size={18} />
-            ) : (
-              <IconPinned size={18} />
+      <StyledTopRow>
+        <StyledLeft>
+          <StyledAvatar>{initials || '?'}</StyledAvatar>
+          <StyledInfo>
+            <StyledName>{displayName}</StyledName>
+            {showPhone && (
+              <StyledPhone>{conversation.leadPhoneNumber}</StyledPhone>
             )}
-          </StyledIconButton>
-        )}
-        {onArchive && (
-          <StyledIconButton onClick={handleArchive} title="Archive">
-            <IconArchive size={18} />
-          </StyledIconButton>
-        )}
-        {onToggleDetails && (
-          <StyledIconButton onClick={onToggleDetails} title="Contact details">
-            <IconUser size={18} />
-          </StyledIconButton>
-        )}
-      </StyledRight>
+          </StyledInfo>
+        </StyledLeft>
+        <StyledRight>
+          {onTogglePin && (
+            <StyledIconButton onClick={handleTogglePin} title="Toggle pin">
+              {conversation.isPinned ? (
+                <IconPinnedOff size={18} />
+              ) : (
+                <IconPinned size={18} />
+              )}
+            </StyledIconButton>
+          )}
+          {onArchive && (
+            <StyledIconButton onClick={handleArchive} title="Archive">
+              <IconArchive size={18} />
+            </StyledIconButton>
+          )}
+          {onToggleDetails && (
+            <StyledIconButton onClick={onToggleDetails} title="Contact details">
+              <IconUser size={18} />
+            </StyledIconButton>
+          )}
+        </StyledRight>
+      </StyledTopRow>
+      <StyledLabelsRow>
+        {labels.map((label) => (
+          <LabelBadge
+            key={label.id}
+            label={label}
+            onRemove={onRemoveLabel}
+          />
+        ))}
+        <div style={{ position: 'relative' }}>
+          <StyledAddLabelButton
+            ref={addButtonRef}
+            onClick={() => setShowPicker(true)}
+          >
+            + Label
+          </StyledAddLabelButton>
+          {showPicker && (
+            <LabelPicker
+              existingLabels={labels}
+              onAdd={onAddLabel}
+              onClose={() => setShowPicker(false)}
+            />
+          )}
+        </div>
+      </StyledLabelsRow>
     </StyledContainer>
   );
 };

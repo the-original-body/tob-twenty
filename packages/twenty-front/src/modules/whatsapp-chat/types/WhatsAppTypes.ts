@@ -48,6 +48,13 @@ export interface WsEvent {
   data: Record<string, unknown>;
 }
 
+export interface WaLabel {
+  id: string;
+  name: string;
+  color: string;
+  conversationId: string;
+}
+
 export interface WaSession {
   name: string;
   status: string;

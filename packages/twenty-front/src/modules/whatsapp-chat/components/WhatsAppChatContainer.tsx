@@ -7,6 +7,7 @@ import { ChatHeader } from '@/whatsapp-chat/components/ChatHeader';
 import { ChatThread } from '@/whatsapp-chat/components/ChatThread';
 import { ConversationDetails } from '@/whatsapp-chat/components/ConversationDetails';
 import { ConversationList } from '@/whatsapp-chat/components/ConversationList';
+import { useLabels } from '@/whatsapp-chat/hooks/useLabels';
 import { useMessages } from '@/whatsapp-chat/hooks/useMessages';
 import { useSendMessage } from '@/whatsapp-chat/hooks/useSendMessage';
 import { useSessions } from '@/whatsapp-chat/hooks/useSessions';
@@ -87,6 +88,8 @@ export const WhatsAppChatContainer = () => {
   const [showDetails, setShowDetails] = useState(false);
 
   const conversationsRef = useRef<WaConversation[]>([]);
+
+  const { labels, addLabel, removeLabel } = useLabels(currentConversationId);
 
   const {
     messages,
@@ -307,6 +310,9 @@ export const WhatsAppChatContainer = () => {
           <>
             <ChatHeader
               conversation={selectedConversation}
+              labels={labels}
+              onAddLabel={addLabel}
+              onRemoveLabel={removeLabel}
               onTogglePin={handleTogglePin}
               onArchive={handleArchive}
               onToggleDetails={() => setShowDetails((prev) => !prev)}
