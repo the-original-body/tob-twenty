@@ -5,6 +5,7 @@ import { SetOrChangePassword } from '@/settings/profile/components/SetOrChangePa
 import { DeleteAccount } from '@/settings/profile/components/DeleteAccount';
 import { EmailField } from '@/settings/profile/components/EmailField';
 import { NameFields } from '@/settings/profile/components/NameFields';
+import { WhatsAppPhoneField } from '@/settings/profile/components/WhatsAppPhoneField';
 import { WorkspaceMemberPictureUploader } from '@/settings/workspace-member/components/WorkspaceMemberPictureUploader';
 import { useCanChangePassword } from '@/settings/profile/hooks/useCanChangePassword';
 import { useCurrentUserWorkspaceTwoFactorAuthentication } from '@/settings/two-factor-authentication/hooks/useCurrentUserWorkspaceTwoFactorAuthentication';
@@ -65,6 +66,13 @@ export const SettingsProfile = () => {
             description={t`The email associated to your account`}
           />
           <EmailField />
+        </Section>
+        <Section>
+          <H2Title
+            title="WhatsApp Phone"
+            description="Your WhatsApp number used to link your WAHA session"
+          />
+          <WhatsAppPhoneField />
         </Section>
         <Section>
           <H2Title

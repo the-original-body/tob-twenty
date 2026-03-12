@@ -1,0 +1,154 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { useWhatsAppBridge } from '@/whatsapp-chat/hooks/useWhatsAppBridge';
+import {
+  type ConversationsResponse,
+  type WaConversation,
+} from '@/whatsapp-chat/types/WhatsAppTypes';
+
+interface UseConversationsOptions {
+  session?: string;
+  search?: string;
+  limit?: number;
+}
+
+export const useConversations = ({
+  session,
+  search,
+  limit = 50,
+}: UseConversationsOptions = {}) => {
+  const { bridgeFetch } = useWhatsAppBridge();
+
+  const [conversations, setConversations] = useState<WaConversation[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [cursor, setCursor] = useState<string | undefined>(undefined);
+  const [hasMore, setHasMore] = useState(false);
+
+  const abortRef = useRef<AbortController | null>(null);
+
+  const fetchConversations = useCallback(
+    async (loadMore = false) => {
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
+      if (!loadMore) {
+        setLoading(true);
+      }
+
+      setError(null);
+
+      try {
+        const params = new URLSearchParams();
+
+        if (session) {
+          params.set('session', session);
+        }
+
+        if (search) {
+          params.set('search', search);
+        }
+
+        if (loadMore && cursor) {
+          params.set('cursor', cursor);
+        }
+
+        params.set('limit', String(limit));
+
+        const queryString = params.toString();
+        const path = `/api/v1/conversations${queryString ? `?${queryString}` : ''}`;
+
+        const data = await bridgeFetch<ConversationsResponse>(path, {
+          signal: controller.signal,
+        });
+
+        const items = data?.items ?? [];
+
+        setConversations((prev) => (loadMore ? [...prev, ...items] : items));
+        setCursor(data?.cursor ?? undefined);
+        setHasMore(data?.hasMore ?? false);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+
+        const message =
+          err instanceof Error
+            ? err.message
+            : 'Failed to fetch conversations';
+        setError(message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [bridgeFetch, session, search, limit, cursor],
+  );
+
+  useEffect(() => {
+    fetchConversations(false);
+
+    return () => {
+      abortRef.current?.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session, search]);
+
+  const loadMore = useCallback(() => {
+    if (hasMore && !loading) {
+      fetchConversations(true);
+    }
+  }, [hasMore, loading, fetchConversations]);
+
+  const refresh = useCallback(() => {
+    fetchConversations(false);
+  }, [fetchConversations]);
+
+  const sortedConversations = [...conversations].sort((a, b) => {
+    if (a.isPinned && !b.isPinned) return -1;
+    if (!a.isPinned && b.isPinned) return 1;
+
+    return (
+      new Date(b.lastMessageAt).getTime() -
+      new Date(a.lastMessageAt).getTime()
+    );
+  });
+
+  const updateConversation = useCallback(
+    (id: string, updates: Partial<WaConversation>) => {
+      setConversations((prev) =>
+        prev.map((conv) => (conv.id === id ? { ...conv, ...updates } : conv)),
+      );
+    },
+    [],
+  );
+
+  const addOrUpdateConversation = useCallback(
+    (conversation: WaConversation) => {
+      setConversations((prev) => {
+        const index = prev.findIndex((c) => c.id === conversation.id);
+
+        if (index >= 0) {
+          const next = [...prev];
+          next[index] = conversation;
+
+          return next;
+        }
+
+        return [conversation, ...prev];
+      });
+    },
+    [],
+  );
+
+  return {
+    conversations: sortedConversations,
+    loading,
+    error,
+    hasMore,
+    loadMore,
+    refresh,
+    updateConversation,
+    addOrUpdateConversation,
+  };
+};

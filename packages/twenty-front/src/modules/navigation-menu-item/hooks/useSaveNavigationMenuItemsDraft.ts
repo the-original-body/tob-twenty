@@ -90,7 +90,9 @@ export const useSaveNavigationMenuItemsDraft = () => {
         input.name = draftItem.name ?? 'Link';
         const linkUrl = (draftItem.link ?? '').trim();
         input.link =
-          linkUrl.startsWith('http://') || linkUrl.startsWith('https://')
+          linkUrl.startsWith('http://') ||
+          linkUrl.startsWith('https://') ||
+          linkUrl.startsWith('/')
             ? linkUrl
             : linkUrl
               ? `https://${linkUrl}`
@@ -164,7 +166,9 @@ export const useSaveNavigationMenuItemsDraft = () => {
         if (linkChanged && isNavigationMenuItemLink(draftItem)) {
           const linkUrl = (draftItem.link ?? '').trim();
           updateInput.link = linkUrl
-            ? linkUrl.startsWith('http://') || linkUrl.startsWith('https://')
+            ? linkUrl.startsWith('http://') ||
+              linkUrl.startsWith('https://') ||
+              linkUrl.startsWith('/')
               ? linkUrl
               : `https://${linkUrl}`
             : null;
