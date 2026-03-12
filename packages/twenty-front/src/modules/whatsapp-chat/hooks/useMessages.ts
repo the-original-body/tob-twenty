@@ -50,7 +50,14 @@ export const useMessages = ({
 
         const items = data?.items ?? [];
 
-        setMessages((prev) => (loadOlder ? [...items, ...prev] : items));
+        setMessages((prev) => {
+          const merged = loadOlder ? [...items, ...prev] : items;
+          return merged.sort(
+            (a, b) =>
+              new Date(a.messageTimestamp).getTime() -
+              new Date(b.messageTimestamp).getTime(),
+          );
+        });
         setCursor(data?.cursor ?? undefined);
         setHasMore(data?.hasMore ?? false);
       } catch (err) {
@@ -129,7 +136,11 @@ export const useMessages = ({
         });
       }
 
-      return [...prev, message];
+      return [...prev, message].sort(
+        (a, b) =>
+          new Date(a.messageTimestamp).getTime() -
+          new Date(b.messageTimestamp).getTime(),
+      );
     });
   }, []);
 
