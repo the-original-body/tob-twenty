@@ -59,6 +59,15 @@ const StyledFullImage = styled.img`
 `;
 
 const resolveMediaUrl = (mediaUrl: string): string => {
+  // Rewrite WAHA internal URLs (http://localhost:3000/api/files/{session}/{hash})
+  // to go through the bridge media proxy (/api/wa/media/{session}/{hash})
+  const wahaMatch = mediaUrl.match(
+    /^https?:\/\/[^/]+\/api\/files\/(.+)$/,
+  );
+  if (wahaMatch) {
+    return `${WHATSAPP_BRIDGE_URL}/media/${wahaMatch[1]}`;
+  }
+
   if (mediaUrl.startsWith('http://') || mediaUrl.startsWith('https://')) {
     return mediaUrl;
   }
