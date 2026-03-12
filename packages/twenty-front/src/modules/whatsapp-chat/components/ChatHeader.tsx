@@ -11,61 +11,105 @@ import { type WaConversation, type WaLabel } from '@/whatsapp-chat/types/WhatsAp
 import { LabelBadge } from '@/whatsapp-chat/components/LabelBadge';
 import { LabelPicker } from '@/whatsapp-chat/components/LabelPicker';
 
+// ── Program colors (same as ConversationListItem) ───────────────
+
+const PROGRAM_COLORS: Record<string, { bg: string; text: string }> = {
+  JP: { bg: '#dbeafe', text: '#1d4ed8' },
+  BPA: { bg: '#cffafe', text: '#0e7490' },
+  BPE: { bg: '#e0e7ff', text: '#4338ca' },
+  CERT: { bg: '#d1fae5', text: '#047857' },
+  Alumni: { bg: '#f1f5f9', text: '#475569' },
+  Canceled: { bg: '#ffe4e6', text: '#be123c' },
+  Lead: { bg: '#f5f5f4', text: '#78716c' },
+};
+
+// ── Styled components ───────────────────────────────────────────
+
 const StyledContainer = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.border.color.medium};
   display: flex;
   flex-direction: column;
   gap: 0;
-  min-height: 56px;
 `;
 
 const StyledTopRow = styled.div`
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   gap: ${({ theme }) => theme.spacing(3)};
   justify-content: space-between;
-  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
+  padding: ${({ theme }) => theme.spacing(3)} ${({ theme }) => theme.spacing(3)}
+    0;
 `;
 
 const StyledLeft = styled.div`
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   gap: ${({ theme }) => theme.spacing(3)};
   min-width: 0;
 `;
 
-const StyledAvatar = styled.div`
+const StyledAvatar = styled.div<{ isClient?: boolean }>`
   align-items: center;
-  background: ${({ theme }) => theme.background.transparent.medium};
+  background: ${({ isClient, theme }) =>
+    isClient ? theme.color.blue : theme.background.transparent.medium};
   border-radius: 50%;
-  color: ${({ theme }) => theme.font.color.secondary};
+  color: ${({ isClient, theme }) =>
+    isClient ? theme.font.color.inverted : theme.font.color.secondary};
   display: flex;
   flex-shrink: 0;
   font-size: ${({ theme }) => theme.font.size.md};
   font-weight: ${({ theme }) => theme.font.weight.medium};
-  height: 36px;
+  height: 40px;
   justify-content: center;
-  width: 36px;
+  width: 40px;
 `;
 
 const StyledInfo = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2px;
   min-width: 0;
 `;
 
 const StyledName = styled.span`
   color: ${({ theme }) => theme.font.color.primary};
   font-size: ${({ theme }) => theme.font.size.md};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  font-weight: ${({ theme }) => theme.font.weight.semiBold};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
+const StyledPhoneRow = styled.div`
+  align-items: center;
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(1.5)};
+`;
+
 const StyledPhone = styled.span`
   color: ${({ theme }) => theme.font.color.tertiary};
   font-size: ${({ theme }) => theme.font.size.sm};
+`;
+
+const StyledProgramBadge = styled.span<{ bg: string; text: string }>`
+  background: ${({ bg }) => bg};
+  border-radius: 3px;
+  color: ${({ text }) => text};
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  padding: 2px 5px;
+  white-space: nowrap;
+`;
+
+const StyledOwnerLine = styled.span`
+  color: ${({ theme }) => theme.font.color.tertiary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const StyledRight = styled.div`
@@ -93,12 +137,37 @@ const StyledIconButton = styled.button`
   }
 `;
 
+const StyledCloseButton = styled.a`
+  align-items: center;
+  background: none;
+  border: 1px solid ${({ theme }) => theme.color.blue};
+  border-radius: ${({ theme }) => theme.border.radius.sm};
+  color: ${({ theme }) => theme.color.blue};
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: ${({ theme }) => theme.font.size.xs};
+  font-weight: ${({ theme }) => theme.font.weight.medium};
+  gap: ${({ theme }) => theme.spacing(1)};
+  height: 32px;
+  line-height: 1;
+  padding: 0 ${({ theme }) => theme.spacing(3)};
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    background: ${({ theme }) => theme.color.blue};
+    color: ${({ theme }) => theme.font.color.inverted};
+  }
+`;
+
 const StyledLabelsRow = styled.div`
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing(1)};
-  padding: 0 ${({ theme }) => theme.spacing(3)} ${({ theme }) => theme.spacing(2)};
+  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)}
+    ${({ theme }) => theme.spacing(2)};
   position: relative;
 `;
 
@@ -122,6 +191,8 @@ const StyledAddLabelButton = styled.button`
     color: ${({ theme }) => theme.font.color.secondary};
   }
 `;
+
+// ── Component ───────────────────────────────────────────────────
 
 type ChatHeaderProps = {
   conversation: WaConversation;
@@ -150,8 +221,7 @@ export const ChatHeader = ({
     conversation.whatsappName ||
     conversation.leadPhoneNumber;
 
-  const showPhone =
-    displayName !== conversation.leadPhoneNumber;
+  const showPhone = displayName !== conversation.leadPhoneNumber;
 
   const initials = displayName
     .trim()
@@ -160,6 +230,13 @@ export const ChatHeader = ({
     .slice(0, 2)
     .join('')
     .toUpperCase();
+
+  const program = conversation.justusProgram;
+  const duration = conversation.justusDuration;
+  const programColor = program ? PROGRAM_COLORS[program] : undefined;
+
+  const ownerName = conversation.assignedToName || 'Unassigned';
+  const coachName = conversation.coachLeadOwnerName || 'None';
 
   const handleTogglePin = useCallback(() => {
     onTogglePin?.(conversation.id, !conversation.isPinned);
@@ -173,15 +250,51 @@ export const ChatHeader = ({
     <StyledContainer>
       <StyledTopRow>
         <StyledLeft>
-          <StyledAvatar>{initials || '?'}</StyledAvatar>
+          <StyledAvatar isClient={conversation.isClient}>
+            {initials || '?'}
+          </StyledAvatar>
           <StyledInfo>
             <StyledName>{displayName}</StyledName>
             {showPhone && (
-              <StyledPhone>{conversation.leadPhoneNumber}</StyledPhone>
+              <StyledPhoneRow>
+                <StyledPhone>{conversation.leadPhoneNumber}</StyledPhone>
+                {programColor && program && (
+                  <StyledProgramBadge
+                    bg={programColor.bg}
+                    text={programColor.text}
+                  >
+                    {program}
+                    {duration ? ` ${duration}` : ''}
+                  </StyledProgramBadge>
+                )}
+              </StyledPhoneRow>
             )}
+            {!showPhone && programColor && program && (
+              <StyledPhoneRow>
+                <StyledProgramBadge
+                  bg={programColor.bg}
+                  text={programColor.text}
+                >
+                  {program}
+                  {duration ? ` ${duration}` : ''}
+                </StyledProgramBadge>
+              </StyledPhoneRow>
+            )}
+            <StyledOwnerLine>
+              Owner: {ownerName} &middot; Coach: {coachName}
+            </StyledOwnerLine>
           </StyledInfo>
         </StyledLeft>
         <StyledRight>
+          {conversation.closeLeadUrl && (
+            <StyledCloseButton
+              href={conversation.closeLeadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Call in Close
+            </StyledCloseButton>
+          )}
           {onTogglePin && (
             <StyledIconButton onClick={handleTogglePin} title="Toggle pin">
               {conversation.isPinned ? (
@@ -197,7 +310,10 @@ export const ChatHeader = ({
             </StyledIconButton>
           )}
           {onToggleDetails && (
-            <StyledIconButton onClick={onToggleDetails} title="Contact details">
+            <StyledIconButton
+              onClick={onToggleDetails}
+              title="Contact details"
+            >
               <IconUser size={18} />
             </StyledIconButton>
           )}
@@ -205,11 +321,7 @@ export const ChatHeader = ({
       </StyledTopRow>
       <StyledLabelsRow>
         {labels.map((label) => (
-          <LabelBadge
-            key={label.id}
-            label={label}
-            onRemove={onRemoveLabel}
-          />
+          <LabelBadge key={label.id} label={label} onRemove={onRemoveLabel} />
         ))}
         <div style={{ position: 'relative' }}>
           <StyledAddLabelButton
