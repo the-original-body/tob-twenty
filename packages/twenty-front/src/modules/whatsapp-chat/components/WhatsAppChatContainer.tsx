@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useRecoilStateV2 } from '@/ui/utilities/state/jotai/hooks/useRecoilStateV2';
 import { currentConversationIdState } from '@/whatsapp-chat/states/currentConversationIdState';
@@ -173,9 +173,24 @@ export const WhatsAppChatContainer = () => {
     ],
   );
 
-  const { connected } = useWhatsAppWebSocket({
+  const {
+    connected,
+    subscribeConversation,
+    unsubscribeConversation,
+  } = useWhatsAppWebSocket({
     onEvent: handleWebSocketEvent,
   });
+
+  // Subscribe to conversation WebSocket channel when it changes
+  useEffect(() => {
+    if (!currentConversationId) return;
+
+    subscribeConversation(currentConversationId);
+
+    return () => {
+      unsubscribeConversation(currentConversationId);
+    };
+  }, [currentConversationId, subscribeConversation, unsubscribeConversation]);
 
   const handleSendError = useCallback(
     (tempId: string) => {
@@ -215,6 +230,9 @@ export const WhatsAppChatContainer = () => {
     async (file: File) => {
       if (!selectedConversation) return;
 
+      // Create a blob URL for immediate display in the chat
+      const blobUrl = URL.createObjectURL(file);
+
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -229,6 +247,7 @@ export const WhatsAppChatContainer = () => {
           mediaBase64: base64,
           mediaMimetype: file.type,
           body: file.name,
+          mediaUrl: blobUrl,
         });
       };
 

@@ -77,6 +77,7 @@ export const useSendMessage = ({
       mediaBase64,
       mediaMimetype,
       body,
+      mediaUrl,
     }: {
       conversationId: string;
       sessionName: string;
@@ -85,6 +86,7 @@ export const useSendMessage = ({
       mediaBase64: string;
       mediaMimetype: string;
       body?: string;
+      mediaUrl?: string;
     }) => {
       const tempId = crypto.randomUUID();
 
@@ -99,6 +101,7 @@ export const useSendMessage = ({
         status: 'SENDING',
         hasMedia: true,
         mediaMimetype,
+        mediaUrl,
         source: 'APP',
         tempId,
       };
