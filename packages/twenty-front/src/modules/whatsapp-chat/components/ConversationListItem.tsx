@@ -1,7 +1,18 @@
 import styled from '@emotion/styled';
 import { useCallback, useState } from 'react';
 
-import { IconArchive, IconPinned, IconPinnedOff } from 'twenty-ui/display';
+import {
+  IconArchive,
+  IconBriefcase,
+  IconCheck,
+  IconMail,
+  IconPhone,
+  IconPinned,
+  IconPinnedOff,
+  IconSend,
+  IconUser,
+  IconUsers,
+} from 'twenty-ui/display';
 import { type WaConversation } from '@/whatsapp-chat/types/WhatsAppTypes';
 
 // ── Program colors ──────────────────────────────────────────────
@@ -26,7 +37,10 @@ const StyledItem = styled.div<{ isSelected: boolean }>`
   cursor: pointer;
   display: flex;
   gap: ${({ theme }) => theme.spacing(3)};
-  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
+  padding: ${({ isSelected, theme }) =>
+    isSelected
+      ? `${theme.spacing(2)} ${theme.spacing(3)} ${theme.spacing(3)}`
+      : `${theme.spacing(2)} ${theme.spacing(3)}`};
   transition: background 120ms ease;
 
   &:hover {
@@ -186,6 +200,90 @@ const StyledMessageCount = styled.span`
   bottom: -4px;
   right: -4px;
   text-align: center;
+`;
+
+// ── Expanded detail styles ──────────────────────────────────────
+
+const StyledExpandedDetail = styled.div`
+  border-top: 1px solid ${({ theme }) => theme.border.color.light};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing(1.5)};
+  margin-top: ${({ theme }) => theme.spacing(1.5)};
+  padding-top: ${({ theme }) => theme.spacing(2)};
+`;
+
+const StyledDetailRow = styled.div`
+  align-items: center;
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(2)};
+`;
+
+const StyledDetailIcon = styled.span`
+  align-items: center;
+  color: ${({ theme }) => theme.font.color.light};
+  display: flex;
+  flex-shrink: 0;
+  width: 16px;
+`;
+
+const StyledDetailLabel = styled.span`
+  color: ${({ theme }) => theme.font.color.tertiary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  min-width: 52px;
+`;
+
+const StyledDetailValue = styled.span`
+  color: ${({ theme }) => theme.font.color.primary};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const StyledDetailLink = styled.a`
+  color: ${({ theme }) => theme.color.blue};
+  font-size: ${({ theme }) => theme.font.size.xs};
+  overflow: hidden;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const StyledLeadStatusBadge = styled.span<{ statusType?: string }>`
+  background: ${({ statusType }) => {
+    switch (statusType) {
+      case 'active':
+        return '#dbeafe';
+      case 'won':
+        return '#d1fae5';
+      case 'lost':
+        return '#ffe4e6';
+      default:
+        return '#f1f5f9';
+    }
+  }};
+  border-radius: 3px;
+  color: ${({ statusType }) => {
+    switch (statusType) {
+      case 'active':
+        return '#1d4ed8';
+      case 'won':
+        return '#047857';
+      case 'lost':
+        return '#be123c';
+      default:
+        return '#475569';
+    }
+  }};
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 2px 5px;
 `;
 
 const StyledContextOverlay = styled.div`
@@ -403,6 +501,138 @@ export const ConversationListItem = ({
                 </StyledPipelineStep>
               </StyledContractPipeline>
             </StyledTagsRow>
+          )}
+
+          {isSelected && (
+            <StyledExpandedDetail>
+              {/* Phone */}
+              <StyledDetailRow>
+                <StyledDetailIcon>
+                  <IconPhone size={14} />
+                </StyledDetailIcon>
+                <StyledDetailLabel>Phone</StyledDetailLabel>
+                <StyledDetailValue>
+                  {conversation.leadPhoneNumber}
+                </StyledDetailValue>
+              </StyledDetailRow>
+
+              {/* Email */}
+              {conversation.contactEmail && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconMail size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Email</StyledDetailLabel>
+                  <StyledDetailValue>
+                    {conversation.contactEmail}
+                  </StyledDetailValue>
+                </StyledDetailRow>
+              )}
+
+              {/* Owner */}
+              <StyledDetailRow>
+                <StyledDetailIcon>
+                  <IconUser size={14} />
+                </StyledDetailIcon>
+                <StyledDetailLabel>Owner</StyledDetailLabel>
+                <StyledDetailValue>
+                  {conversation.assignedToName || 'Unassigned'}
+                </StyledDetailValue>
+              </StyledDetailRow>
+
+              {/* Coach */}
+              {conversation.coachLeadOwnerName && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconUsers size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Coach</StyledDetailLabel>
+                  <StyledDetailValue>
+                    {conversation.coachLeadOwnerName}
+                  </StyledDetailValue>
+                </StyledDetailRow>
+              )}
+
+              {/* Close Lead Status */}
+              {conversation.closeLeadStatus && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconBriefcase size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Lead</StyledDetailLabel>
+                  <StyledLeadStatusBadge
+                    statusType={
+                      conversation.closeLeadStatus.toLowerCase().includes('won')
+                        ? 'won'
+                        : conversation.closeLeadStatus
+                              .toLowerCase()
+                              .includes('lost')
+                          ? 'lost'
+                          : 'active'
+                    }
+                  >
+                    {conversation.closeLeadStatus}
+                  </StyledLeadStatusBadge>
+                </StyledDetailRow>
+              )}
+
+              {/* Close Link */}
+              {conversation.closeLeadUrl && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconSend size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Close</StyledDetailLabel>
+                  <StyledDetailLink
+                    href={conversation.closeLeadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Open in Close
+                  </StyledDetailLink>
+                </StyledDetailRow>
+              )}
+
+              {/* Contract Pipeline (larger version when expanded) */}
+              {hasPipeline && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconCheck size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Contract</StyledDetailLabel>
+                  <StyledContractPipeline>
+                    <StyledPipelineStep
+                      active={!!conversation.completedStrukturanalyse}
+                    >
+                      Strukturanalyse
+                    </StyledPipelineStep>
+                    <StyledPipelineStep active={!!conversation.contractSent}>
+                      Sent
+                    </StyledPipelineStep>
+                    <StyledPipelineStep active={!!conversation.contractViewed}>
+                      Viewed
+                    </StyledPipelineStep>
+                    <StyledPipelineStep active={!!conversation.contractIsSigned}>
+                      Signed
+                    </StyledPipelineStep>
+                  </StyledContractPipeline>
+                </StyledDetailRow>
+              )}
+
+              {/* Message count */}
+              {(conversation.messageCount ?? 0) > 0 && (
+                <StyledDetailRow>
+                  <StyledDetailIcon>
+                    <IconSend size={14} />
+                  </StyledDetailIcon>
+                  <StyledDetailLabel>Messages</StyledDetailLabel>
+                  <StyledDetailValue>
+                    {conversation.messageCount}
+                  </StyledDetailValue>
+                </StyledDetailRow>
+              )}
+            </StyledExpandedDetail>
           )}
         </StyledContent>
       </StyledItem>
