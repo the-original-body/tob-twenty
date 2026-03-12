@@ -276,6 +276,35 @@ export const WhatsAppChatContainer = () => {
     [bridgeFetch, currentConversationId, setCurrentConversationId],
   );
 
+  const handleEditMessage = useCallback(
+    async (messageId: string, newBody: string) => {
+      try {
+        await bridgeFetch(`/api/v1/messages/${messageId}/edit`, {
+          method: 'POST',
+          body: JSON.stringify({ new_body: newBody }),
+        });
+        updateMessageById(messageId, { body: newBody, isEdited: true });
+      } catch {
+        // Silently fail
+      }
+    },
+    [bridgeFetch, updateMessageById],
+  );
+
+  const handleDeleteMessage = useCallback(
+    async (message: WaMessage) => {
+      try {
+        await bridgeFetch(`/api/v1/messages/${message.id}/delete`, {
+          method: 'POST',
+        });
+        updateMessageById(message.id, { isDeleted: true });
+      } catch {
+        // Silently fail
+      }
+    },
+    [bridgeFetch, updateMessageById],
+  );
+
   const handleConversationUpdate = useCallback(
     (id: string, updates: Partial<WaConversation>) => {
       if (selectedConversation?.id === id) {
@@ -325,6 +354,8 @@ export const WhatsAppChatContainer = () => {
               onLoadOlder={loadOlder}
               onSendText={handleSendText}
               onSendMedia={handleSendMedia}
+              onEditMessage={handleEditMessage}
+              onDeleteMessage={handleDeleteMessage}
             />
           </>
         ) : (
