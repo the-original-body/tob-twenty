@@ -8,11 +8,11 @@ import {
 } from 'react';
 
 import {
-  IconHeadphones,
   IconPaperclip,
   IconSend,
   IconTrash,
 } from 'twenty-ui/display';
+import { IconMic } from '@/whatsapp-chat/components/IconMic';
 
 const StyledContainer = styled.div`
   border-top: 1px solid ${({ theme }) => theme.border.color.medium};
@@ -373,7 +373,7 @@ export const ChatInput = ({
             disabled={disabled || !onSendMedia}
             title="Record voice message"
           >
-            <IconHeadphones size={18} />
+            <IconMic size={18} />
           </StyledButton>
         )}
       </StyledInputRow>
