@@ -1,12 +1,10 @@
 import { MeetingTranscriptsTranscriptRenderer } from '@/meeting-transcripts/components/MeetingTranscriptsTranscriptRenderer';
-import { type MeetingRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
-import { extractParticipants } from '@/meeting-transcripts/utils/parse-transcript.util';
+import { type MeetingTranscriptRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
 import styled from '@emotion/styled';
 import { useLingui } from '@lingui/react/macro';
-import { useMemo } from 'react';
 
 type MeetingTranscriptsDetailProps = {
-  meeting: MeetingRecord;
+  meeting: MeetingTranscriptRecord;
 };
 
 const StyledDetailContainer = styled.div`
@@ -97,54 +95,10 @@ const formatDateTime = (dateString: string | null): string => {
   }
 };
 
-const formatDuration = (minutes: number | null): string => {
-  if (minutes === null || minutes === undefined) {
-    return 'Unknown';
-  }
-
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = Math.round(minutes % 60);
-
-  if (hours > 0) {
-    return `${hours}h ${remainingMinutes}m`;
-  }
-
-  return `${remainingMinutes}m`;
-};
-
-const calculateEndTime = (
-  startDate: string | null,
-  durationMinutes: number | null,
-): string => {
-  if (!startDate || durationMinutes === null || durationMinutes === undefined) {
-    return 'Unknown';
-  }
-
-  try {
-    const start = new Date(startDate);
-    const end = new Date(start.getTime() + durationMinutes * 60000);
-
-    return end.toLocaleString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  } catch {
-    return 'Unknown';
-  }
-};
-
 export const MeetingTranscriptsDetail = ({
   meeting,
 }: MeetingTranscriptsDetailProps) => {
   const { t } = useLingui();
-
-  const participants = useMemo(
-    () => extractParticipants(meeting.transcript ?? ''),
-    [meeting.transcript],
-  );
 
   return (
     <StyledDetailContainer>
@@ -156,30 +110,37 @@ export const MeetingTranscriptsDetail = ({
         <StyledInfoGrid>
           <StyledInfoLabel>{t`Meeting ID`}</StyledInfoLabel>
           <StyledInfoValue>
-            {meeting.firefliesMeetingId || (
+            {meeting.meetingUUID || (
               <StyledEmptyText>{t`Not available`}</StyledEmptyText>
             )}
           </StyledInfoValue>
 
           <StyledInfoLabel>{t`Start`}</StyledInfoLabel>
-          <StyledInfoValue>
-            {formatDateTime(meeting.meetingDate)}
-          </StyledInfoValue>
+          <StyledInfoValue>{formatDateTime(meeting.startTime)}</StyledInfoValue>
 
           <StyledInfoLabel>{t`End`}</StyledInfoLabel>
-          <StyledInfoValue>
-            {calculateEndTime(meeting.meetingDate, meeting.duration)}
-          </StyledInfoValue>
+          <StyledInfoValue>{formatDateTime(meeting.endTime)}</StyledInfoValue>
 
           <StyledInfoLabel>{t`Duration`}</StyledInfoLabel>
-          <StyledInfoValue>{formatDuration(meeting.duration)}</StyledInfoValue>
+          <StyledInfoValue>
+            {meeting.duration || (
+              <StyledEmptyText>{t`Unknown`}</StyledEmptyText>
+            )}
+          </StyledInfoValue>
 
           <StyledInfoLabel>{t`Host`}</StyledInfoLabel>
           <StyledInfoValue>
-            {meeting.organizerEmail || (
+            {meeting.hostEmail || (
               <StyledEmptyText>{t`Not available`}</StyledEmptyText>
             )}
           </StyledInfoValue>
+
+          {meeting.meetingTopic && (
+            <>
+              <StyledInfoLabel>{t`Topic`}</StyledInfoLabel>
+              <StyledInfoValue>{meeting.meetingTopic}</StyledInfoValue>
+            </>
+          )}
         </StyledInfoGrid>
       </StyledSection>
 
@@ -187,12 +148,8 @@ export const MeetingTranscriptsDetail = ({
       <StyledSection>
         <StyledSectionTitle>{t`Participants`}</StyledSectionTitle>
         <StyledParticipantsList>
-          {participants.length > 0 ? (
-            participants.join(', ')
-          ) : (
-            <StyledEmptyText>
-              {t`No participants detected in transcript`}
-            </StyledEmptyText>
+          {meeting.participants || (
+            <StyledEmptyText>{t`No participants available`}</StyledEmptyText>
           )}
         </StyledParticipantsList>
       </StyledSection>
@@ -201,7 +158,7 @@ export const MeetingTranscriptsDetail = ({
       <StyledSection>
         <StyledSectionTitle>{t`Summary (EN)`}</StyledSectionTitle>
         <StyledSummaryText>
-          {meeting.overview || (
+          {meeting.summaryEN || (
             <StyledEmptyText>{t`No summary available`}</StyledEmptyText>
           )}
         </StyledSummaryText>
@@ -211,7 +168,7 @@ export const MeetingTranscriptsDetail = ({
       <StyledSection>
         <StyledSectionTitle>{t`Summary (DE)`}</StyledSectionTitle>
         <StyledSummaryText>
-          {meeting.notes || (
+          {meeting.summaryDE || (
             <StyledEmptyText>{t`No summary available`}</StyledEmptyText>
           )}
         </StyledSummaryText>
@@ -220,9 +177,7 @@ export const MeetingTranscriptsDetail = ({
       {/* Full Transcript */}
       <StyledSection>
         <StyledSectionTitle>{t`Full Transcript`}</StyledSectionTitle>
-        <MeetingTranscriptsTranscriptRenderer
-          transcript={meeting.transcript}
-        />
+        <MeetingTranscriptsTranscriptRenderer transcript={meeting.transcript} />
       </StyledSection>
     </StyledDetailContainer>
   );

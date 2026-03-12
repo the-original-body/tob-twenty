@@ -1,4 +1,6 @@
 import styled from '@emotion/styled';
+import { useLingui } from '@lingui/react/macro';
+import { isDefined } from 'twenty-shared/utils';
 
 type MeetingTranscriptsListItemProps = {
   meetingName: string;
@@ -42,9 +44,9 @@ const StyledMetaRow = styled.div`
   margin-top: ${({ theme }) => theme.spacing(1)};
 `;
 
-const formatMeetingDate = (dateString: string | null): string => {
-  if (!dateString) {
-    return 'Date unknown';
+const formatMeetingDate = (dateString: string | null): string | null => {
+  if (!isDefined(dateString)) {
+    return null;
   }
 
   try {
@@ -56,7 +58,7 @@ const formatMeetingDate = (dateString: string | null): string => {
       year: 'numeric',
     });
   } catch {
-    return 'Date unknown';
+    return null;
   }
 };
 
@@ -67,12 +69,17 @@ export const MeetingTranscriptsListItem = ({
   isSelected,
   onClick,
 }: MeetingTranscriptsListItemProps) => {
+  const { t } = useLingui();
+  const formattedDate = formatMeetingDate(meetingDate);
+
   return (
     <StyledListItem isSelected={isSelected} onClick={onClick}>
-      <StyledMeetingName>{meetingName || 'Untitled Meeting'}</StyledMeetingName>
+      <StyledMeetingName>
+        {meetingName || t`Untitled Meeting`}
+      </StyledMeetingName>
       <StyledMetaRow>
-        {meetingId && <span>{meetingId}</span>}
-        <span>{formatMeetingDate(meetingDate)}</span>
+        {isDefined(meetingId) && <span>{meetingId}</span>}
+        <span>{formattedDate ?? t`Date unknown`}</span>
       </StyledMetaRow>
     </StyledListItem>
   );

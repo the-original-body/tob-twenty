@@ -46,13 +46,17 @@ export const MeetingTranscriptsTranscriptRenderer = ({
   const { t } = useLingui();
 
   if (!transcript || transcript.trim().length === 0) {
-    return <StyledEmptyMessage>{t`No transcript available`}</StyledEmptyMessage>;
+    return (
+      <StyledEmptyMessage>{t`No transcript available`}</StyledEmptyMessage>
+    );
   }
 
   const segments = parseTranscriptSegments(transcript);
 
   if (segments.length === 0) {
-    return <StyledEmptyMessage>{t`No transcript available`}</StyledEmptyMessage>;
+    return (
+      <StyledEmptyMessage>{t`No transcript available`}</StyledEmptyMessage>
+    );
   }
 
   // If just a single unstructured text block, render as pre-wrapped text

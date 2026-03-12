@@ -1,5 +1,3 @@
-import { type RecordGqlOperationFilter } from 'twenty-shared/types';
-
 export type MeetingFilterValues = {
   searchTerm: string;
   topic: string;
@@ -14,22 +12,21 @@ export type TranscriptSegment = {
   content: string;
 };
 
-export type MeetingRecord = {
+export type MeetingTranscriptRecord = {
   id: string;
   name: string;
   createdAt: string;
-  firefliesMeetingId: string | null;
-  meetingDate: string | null;
-  duration: number | null;
-  organizerEmail: string | null;
+  startTime: string | null;
+  endTime: string | null;
+  duration: string | null;
+  participants: string | null;
   transcript: string | null;
-  overview: string | null;
-  notes: string | null;
-  keywords: string | null;
-  meetingType: string | null;
-  topics: string | null;
+  summaryDE: string | null;
+  summaryEN: string | null;
+  executiveSummary: string | null;
+  hostEmail: string | null;
+  meetingTopic: string | null;
+  meetingUUID: string | null;
+  participantCount: number | null;
+  speakerCount: number | null;
 };
-
-export type MeetingFilterBuilder = (
-  filterValues: MeetingFilterValues,
-) => RecordGqlOperationFilter | undefined;

@@ -1,6 +1,6 @@
 import { MeetingTranscriptsLeftPanel } from '@/meeting-transcripts/components/MeetingTranscriptsLeftPanel';
 import { MeetingTranscriptsRightPanel } from '@/meeting-transcripts/components/MeetingTranscriptsRightPanel';
-import { INITIAL_FILTER_VALUES } from '@/meeting-transcripts/constants/meeting-transcripts-fields.constants';
+import { INITIAL_FILTER_VALUES } from '@/meeting-transcripts/constants/InitialFilterValues.constants';
 import { useMeetingObjectExists } from '@/meeting-transcripts/hooks/useMeetingObjectExists';
 import { useMeetingTranscriptsList } from '@/meeting-transcripts/hooks/useMeetingTranscriptsList';
 import { type MeetingFilterValues } from '@/meeting-transcripts/types/meeting-transcripts.types';
@@ -14,6 +14,8 @@ type MeetingTranscriptsBodyProps = {
   selectedMeetingId: string | null;
   onSelectMeeting: (meetingId: string) => void;
 };
+
+type MeetingTranscriptsBodyContentProps = MeetingTranscriptsBodyProps;
 
 const StyledBodyContainer = styled.div`
   display: flex;
@@ -54,9 +56,10 @@ const StyledMessageText = styled.div`
 const MeetingTranscriptsBodyContent = ({
   selectedMeetingId,
   onSelectMeeting,
-}: MeetingTranscriptsBodyProps) => {
-  const [filterValues, setFilterValues] =
-    useState<MeetingFilterValues>(INITIAL_FILTER_VALUES);
+}: MeetingTranscriptsBodyContentProps) => {
+  const [filterValues, setFilterValues] = useState<MeetingFilterValues>(
+    INITIAL_FILTER_VALUES,
+  );
 
   const [queryFilterValues, setQueryFilterValues] =
     useState<MeetingFilterValues>(INITIAL_FILTER_VALUES);
@@ -115,9 +118,7 @@ export const MeetingTranscriptsBody = ({
         <StyledMessageIcon>
           <IconAlertTriangle size={48} />
         </StyledMessageIcon>
-        <StyledMessageTitle>
-          {t`Meeting object not found`}
-        </StyledMessageTitle>
+        <StyledMessageTitle>{t`Meeting object not found`}</StyledMessageTitle>
         <StyledMessageText>
           {t`The Meeting object has not been set up in this workspace. Please contact your administrator to create the Meeting object and sync meeting data.`}
         </StyledMessageText>

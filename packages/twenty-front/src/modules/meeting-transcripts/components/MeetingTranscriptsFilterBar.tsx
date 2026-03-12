@@ -10,11 +10,11 @@ type MeetingTranscriptsFilterBarProps = {
 };
 
 const StyledFilterContainer = styled.div`
+  border-bottom: 1px solid ${({ theme }) => theme.border.color.medium};
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing(2)};
   padding: ${({ theme }) => theme.spacing(3)};
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.medium};
 `;
 
 const StyledFilterInput = styled.div`

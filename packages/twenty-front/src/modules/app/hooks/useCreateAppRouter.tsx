@@ -67,10 +67,7 @@ export const useCreateAppRouter = (
             path={AppPath.MeetingTranscripts}
             element={<MeetingTranscriptsPage />}
           />
-          <Route
-            path={AppPath.WhatsAppChat}
-            element={<WhatsAppChatPage />}
-          />
+          <Route path={AppPath.WhatsAppChat} element={<WhatsAppChatPage />} />
           <Route path={AppPath.RecordIndexPage} element={<RecordIndexPage />} />
           <Route path={AppPath.RecordShowPage} element={<RecordShowPage />} />
           <Route

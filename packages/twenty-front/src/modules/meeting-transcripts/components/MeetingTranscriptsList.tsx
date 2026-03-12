@@ -1,5 +1,5 @@
 import { MeetingTranscriptsListItem } from '@/meeting-transcripts/components/MeetingTranscriptsListItem';
-import { type MeetingRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
+import { type MeetingTranscriptRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
 import styled from '@emotion/styled';
 import { useLingui } from '@lingui/react/macro';
 import { type ObjectRecord } from '@/object-record/types/ObjectRecord';
@@ -55,9 +55,7 @@ export const MeetingTranscriptsList = ({
   if (meetings.length === 0) {
     return (
       <StyledListContainer>
-        <StyledEmptyContainer>
-          {t`No meetings found`}
-        </StyledEmptyContainer>
+        <StyledEmptyContainer>{t`No meetings found`}</StyledEmptyContainer>
       </StyledListContainer>
     );
   }
@@ -65,14 +63,14 @@ export const MeetingTranscriptsList = ({
   return (
     <StyledListContainer>
       {meetings.map((meeting) => {
-        const meetingRecord = meeting as unknown as MeetingRecord;
+        const meetingRecord = meeting as unknown as MeetingTranscriptRecord;
 
         return (
           <MeetingTranscriptsListItem
             key={meetingRecord.id}
             meetingName={meetingRecord.name}
-            meetingId={meetingRecord.firefliesMeetingId}
-            meetingDate={meetingRecord.meetingDate}
+            meetingId={meetingRecord.meetingUUID}
+            meetingDate={meetingRecord.startTime}
             isSelected={meetingRecord.id === selectedMeetingId}
             onClick={() => onSelectMeeting(meetingRecord.id)}
           />

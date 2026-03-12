@@ -6,50 +6,54 @@ export const buildMeetingFilter = (
 ): RecordGqlOperationFilter | undefined => {
   const clauses: RecordGqlOperationFilter[] = [];
 
-  // Global search — searches across name, transcript, organizer email, and meeting ID
+  // Global search — searches across name, transcript, host email, and meeting UUID
   if (filterValues.searchTerm) {
     clauses.push({
       or: [
         { name: { ilike: `%${filterValues.searchTerm}%` } },
         { transcript: { ilike: `%${filterValues.searchTerm}%` } },
-        { organizerEmail: { ilike: `%${filterValues.searchTerm}%` } },
-        { firefliesMeetingId: { ilike: `%${filterValues.searchTerm}%` } },
+        { hostEmail: { ilike: `%${filterValues.searchTerm}%` } },
+        { meetingUUID: { ilike: `%${filterValues.searchTerm}%` } },
+        { participants: { ilike: `%${filterValues.searchTerm}%` } },
       ],
     });
   }
 
-  // Topic filter — searches meeting name
+  // Topic filter — searches meeting name and meeting topic
   if (filterValues.topic) {
     clauses.push({
-      name: { ilike: `%${filterValues.topic}%` },
+      or: [
+        { name: { ilike: `%${filterValues.topic}%` } },
+        { meetingTopic: { ilike: `%${filterValues.topic}%` } },
+      ],
     });
   }
 
-  // Host filter — searches organizer email
+  // Host filter — searches host email
   if (filterValues.host) {
     clauses.push({
-      organizerEmail: { ilike: `%${filterValues.host}%` },
+      hostEmail: { ilike: `%${filterValues.host}%` },
     });
   }
 
-  // Participant filter — searches within transcript text for speaker names
+  // Participant filter — searches the participants field
   if (filterValues.participant) {
     clauses.push({
-      transcript: { ilike: `%${filterValues.participant}%` },
+      participants: { ilike: `%${filterValues.participant}%` },
     });
   }
 
-  // Meeting ID filter — partial match on fireflies meeting ID
+  // Meeting ID filter — partial match on meeting UUID
   if (filterValues.meetingId) {
     clauses.push({
-      firefliesMeetingId: { ilike: `%${filterValues.meetingId}%` },
+      meetingUUID: { ilike: `%${filterValues.meetingId}%` },
     });
   }
 
-  // Start date filter — meetings on or after this date
+  // Start date filter — startTime is stored as text, use ilike for date prefix
   if (filterValues.startDateFrom) {
     clauses.push({
-      meetingDate: { gte: filterValues.startDateFrom },
+      startTime: { gte: filterValues.startDateFrom },
     });
   }
 

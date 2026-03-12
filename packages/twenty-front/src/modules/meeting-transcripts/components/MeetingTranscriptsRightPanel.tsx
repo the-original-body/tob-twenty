@@ -1,9 +1,10 @@
 import { MeetingTranscriptsDetail } from '@/meeting-transcripts/components/MeetingTranscriptsDetail';
 import { MeetingTranscriptsEmptyDetail } from '@/meeting-transcripts/components/MeetingTranscriptsEmptyDetail';
 import { useMeetingTranscriptDetail } from '@/meeting-transcripts/hooks/useMeetingTranscriptDetail';
-import { type MeetingRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
+import { type MeetingTranscriptRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
 import styled from '@emotion/styled';
 import { useLingui } from '@lingui/react/macro';
+import { isDefined } from 'twenty-shared/utils';
 
 type MeetingTranscriptsRightPanelProps = {
   selectedMeetingId: string | null;
@@ -43,7 +44,7 @@ export const MeetingTranscriptsRightPanel = ({
   const { meeting, loading, error } =
     useMeetingTranscriptDetail(selectedMeetingId);
 
-  if (!selectedMeetingId) {
+  if (!isDefined(selectedMeetingId)) {
     return (
       <StyledRightPanel>
         <MeetingTranscriptsEmptyDetail />
@@ -79,7 +80,7 @@ export const MeetingTranscriptsRightPanel = ({
     );
   }
 
-  const meetingRecord = meeting as unknown as MeetingRecord;
+  const meetingRecord = meeting as unknown as MeetingTranscriptRecord;
 
   return (
     <StyledRightPanel>
