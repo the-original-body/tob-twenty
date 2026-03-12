@@ -100,6 +100,7 @@ export const WhatsAppChatContainer = () => {
     addOptimisticMessage,
     updateMessageByTempId,
     updateMessageById,
+    updateMessageByWahaId,
   } = useMessages({ conversationId: currentConversationId });
 
   const handleWebSocketEvent = useCallback(
@@ -139,23 +140,37 @@ export const WhatsAppChatContainer = () => {
         }
 
         case 'message.edited': {
-          const { id, new_body: newBody } = event.data as {
+          const {
+            id,
+            waha_id: wahaId,
+            new_body: newBody,
+          } = event.data as {
             id?: string;
+            waha_id?: string;
             new_body?: string;
           };
 
-          if (id && newBody !== undefined) {
-            updateMessageById(id, { body: newBody, isEdited: true });
+          if (newBody !== undefined) {
+            if (id) {
+              updateMessageById(id, { body: newBody, isEdited: true });
+            } else if (wahaId) {
+              updateMessageByWahaId(wahaId, { body: newBody, isEdited: true });
+            }
           }
 
           break;
         }
 
         case 'message.deleted': {
-          const { id } = event.data as { id?: string };
+          const { id, waha_id: wahaId } = event.data as {
+            id?: string;
+            waha_id?: string;
+          };
 
           if (id) {
             updateMessageById(id, { isDeleted: true });
+          } else if (wahaId) {
+            updateMessageByWahaId(wahaId, { isDeleted: true });
           }
 
           break;
@@ -170,6 +185,7 @@ export const WhatsAppChatContainer = () => {
       addMessage,
       updateMessageByTempId,
       updateMessageById,
+      updateMessageByWahaId,
     ],
   );
 

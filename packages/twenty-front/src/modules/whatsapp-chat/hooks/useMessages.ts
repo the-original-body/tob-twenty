@@ -121,19 +121,28 @@ export const useMessages = ({
     [],
   );
 
+  const updateMessageByWahaId = useCallback(
+    (wahaId: string, updates: Partial<WaMessage>) => {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.wahaId === wahaId ? { ...msg, ...updates } : msg,
+        ),
+      );
+    },
+    [],
+  );
+
   const addMessage = useCallback((message: WaMessage) => {
     setMessages((prev) => {
-      const exists = prev.some(
-        (m) => m.id === message.id || (m.tempId && m.tempId === message.tempId),
-      );
+      const matches = (m: WaMessage) =>
+        (message.id && m.id === message.id) ||
+        (message.tempId && m.tempId === message.tempId) ||
+        (message.wahaId && m.wahaId === message.wahaId);
+
+      const exists = prev.some(matches);
 
       if (exists) {
-        return prev.map((m) => {
-          if (m.id === message.id) return message;
-          if (m.tempId && m.tempId === message.tempId) return message;
-
-          return m;
-        });
+        return prev.map((m) => (matches(m) ? { ...m, ...message } : m));
       }
 
       return [...prev, message].sort(
@@ -153,6 +162,7 @@ export const useMessages = ({
     addOptimisticMessage,
     updateMessageByTempId,
     updateMessageById,
+    updateMessageByWahaId,
     addMessage,
   };
 };
