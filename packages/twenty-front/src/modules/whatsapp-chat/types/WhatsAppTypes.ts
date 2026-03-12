@@ -14,6 +14,17 @@ export interface WaConversation {
   assignedToEmail?: string;
   assignedToName?: string;
   isClient?: boolean;
+  // Enriched fields (populated by bridge contact join)
+  contactEmail?: string;
+  justusProgram?: string;
+  justusDuration?: string;
+  closeLeadId?: string;
+  coachLeadOwnerEmail?: string;
+  coachLeadOwnerName?: string;
+  contractIsSigned?: boolean;
+  contractSent?: boolean;
+  contractViewed?: boolean;
+  completedStrukturanalyse?: boolean;
 }
 
 export interface WaMessage {

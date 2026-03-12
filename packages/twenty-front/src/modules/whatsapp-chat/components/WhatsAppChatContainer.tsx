@@ -311,6 +311,20 @@ export const WhatsAppChatContainer = () => {
     [bridgeFetch, currentConversationId, setCurrentConversationId],
   );
 
+  const handleToggleRead = useCallback(
+    async (id: string, isUnread: boolean) => {
+      try {
+        await bridgeFetch(`/api/v1/conversations/${id}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ is_unread: isUnread }),
+        });
+      } catch {
+        // Silently fail
+      }
+    },
+    [bridgeFetch],
+  );
+
   const handleEditMessage = useCallback(
     async (messageId: string, newBody: string) => {
       try {
@@ -360,6 +374,9 @@ export const WhatsAppChatContainer = () => {
         onConversationsLoaded={(convs) => {
           conversationsRef.current = convs;
         }}
+        onTogglePin={handleTogglePin}
+        onArchive={handleArchive}
+        onToggleRead={handleToggleRead}
       />
 
       <StyledCenterPanel>
