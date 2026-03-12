@@ -9,7 +9,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  height: 100%;
+  min-height: 0;
   min-width: 0;
 `;
 
@@ -18,6 +18,7 @@ const StyledMessages = styled.div`
   flex: 1;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing(0.5)};
+  min-height: 0;
   overflow-y: auto;
   padding: ${({ theme }) => theme.spacing(2)} 0;
 `;

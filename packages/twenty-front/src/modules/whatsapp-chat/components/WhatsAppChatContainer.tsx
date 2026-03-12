@@ -29,7 +29,9 @@ const StyledCenterPanel = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  min-height: 0;
   min-width: 0;
+  overflow: hidden;
 `;
 
 const StyledEmptyCenter = styled.div`
