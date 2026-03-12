@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { IconCheck } from 'twenty-ui/display';
 import { type WaMessage } from '@/whatsapp-chat/types/WhatsAppTypes';
@@ -84,6 +84,45 @@ const StyledDeletedMessage = styled.div`
   font-style: italic;
 `;
 
+const StyledEditTextArea = styled.textarea`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.font.color.primary};
+  font-family: inherit;
+  font-size: ${({ theme }) => theme.font.size.md};
+  line-height: 1.45;
+  outline: none;
+  padding: 0;
+  resize: none;
+  width: 100%;
+`;
+
+const StyledEditActions = styled.div`
+  align-items: center;
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(1)};
+  justify-content: flex-end;
+`;
+
+const StyledEditButton = styled.button<{ variant?: 'primary' }>`
+  background: ${({ variant, theme }) =>
+    variant === 'primary' ? theme.color.blue : 'transparent'};
+  border: 1px solid
+    ${({ variant, theme }) =>
+      variant === 'primary' ? theme.color.blue : theme.border.color.medium};
+  border-radius: ${({ theme }) => theme.border.radius.sm};
+  color: ${({ variant, theme }) =>
+    variant === 'primary' ? theme.font.color.inverted : theme.font.color.secondary};
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 2px 8px;
+
+  &:hover {
+    opacity: 0.85;
+  }
+`;
+
 const formatMessageTime = (isoString: string): string => {
   const date = new Date(isoString);
 
@@ -121,14 +160,18 @@ const StatusIcon = ({ status }: { status: WaMessage['status'] }) => {
 
 type ChatMessageProps = {
   message: WaMessage;
+  onEdit?: (messageId: string, newBody: string) => void;
   onDelete?: (message: WaMessage) => void;
 };
 
-export const ChatMessage = ({ message, onDelete }: ChatMessageProps) => {
+export const ChatMessage = ({ message, onEdit, onDelete }: ChatMessageProps) => {
   const [contextMenu, setContextMenu] = useState<{
     x: number;
     y: number;
   } | null>(null);
+  const [editing, setEditing] = useState(false);
+  const [editText, setEditText] = useState('');
+  const editRef = useRef<HTMLTextAreaElement>(null);
 
   const isVoice =
     message.hasMedia && message.mediaMimetype?.startsWith('audio/');
@@ -146,6 +189,35 @@ export const ChatMessage = ({ message, onDelete }: ChatMessageProps) => {
       navigator.clipboard.writeText(msg.body);
     }
   }, []);
+
+  const handleStartEdit = useCallback((msg: WaMessage) => {
+    setEditText(msg.body || '');
+    setEditing(true);
+    setTimeout(() => editRef.current?.focus(), 0);
+  }, []);
+
+  const handleSaveEdit = useCallback(() => {
+    const trimmed = editText.trim();
+    if (!trimmed || trimmed === message.body) {
+      setEditing(false);
+      return;
+    }
+    onEdit?.(message.id, trimmed);
+    setEditing(false);
+  }, [editText, message.id, message.body, onEdit]);
+
+  const handleEditKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSaveEdit();
+      }
+      if (e.key === 'Escape') {
+        setEditing(false);
+      }
+    },
+    [handleSaveEdit],
+  );
 
   if (message.isDeleted) {
     return (
@@ -182,19 +254,44 @@ export const ChatMessage = ({ message, onDelete }: ChatMessageProps) => {
           <VoiceMessage mediaUrl={message.mediaUrl} />
         )}
 
-        {message.body && !isVoice && (
-          <StyledBody>{message.body}</StyledBody>
-        )}
+        {editing ? (
+          <>
+            <StyledEditTextArea
+              ref={editRef}
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+              onKeyDown={handleEditKeyDown}
+              rows={1}
+            />
+            <StyledEditActions>
+              <StyledEditButton onClick={() => setEditing(false)}>
+                Cancel
+              </StyledEditButton>
+              <StyledEditButton
+                variant="primary"
+                onClick={handleSaveEdit}
+              >
+                Save
+              </StyledEditButton>
+            </StyledEditActions>
+          </>
+        ) : (
+          <>
+            {message.body && !isVoice && (
+              <StyledBody>{message.body}</StyledBody>
+            )}
 
-        <StyledFooter>
-          {message.isEdited && <StyledEditedLabel>edited</StyledEditedLabel>}
-          <StyledTime>{formatMessageTime(message.messageTimestamp)}</StyledTime>
-          {message.fromAgent && (
-            <StyledStatus status={message.status}>
-              <StatusIcon status={message.status} />
-            </StyledStatus>
-          )}
-        </StyledFooter>
+            <StyledFooter>
+              {message.isEdited && <StyledEditedLabel>edited</StyledEditedLabel>}
+              <StyledTime>{formatMessageTime(message.messageTimestamp)}</StyledTime>
+              {message.fromAgent && (
+                <StyledStatus status={message.status}>
+                  <StatusIcon status={message.status} />
+                </StyledStatus>
+              )}
+            </StyledFooter>
+          </>
+        )}
       </StyledBubble>
 
       {contextMenu && (
@@ -203,6 +300,7 @@ export const ChatMessage = ({ message, onDelete }: ChatMessageProps) => {
           position={contextMenu}
           onClose={() => setContextMenu(null)}
           onCopy={handleCopy}
+          onEdit={onEdit ? handleStartEdit : undefined}
           onDelete={onDelete}
         />
       )}

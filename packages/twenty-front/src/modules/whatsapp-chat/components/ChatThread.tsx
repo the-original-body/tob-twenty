@@ -109,6 +109,8 @@ type ChatThreadProps = {
   onLoadOlder: () => void;
   onSendText: (body: string) => void;
   onSendMedia?: (file: File) => void;
+  onEditMessage?: (messageId: string, newBody: string) => void;
+  onDeleteMessage?: (message: WaMessage) => void;
 };
 
 export const ChatThread = ({
@@ -119,6 +121,8 @@ export const ChatThread = ({
   onLoadOlder,
   onSendText,
   onSendMedia,
+  onEditMessage,
+  onDeleteMessage,
 }: ChatThreadProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -161,11 +165,18 @@ export const ChatThread = ({
         );
       }
 
-      elements.push(<ChatMessage key={message.id} message={message} />);
+      elements.push(
+        <ChatMessage
+          key={message.id}
+          message={message}
+          onEdit={onEditMessage}
+          onDelete={onDeleteMessage}
+        />,
+      );
     }
 
     return elements;
-  }, [messages]);
+  }, [messages, onEditMessage, onDeleteMessage]);
 
   return (
     <StyledContainer>

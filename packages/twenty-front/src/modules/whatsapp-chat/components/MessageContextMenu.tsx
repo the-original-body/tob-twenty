@@ -48,6 +48,7 @@ type MessageContextMenuProps = {
   position: { x: number; y: number };
   onClose: () => void;
   onCopy: (message: WaMessage) => void;
+  onEdit?: (message: WaMessage) => void;
   onDelete?: (message: WaMessage) => void;
 };
 
@@ -56,6 +57,7 @@ export const MessageContextMenu = ({
   position,
   onClose,
   onCopy,
+  onEdit,
   onDelete,
 }: MessageContextMenuProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -91,6 +93,17 @@ export const MessageContextMenu = ({
             }}
           >
             Copy text
+          </StyledMenuItem>
+        )}
+
+        {onEdit && message.fromAgent && message.body && !message.isDeleted && (
+          <StyledMenuItem
+            onClick={() => {
+              onEdit(message);
+              onClose();
+            }}
+          >
+            Edit message
           </StyledMenuItem>
         )}
 
