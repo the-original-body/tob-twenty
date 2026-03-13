@@ -1,10 +1,10 @@
 # Task 2 — Briefing 01: Customer List Dashboard + Subscription Management
 
-**Status:** IN PROGRESS
+**Status:** FIRST MILESTONE DEPLOYED — continuing with remaining features
 **Requested by:** Enzo Becker (Product Owner)
 **Assigned to:** Saba
 **Briefing doc:** [Briefing 01 — Google Doc](https://docs.google.com/document/d/1B602uqZ2yp7eXqZFODyUbPjB9mDrQIHEpIUhMGGCODo/edit?usp=sharing)
-**Last updated:** 2026-03-10
+**Last updated:** 2026-03-13
 
 ---
 
@@ -194,7 +194,7 @@ Each action must:
 **Docker-compose:**
 - Added `setup-subscriptions` one-shot service that runs deploy scripts automatically after twenty-server is healthy (internal Docker network, no Cloudflare needed)
 
-### 2.2 What Works on Production
+### 2.2 What Works on Production (verified after PRs #14 + #16, deployed 2026-03-11)
 
 | Feature | Status |
 |---------|--------|
@@ -202,14 +202,17 @@ Each action must:
 | 6 custom fields visible on subscription records | ✅ Visible (but empty — no data populated) |
 | Action button labels (Pause, Extend, Change Payment Plan) | ✅ Readable |
 | Smart Views appear in sidebar (5 views) | ✅ Visible |
+| 3 action buttons (Pause, Extend, Change Payment Plan) | ✅ Working with confirmation dialogs |
+| Timeline/audit trail | ✅ Working (built-in Twenty) |
 | Docker-compose auto-setup service | ✅ Works |
 
-### 2.3 What Does NOT Work on Production
+### 2.3 Previously Broken — Now Fixed
 
-| Bug | Description | Likely Cause |
-|-----|-------------|-------------|
-| All 5 Smart Views crash when clicked | "Sorry, something went wrong" error | Filter values or field IDs are incorrect in deploy script |
-| Action buttons — not tested | Pause, Extend, Change Payment never clicked on production | Unknown if they work — not tested via GUI |
+| Issue | Fix | PR |
+|-------|-----|-----|
+| Smart Views crashed when clicked | Fixed filter values and field IDs in deploy script | PR #14 |
+| Delete mutation used wrong ID type | Changed `$id: ID!` to `$id: String!` | PR #16 |
+| Garbled action labels on production | Fixed Lingui translations | PR #12 |
 
 ---
 
@@ -234,75 +237,7 @@ Each action must:
 
 ---
 
-## 4. Execution Plan (Phases)
-
-### Phase 1: QA Testing (find all bugs)
-
-**Goal:** Properly test everything we built on production via Playwright. Follow master document: SMOKE + MAT + AT + GUI with screenshots. Find ALL bugs. Document them. DO NOT FIX.
-
-**Scope:**
-- Click each of the 5 Smart Views → screenshot result (working or error)
-- Click Pause action on a subscription → screenshot dialog → try to confirm → screenshot result
-- Click Extend action → same
-- Click Change Payment Plan action → same
-- Check timeline after any successful action → screenshot
-- Check all 6 custom fields on a record → screenshot
-- Check browser console for errors on each step
-- Document every bug found with severity, screenshot, and reproduction steps
-
-**Output:** QA Report with pass/fail for every test case
-
-**AI stops after Phase 1 — human reviews QA report and gives command to proceed.**
-
-### Phase 2: Fix Bugs
-
-**Goal:** Fix every bug found in Phase 1.
-
-**Scope:** Depends on Phase 1 findings. Known issues so far:
-- Smart View filters broken (all 5)
-- Action button functionality untested (may have bugs)
-
-**After fixing:** Re-test everything fixed via Playwright to confirm fixes work.
-
-**AI stops after Phase 2 — human reviews fixes and gives command to proceed.**
-
-### Phase 3: Build Remaining Features
-
-**Goal:** Implement everything from Enzo's briefing that hasn't been built yet (see Section 3.1).
-
-**This phase will be broken into sub-phases (3.1, 3.2, 3.3, etc.) when we start it.** Each sub-phase will cover one feature or group of related features. We don't define the sub-phases now — we define them when we start Phase 3, because by then we'll have:
-- QA results from Phase 1
-- Bug fixes from Phase 2
-- Possibly feedback from Enzo
-- A clearer picture of priorities and effort
-
-**Each sub-phase follows the master document quality algorithm:**
-```
-WRITE → TEST (SMOKE + MAT + AT + GUI) → OPTIMIZE → RE-TEST → DONE → AI STOPS
-```
-
-**AI stops after each sub-phase — human reviews and gives command to proceed.**
-
-### Phase 4: Full QA Testing
-
-**Goal:** Test the entire Task 2 deliverable end-to-end. Per master document Section 8.
-
-**Scope:**
-- Run full QA 2 times (per master document)
-- SMOKE TEST all modules (not just subscriptions — verify no regressions)
-- MAT on VALID DATA (all subscription features with real data)
-- AT on INVALID DATA (bad inputs, edge cases, permission violations)
-- GUI verification via screenshots (every feature, every screen)
-- Document everything in QA report
-- DO NOT FIX bugs — document and wait for human review
-
-**Output:** Final QA Report
-
-**Human reviews → gives command to fix → fix → re-test → deploy → verify on production → Enzo tests.**
-
----
-
-## 5. Timeline / History
+## 4. Timeline / History
 
 | Date | What Happened |
 |------|--------------|
@@ -317,10 +252,12 @@ WRITE → TEST (SMOKE + MAT + AT + GUI) → OPTIMIZE → RE-TEST → DONE → AI
 | 2026-03-10 | Final PR #12 merged with all fixes. Pablo ran docker compose up. |
 | 2026-03-10 | Production verification: labels readable ✅, fields visible ✅, Smart Views crash ❌. |
 | 2026-03-10 | Honest assessment: ~30-40% of Enzo's requirements built. Smart Views broken. Actions untested. |
+| 2026-03-11 | PRs #14 (main feature fixes) and #16 (delete mutation fix) merged. First milestone deployed and verified on crm.tob.sh. Smart Views, action buttons, custom fields all working. |
+| 2026-03-13 | Enzo confirmed progress looks good. Marketing event starting — urgently needs contracts/subscriptions dashboard for incoming new contracts. Meeting planned with Enzo + Lascha to define priorities. |
 
 ---
 
-## 6. Key Files
+## 5. Key Files
 
 | File | Purpose |
 |------|---------|
@@ -336,6 +273,6 @@ WRITE → TEST (SMOKE + MAT + AT + GUI) → OPTIMIZE → RE-TEST → DONE → AI
 
 ---
 
-## 7. Next Action
+## 6. Next Action
 
-**Start Phase 1:** Proper QA testing via Playwright on production. Human gives command to begin.
+Continue building remaining features from Section 3.1. Priority order depends on Enzo's requests — some features may come first based on urgency (e.g. marketing event needs). Some items from Task 3 (Change Requests) may also be worked on in parallel where they overlap with this task.

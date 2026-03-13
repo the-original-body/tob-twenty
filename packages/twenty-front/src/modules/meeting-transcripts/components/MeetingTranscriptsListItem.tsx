@@ -5,6 +5,8 @@ type MeetingTranscriptsListItemProps = {
   meetingName: string;
   meetingId: string | null;
   meetingDate: string | null;
+  meetingTopic: string | null;
+  hostEmail: string | null;
   isSelected: boolean;
   onClick: () => void;
 };
@@ -12,10 +14,16 @@ type MeetingTranscriptsListItemProps = {
 const StyledListItem = styled.div<{ isSelected: boolean }>`
   background: ${({ theme, isSelected }) =>
     isSelected ? theme.background.tertiary : 'transparent'};
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
+  border: 1px solid
+    ${({ theme, isSelected }) =>
+      isSelected ? theme.color.blue : theme.border.color.light};
+  border-radius: ${({ theme }) => theme.border.radius.sm};
   cursor: pointer;
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
   padding: ${({ theme }) => theme.spacing(3)};
-  transition: background 0.1s ease;
+  transition:
+    background 0.1s ease,
+    border-color 0.1s ease;
 
   &:hover {
     background: ${({ theme, isSelected }) =>
@@ -41,6 +49,9 @@ const StyledMetaRow = styled.div`
   font-size: ${({ theme }) => theme.font.size.sm};
   gap: ${({ theme }) => theme.spacing(2)};
   margin-top: ${({ theme }) => theme.spacing(1)};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const formatMeetingDate = (dateString: string | null): string | null => {
@@ -51,10 +62,12 @@ const formatMeetingDate = (dateString: string | null): string | null => {
   try {
     const date = new Date(dateString);
 
-    return date.toLocaleDateString('en-GB', {
+    return date.toLocaleString('en-GB', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   } catch {
     return null;
@@ -65,20 +78,27 @@ export const MeetingTranscriptsListItem = ({
   meetingName,
   meetingId,
   meetingDate,
+  meetingTopic,
+  hostEmail,
   isSelected,
   onClick,
 }: MeetingTranscriptsListItemProps) => {
   const formattedDate = formatMeetingDate(meetingDate);
+  const hasExtraInfo = isDefined(meetingTopic) || isDefined(hostEmail);
 
   return (
     <StyledListItem isSelected={isSelected} onClick={onClick}>
-      <StyledMeetingName>
-        {meetingName || 'Untitled Meeting'}
-      </StyledMeetingName>
+      <StyledMeetingName>{meetingName || 'Untitled Meeting'}</StyledMeetingName>
       <StyledMetaRow>
-        {isDefined(meetingId) && <span>{meetingId}</span>}
         <span>{formattedDate ?? 'Date unknown'}</span>
+        {isDefined(meetingId) && <span>{meetingId}</span>}
       </StyledMetaRow>
+      {hasExtraInfo && (
+        <StyledMetaRow>
+          {isDefined(meetingTopic) && <span>{meetingTopic}</span>}
+          {isDefined(hostEmail) && <span>{hostEmail}</span>}
+        </StyledMetaRow>
+      )}
     </StyledListItem>
   );
 };

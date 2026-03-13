@@ -78,13 +78,16 @@ const MeetingTranscriptsBodyContent = ({
     [debouncedUpdate],
   );
 
-  const { meetings, loading } = useMeetingTranscriptsList(queryFilterValues);
+  const { meetings, loading, fetchMoreRecords, hasNextPage } =
+    useMeetingTranscriptsList(queryFilterValues);
 
   return (
     <StyledBodyContainer>
       <MeetingTranscriptsLeftPanel
         meetings={meetings}
         loading={loading}
+        fetchMoreRecords={fetchMoreRecords}
+        hasNextPage={hasNextPage}
         filterValues={filterValues}
         onFilterChange={handleFilterChange}
         selectedMeetingId={selectedMeetingId}

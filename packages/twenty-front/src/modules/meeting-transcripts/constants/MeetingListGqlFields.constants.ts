@@ -7,5 +7,6 @@ export const MEETING_LIST_GQL_FIELDS: RecordGqlOperationGqlRecordFields = {
   meetingUuid: true,
   meetingStartTime: true,
   meetingDuration: true,
+  meetingTopic: true,
   hostEmail: true,
 };

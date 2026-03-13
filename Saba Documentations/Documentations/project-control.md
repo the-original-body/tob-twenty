@@ -1,6 +1,6 @@
 # Project Control — TOB Twenty
 
-*Last updated: 2026-03-10*
+*Last updated: 2026-03-13*
 
 ---
 
@@ -104,14 +104,14 @@ Explore the Twenty CRM at `crm.tob.sh` and `localhost:3001` to understand what e
 
 | Field | Value |
 |-------|-------|
-| **Status** | DEVELOPMENT COMPLETE — awaiting deployment |
-| **Priority** | High |
+| **Status** | FIRST MILESTONE DEPLOYED — Phase 3 pending |
+| **Priority** | High (URGENT — marketing event started 2026-03-13) |
 | **Assigned to** | Saba |
 | **Requested by** | Enzo Becker |
 | **Briefing doc** | [Briefing 01 — Google Doc](https://docs.google.com/document/d/1B602uqZ2yp7eXqZFODyUbPjB9mDrQIHEpIUhMGGCODo/edit?usp=sharing) |
 | **Data migration** | DONE — Pablo completed it on 2026-03-07, recreated with correct types 2026-03-09 |
-| **PR** | [#8](https://github.com/the-original-body/tob-twenty/pull/8) — ready to merge |
-| **Blocked by** | Clarifying staging environment with Pablo before merging to main |
+| **PRs** | #8, #12, #14 (main feature), #16 (delete mutation fix) — all merged |
+| **Deployed** | 2026-03-11 — verified working on crm.tob.sh |
 
 ### What is this task?
 
@@ -175,9 +175,9 @@ Build a dashboard where the backoffice team can:
 | 7 | Set up permissions | Saba | DONE — built-in to Twenty (shouldBeRegistered checks) |
 | 8 | QA testing (2 rounds) | Saba | DONE — code + browser testing via Playwright |
 | 9 | Commit, push, create PR | Saba | DONE — PR #8 created |
-| 10 | Deploy to production | Saba | WAITING — clarifying staging environment with Pablo |
-| 11 | Test with Enzo and backoffice team | Saba + Enzo | NOT STARTED |
-| 12 | Iterate based on feedback | Saba | NOT STARTED |
+| 10 | Deploy to production | Saba | DONE — PRs #14 + #16 merged, deployed 2026-03-11 |
+| 11 | Test with Enzo and backoffice team | Saba + Enzo | IN PROGRESS — Enzo confirmed positive feedback, meeting planned |
+| 12 | Iterate based on feedback | Saba | WAITING — meeting with Enzo + Lascha to define Phase 3 priorities |
 
 ### Definition of done
 
@@ -336,57 +336,63 @@ Client data is scattered across:
 
 ## Summary
 
-### Current state (2026-03-10)
+### Current state (2026-03-13)
 
 - **Twenty CRM** is deployed and running at `crm.tob.sh`
 - **Local dev server** working at `localhost:3001` (frontend) / `localhost:3000` (backend)
 - **Listmonk** deployed at `listmonk.tob.sh/admin`
 - **Data migration DONE** — Pablo migrated and recreated objects with correct types (Date and Time, Number)
 - **Infrastructure complete** — CI/CD pipeline, Docker, auto-deployment working
-- **Branch** — `tob-twenty/saba` on GitHub, PR #8 open
+- **Branch** — `tob-twenty/saba` on GitHub
+- **First milestone deployed** — PRs #14 + #16 merged, verified on crm.tob.sh (2026-03-11)
+- **Marketing event started** — Enzo needs contracts/subscriptions dashboard urgently (2026-03-13)
+- **WhatsApp Chat** — built by Pablo (PRs #21–#35), merged to main, working
+- **Meeting Transcripts viewer** — built, waiting on Pablo's feedback
 - **Enzo expects daily EOD updates** in the project channel
-- **No staging environment** — clarifying with Pablo; merging PR goes straight to production
 
 ### Active tasks
 
 | Task | Status | Notes |
 |------|--------|-------|
 | Task 1: Explore Twenty CRM | DONE | Completed 2026-03-09 |
-| Task 2: Briefing 01 — Dashboard + Subscription Management | DEV COMPLETE | PR #8 created, awaiting deployment clarification |
-| Task 3: Change Requests (11 items) | NOT STARTED | Next up after Task 2 is deployed |
+| Task 2: Briefing 01 — Dashboard + Subscription Management | FIRST MILESTONE DEPLOYED | Phase 3 pending — meeting with Enzo + Lascha to define priorities |
+| Meeting Transcripts viewer | WAITING | Built, waiting on Pablo's feedback |
+| Task 3: Change Requests (11 items) | NOT STARTED | Next up after Task 2 Phase 3 |
 | Task 4: Briefing 02 — Coach View / Client Profile | NOT STARTED | Big feature, many open technical questions |
 
-### What was completed (2026-03-10)
+### What was completed
 
+**2026-03-10:**
 - Coordinated with Pablo to fix field types (Text → Date and Time, Number)
 - Added 6 missing fields via deploy script (Payment Status, Access Status, Subscription Type, Offer/Discount Tag, Last Touchpoint, Next Action/Due Date)
 - Created 5 Smart Views via deploy script (Access Not Granted, Expiring in 60 Days, Paused Subscriptions, Overdue Payments, No Touchpoint 14 Days)
 - Built 3 action buttons (Pause, Extend/Renew, Change Payment Plan) with confirmation dialogs
 - QA passed (2 rounds — code checks + Playwright browser testing)
-- Committed, pushed, PR #8 created
+
+**2026-03-11:**
+- PRs #14 + #16 merged and deployed to production
+- First milestone verified working on crm.tob.sh
+
+**2026-03-12:**
+- Meeting Transcripts viewer built (on Coder)
+- Fixes: correct production API field names, removed Lingui i18n macros, re-added route after merge
 
 ### What's blocked
 
 | Blocked item | Waiting on | Person |
 |-------------|-----------|--------|
-| Merging PR #8 to production | Staging environment clarification | Pablo |
+| Meeting Transcripts | Pablo's feedback | Pablo |
+| Task 2 Phase 3 priorities | Meeting with Enzo + Lascha | Enzo |
 
 ### What's coming next
 
-1. Clarify staging/deployment with Pablo (in progress)
-2. Merge PR #8 → deploy to production
-3. Enzo tests on production → feedback
-4. Start Task 3: Change Requests (11 items)
-5. Start Task 4: Briefing 02 — Coach View
+1. Meeting with Enzo + Lascha to define priorities for marketing event
+2. Task 2 Phase 3: build remaining features based on meeting outcome
+3. Task 3: Change Requests (11 items)
+4. Task 4: Briefing 02 — Coach View
 
 ### Key communication
 
-- **Enzo** — updated on Briefing 01 completion, awaiting deployment
-- **Pablo** — asked about staging environment, waiting for response
-- **Saba** — daily EOD updates in project channel
-
-### Key communication
-
-- **Enzo** provides requirements and feedback — daily EOD summary expected from Saba
-- **Pablo** handles data and infrastructure — data migration done
-- **Saba** builds features — code changes locally, push to branch, merge to deploy
+- **Enzo** — confirmed progress looks good, marketing event starting, wants meeting to discuss dashboard needs
+- **Pablo** — built WhatsApp Chat (PRs #21–#35), feedback pending on Meeting Transcripts
+- **Saba** — daily EOD updates in project channel, available for meeting anytime
