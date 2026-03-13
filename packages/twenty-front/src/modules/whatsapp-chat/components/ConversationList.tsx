@@ -30,7 +30,7 @@ const NEEDS_REPLY_HOURS: Record<NeedsReplyThreshold, number> = {
 };
 
 const StyledContainer = styled.div`
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid ${({ theme }) => theme.border.color.light};
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -39,8 +39,8 @@ const StyledContainer = styled.div`
 `;
 
 const StyledHeader = styled.div`
-  background: rgba(255, 255, 255, 0.02);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: ${({ theme }) => theme.background.secondary};
+  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing(2)};
@@ -48,10 +48,10 @@ const StyledHeader = styled.div`
 `;
 
 const StyledSessionSelect = styled.select`
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: ${({ theme }) => theme.background.transparent.lighter};
+  border: 1px solid ${({ theme }) => theme.border.color.medium};
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: rgba(255, 255, 255, 0.8);
+  color: ${({ theme }) => theme.font.color.secondary};
   cursor: pointer;
   font-family: inherit;
   font-size: ${({ theme }) => theme.font.size.sm};
@@ -68,7 +68,7 @@ const StyledList = styled.div`
 `;
 
 const StyledSectionLabel = styled.div`
-  color: rgba(255, 255, 255, 0.35);
+  color: ${({ theme }) => theme.font.color.light};
   font-size: 10px;
   font-weight: ${({ theme }) => theme.font.weight.semiBold};
   letter-spacing: 0.08em;
@@ -80,7 +80,7 @@ const StyledLoadMore = styled.button`
   align-items: center;
   background: none;
   border: none;
-  color: #60a5fa;
+  color: ${({ theme }) => theme.color.blue};
   cursor: pointer;
   display: flex;
   font-size: ${({ theme }) => theme.font.size.sm};
@@ -89,7 +89,7 @@ const StyledLoadMore = styled.button`
   padding: ${({ theme }) => theme.spacing(2)};
 
   &:hover {
-    color: #93bbfd;
+    opacity: 0.8;
   }
 `;
 

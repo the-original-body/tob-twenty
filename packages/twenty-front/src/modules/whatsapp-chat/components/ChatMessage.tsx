@@ -14,13 +14,13 @@ const StyledRow = styled.div<{ fromAgent: boolean }>`
 `;
 
 const StyledBubble = styled.div<{ fromAgent: boolean }>`
-  background: ${({ fromAgent }) =>
+  background: ${({ fromAgent, theme }) =>
     fromAgent
-      ? 'rgba(29, 78, 216, 0.12)'
-      : 'rgba(255, 255, 255, 0.06)'};
+      ? theme.accent.tertiary
+      : theme.background.secondary};
   border: 1px solid
-    ${({ fromAgent }) =>
-      fromAgent ? 'rgba(29, 78, 216, 0.25)' : 'rgba(255, 255, 255, 0.12)'};
+    ${({ fromAgent, theme }) =>
+      fromAgent ? theme.accent.quaternary : theme.border.color.light};
   border-radius: ${({ theme }) => theme.border.radius.md};
   display: flex;
   flex-direction: column;

@@ -25,18 +25,18 @@ const StyledMessages = styled.div`
 
 const StyledLoadOlder = styled.button`
   align-self: center;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: ${({ theme }) => theme.background.transparent.lighter};
+  border: 1px solid ${({ theme }) => theme.border.color.light};
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: #60a5fa;
+  color: ${({ theme }) => theme.color.blue};
   cursor: pointer;
   font-size: ${({ theme }) => theme.font.size.sm};
   margin: ${({ theme }) => theme.spacing(2)} auto;
   padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(3)};
 
   &:hover {
-    background: rgba(96, 165, 250, 0.10);
-    border-color: rgba(96, 165, 250, 0.3);
+    background: ${({ theme }) => theme.background.transparent.blue};
+    border-color: ${({ theme }) => theme.accent.tertiary};
   }
 `;
 
@@ -48,13 +48,13 @@ const StyledDateSeparator = styled.div`
 `;
 
 const StyledDateLine = styled.div`
-  background: rgba(255, 255, 255, 0.08);
+  background: ${({ theme }) => theme.border.color.light};
   flex: 1;
   height: 1px;
 `;
 
 const StyledDateLabel = styled.span`
-  color: rgba(255, 255, 255, 0.4);
+  color: ${({ theme }) => theme.font.color.tertiary};
   font-size: ${({ theme }) => theme.font.size.xs};
   white-space: nowrap;
 `;
