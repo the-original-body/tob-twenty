@@ -71,19 +71,19 @@ export const MainNavigationDrawerFixedItems = () => {
           />
         )}
         <NavigationDrawerItem
-          label={t`Transcripts`}
+          label="Transcripts"
           Icon={IconVideo}
           onClick={() => setIsTranscriptsExpanded((previous) => !previous)}
           active={isOnTranscriptRoute}
         />
         <AnimatedExpandableContainer isExpanded={isTranscriptsExpanded}>
           <NavigationDrawerSubItem
-            label={t`Viewer`}
+            label="Viewer"
             to="/meeting-transcripts"
             active={location.pathname === '/meeting-transcripts'}
           />
           <NavigationDrawerSubItem
-            label={t`Dataset`}
+            label="Dataset"
             to="/objects/tobMeetingTranscripts"
             active={location.pathname.startsWith(
               '/objects/tobMeetingTranscripts',
