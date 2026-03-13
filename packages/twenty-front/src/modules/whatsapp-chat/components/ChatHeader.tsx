@@ -26,8 +26,8 @@ const PROGRAM_COLORS: Record<string, { bg: string; text: string }> = {
 // ── Styled components ───────────────────────────────────────────
 
 const StyledContainer = styled.div`
-  background: ${({ theme }) => theme.background.secondary};
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -51,17 +51,16 @@ const StyledLeft = styled.div`
 
 const StyledAvatar = styled.div<{ isClient?: boolean }>`
   align-items: center;
-  background: ${({ isClient, theme }) =>
-    isClient ? theme.color.blue : theme.background.transparent.light};
-  border: 1px solid ${({ isClient, theme }) =>
-    isClient ? theme.color.blue : theme.border.color.medium};
+  background: ${({ isClient }) =>
+    isClient ? '#1A6CFF' : '#E5E7EB'};
+  border: none;
   border-radius: 50%;
-  color: ${({ isClient, theme }) =>
-    isClient ? theme.font.color.inverted : theme.font.color.secondary};
+  color: ${({ isClient }) =>
+    isClient ? '#FFFFFF' : '#374151'};
   display: flex;
   flex-shrink: 0;
-  font-size: ${({ theme }) => theme.font.size.md};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  font-size: 14px;
+  font-weight: 600;
   height: 40px;
   justify-content: center;
   width: 40px;
@@ -75,9 +74,9 @@ const StyledInfo = styled.div`
 `;
 
 const StyledName = styled.span`
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.md};
-  font-weight: ${({ theme }) => theme.font.weight.semiBold};
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -90,8 +89,8 @@ const StyledPhoneRow = styled.div`
 `;
 
 const StyledPhone = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.sm};
+  color: #6B7280;
+  font-size: 13px;
 `;
 
 const StyledProgramBadge = styled.span<{ bg: string; text: string }>`
@@ -108,8 +107,8 @@ const StyledProgramBadge = styled.span<{ bg: string; text: string }>`
 `;
 
 const StyledOwnerLine = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #9CA3AF;
+  font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -124,10 +123,10 @@ const StyledRight = styled.div`
 
 const StyledIconButton = styled.button`
   align-items: center;
-  background: none;
-  border: 1px solid ${({ theme }) => theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.tertiary};
+  background: #F5F6F7;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  color: #6B7280;
   cursor: pointer;
   display: flex;
   height: 32px;
@@ -135,52 +134,52 @@ const StyledIconButton = styled.button`
   width: 32px;
 
   &:hover {
-    background: ${({ theme }) => theme.background.transparent.lighter};
-    border-color: ${({ theme }) => theme.border.color.medium};
-    color: ${({ theme }) => theme.font.color.primary};
+    background: #E5E7EB;
+    border-color: #D1D5DB;
+    color: #111827;
   }
 `;
 
 const StyledCloseButton = styled.a`
   align-items: center;
   background: none;
-  border: 1px solid ${({ theme }) => theme.color.blue};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.color.blue};
+  border: 1px solid #1A6CFF;
+  border-radius: 6px;
+  color: #1A6CFF;
   cursor: pointer;
   display: inline-flex;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
-  gap: ${({ theme }) => theme.spacing(1)};
+  font-size: 12px;
+  font-weight: 500;
+  gap: 4px;
   height: 32px;
   line-height: 1;
-  padding: 0 ${({ theme }) => theme.spacing(3)};
+  padding: 0 12px;
   text-decoration: none;
   white-space: nowrap;
 
   &:hover {
-    background: ${({ theme }) => theme.color.blue};
-    color: ${({ theme }) => theme.font.color.inverted};
+    background: #1A6CFF;
+    color: #FFFFFF;
   }
 `;
 
 const StyledLabelsRow = styled.div`
   align-items: center;
+  border-top: 1px solid #F3F4F6;
   display: flex;
   flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing(1)};
-  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)}
-    ${({ theme }) => theme.spacing(2)};
+  gap: 4px;
+  padding: 8px 12px;
   position: relative;
 `;
 
 const StyledAddLabelButton = styled.button`
   align-items: center;
   background: none;
-  border: 1px dashed ${({ theme }) => theme.border.color.medium};
-  border-radius: ${({ theme }) => theme.border.radius.pill};
-  color: ${({ theme }) => theme.font.color.tertiary};
+  border: 1px dashed #D1D5DB;
+  border-radius: 12px;
+  color: #9CA3AF;
   cursor: pointer;
   display: inline-flex;
   font-family: inherit;
@@ -191,8 +190,8 @@ const StyledAddLabelButton = styled.button`
   white-space: nowrap;
 
   &:hover {
-    border-color: ${({ theme }) => theme.border.color.strong};
-    color: ${({ theme }) => theme.font.color.secondary};
+    border-color: #1A6CFF;
+    color: #1A6CFF;
   }
 `;
 

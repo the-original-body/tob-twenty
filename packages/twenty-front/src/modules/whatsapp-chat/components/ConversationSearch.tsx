@@ -5,18 +5,18 @@ import { IconSearch, IconX } from 'twenty-ui/display';
 
 const StyledSearchContainer = styled.div<{ isFocused?: boolean }>`
   align-items: center;
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ isFocused, theme }) =>
-    isFocused ? theme.color.blue : theme.border.color.medium};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
+  background: #F5F6F7;
+  border: 1px solid ${({ isFocused }) =>
+    isFocused ? '#1A6CFF' : '#E5E7EB'};
+  border-radius: 8px;
   display: flex;
-  gap: ${({ theme }) => theme.spacing(2)};
-  padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(2)};
+  gap: 8px;
+  padding: 6px 10px;
 `;
 
 const StyledSearchIcon = styled.div`
   align-items: center;
-  color: ${({ theme }) => theme.font.color.light};
+  color: #9CA3AF;
   display: flex;
   flex-shrink: 0;
 `;
@@ -24,14 +24,14 @@ const StyledSearchIcon = styled.div`
 const StyledInput = styled.input`
   background: transparent;
   border: none;
-  color: ${({ theme }) => theme.font.color.primary};
+  color: #111827;
   flex: 1;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.md};
+  font-size: 14px;
   outline: none;
 
   &::placeholder {
-    color: ${({ theme }) => theme.font.color.light};
+    color: #9CA3AF;
   }
 `;
 
@@ -39,14 +39,14 @@ const StyledClearButton = styled.button`
   align-items: center;
   background: none;
   border: none;
-  color: ${({ theme }) => theme.font.color.light};
+  color: #9CA3AF;
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
   padding: 0;
 
   &:hover {
-    color: ${({ theme }) => theme.font.color.primary};
+    color: #374151;
   }
 `;
 

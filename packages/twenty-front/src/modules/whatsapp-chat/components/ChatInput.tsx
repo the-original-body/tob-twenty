@@ -15,11 +15,11 @@ import {
 import { IconMic } from '@/whatsapp-chat/components/IconMic';
 
 const StyledContainer = styled.div`
-  background: ${({ theme }) => theme.background.secondary};
-  border-top: 1px solid ${({ theme }) => theme.border.color.light};
+  background: #FFFFFF;
+  border-top: 1px solid #E5E7EB;
   display: flex;
   flex-direction: column;
-  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
+  padding: 10px 16px;
 `;
 
 const StyledInputRow = styled.div`
@@ -29,46 +29,46 @@ const StyledInputRow = styled.div`
 `;
 
 const StyledTextArea = styled.textarea`
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.medium};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.primary};
+  background: #F5F6F7;
+  border: 1px solid #E5E7EB;
+  border-radius: 20px;
+  color: #111827;
   flex: 1;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.md};
+  font-size: 14px;
   line-height: 1.45;
   max-height: 120px;
   min-height: 38px;
   outline: none;
-  padding: ${({ theme }) => theme.spacing(2)};
+  padding: 8px 16px;
   resize: none;
 
   &::placeholder {
-    color: ${({ theme }) => theme.font.color.light};
+    color: #9CA3AF;
   }
 
   &:focus {
-    border-color: ${({ theme }) => theme.color.blue};
-    background: ${({ theme }) => theme.background.primary};
+    border-color: #1A6CFF;
+    background: #FFFFFF;
   }
 `;
 
 const StyledButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' }>`
   align-items: center;
-  background: ${({ variant, theme }) => {
-    if (variant === 'primary') return theme.color.blue;
-    if (variant === 'danger') return theme.color.red;
+  background: ${({ variant }) => {
+    if (variant === 'primary') return '#1A6CFF';
+    if (variant === 'danger') return '#EF4444';
     return 'transparent';
   }};
-  border: ${({ variant, theme }) =>
+  border: ${({ variant }) =>
     variant === 'primary' || variant === 'danger'
       ? 'none'
-      : `1px solid ${theme.border.color.medium}`};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ variant, theme }) =>
+      : '1px solid #E5E7EB'};
+  border-radius: 50%;
+  color: ${({ variant }) =>
     variant === 'primary' || variant === 'danger'
-      ? theme.font.color.inverted
-      : theme.font.color.secondary};
+      ? '#FFFFFF'
+      : '#6B7280'};
   cursor: pointer;
   display: flex;
   flex-shrink: 0;

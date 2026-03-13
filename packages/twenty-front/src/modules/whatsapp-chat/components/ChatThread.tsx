@@ -14,6 +14,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledMessages = styled.div`
+  background: #FAFBFC;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -25,18 +26,20 @@ const StyledMessages = styled.div`
 
 const StyledLoadOlder = styled.button`
   align-self: center;
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.color.blue};
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  color: #1A6CFF;
   cursor: pointer;
-  font-size: ${({ theme }) => theme.font.size.sm};
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
   margin: ${({ theme }) => theme.spacing(2)} auto;
-  padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(3)};
+  padding: 6px 16px;
 
   &:hover {
-    background: ${({ theme }) => theme.background.transparent.blue};
-    border-color: ${({ theme }) => theme.accent.tertiary};
+    background: #EBF0FF;
+    border-color: #1A6CFF;
   }
 `;
 
@@ -48,23 +51,28 @@ const StyledDateSeparator = styled.div`
 `;
 
 const StyledDateLine = styled.div`
-  background: ${({ theme }) => theme.border.color.light};
+  background: #E5E7EB;
   flex: 1;
   height: 1px;
 `;
 
 const StyledDateLabel = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  color: #6B7280;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 12px;
   white-space: nowrap;
 `;
 
 const StyledEmptyThread = styled.div`
   align-items: center;
-  color: ${({ theme }) => theme.font.color.light};
+  color: #9CA3AF;
   display: flex;
   flex: 1;
-  font-size: ${({ theme }) => theme.font.size.md};
+  font-size: 14px;
   justify-content: center;
 `;
 
