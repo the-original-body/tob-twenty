@@ -7,6 +7,7 @@ import { useContact } from '@/whatsapp-chat/hooks/useContact';
 import { useCloseCalls } from '@/whatsapp-chat/hooks/useCloseCalls';
 import { useCloseOpportunities } from '@/whatsapp-chat/hooks/useCloseOpportunities';
 import { type WaConversation } from '@/whatsapp-chat/types/WhatsAppTypes';
+import { useProfilePicture } from '@/whatsapp-chat/hooks/useProfilePicture';
 
 // ── Styled components ───────────────────────────────────────────
 
@@ -104,6 +105,14 @@ const StyledAvatar = styled.div<{ isClient?: boolean }>`
   font-weight: ${({ theme }) => theme.font.weight.medium};
   height: 72px;
   justify-content: center;
+  width: 72px;
+`;
+
+const StyledProfilePicture = styled.img`
+  align-self: center;
+  border-radius: 50%;
+  height: 72px;
+  object-fit: cover;
   width: 72px;
 `;
 
@@ -328,6 +337,10 @@ export const ConversationDetails = ({
   );
   const { opportunities, loading: opportunitiesLoading } =
     useCloseOpportunities(conversation.leadPhoneNumber);
+  const { pictureUrl } = useProfilePicture(
+    conversation.sessionName,
+    conversation.leadPhoneNumber,
+  );
   const [activeTab, setActiveTab] = useState<TabId>('profile');
   const [assignEmail, setAssignEmail] = useState(
     conversation.assignedToEmail ?? '',
@@ -408,7 +421,11 @@ export const ConversationDetails = ({
 
       <StyledBody>
         {/* Avatar + Name always visible */}
-        <StyledAvatar isClient={isClient}>{initials || '?'}</StyledAvatar>
+        {pictureUrl ? (
+          <StyledProfilePicture src={pictureUrl} alt={displayName} />
+        ) : (
+          <StyledAvatar isClient={isClient}>{initials || '?'}</StyledAvatar>
+        )}
         <StyledContactName>{displayName}</StyledContactName>
         {conversation.leadPhoneNumber !== displayName && (
           <StyledContactSubtext>

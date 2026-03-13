@@ -15,8 +15,10 @@ const StyledRow = styled.div<{ fromAgent: boolean }>`
 
 const StyledBubble = styled.div<{ fromAgent: boolean }>`
   background: ${({ fromAgent }) =>
-    fromAgent ? '#1A6CFF' : '#F1F1F4'};
+    fromAgent ? '#1A6CFF' : '#FFFFFF'};
   border: none;
+  box-shadow: ${({ fromAgent }) =>
+    fromAgent ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.08)'};
   border-radius: ${({ fromAgent }) =>
     fromAgent ? '18px 18px 4px 18px' : '18px 18px 18px 4px'};
   display: flex;

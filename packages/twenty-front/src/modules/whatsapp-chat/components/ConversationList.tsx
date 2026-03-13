@@ -48,17 +48,6 @@ const StyledHeader = styled.div`
   padding: ${({ theme }) => theme.spacing(3)};
 `;
 
-const StyledSessionSelect = styled.select`
-  background: #F5F6F7;
-  border: 1px solid #E5E7EB;
-  border-radius: 6px;
-  color: #374151;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13px;
-  outline: none;
-  padding: 4px 8px;
-`;
 
 const StyledList = styled.div`
   display: flex;
@@ -125,6 +114,7 @@ type ConversationListProps = {
   onTogglePin?: (id: string, isPinned: boolean) => void;
   onArchive?: (id: string) => void;
   onToggleRead?: (id: string, isUnread: boolean) => void;
+  sessionHeader?: React.ReactNode;
 };
 
 export const ConversationList = ({
@@ -135,12 +125,12 @@ export const ConversationList = ({
   onTogglePin,
   onArchive,
   onToggleRead,
+  sessionHeader,
 }: ConversationListProps) => {
   const currentMember = useRecoilValueV2(currentWorkspaceMemberState);
   const currentUserEmail = currentMember?.userEmail ?? '';
 
   const [search, setSearch] = useState('');
-  const [selectedSession, setSelectedSession] = useState<string>('');
   const [stateFilter, setStateFilter] = useState<StateFilter>('all');
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
   const [showArchived, setShowArchived] = useState(false);
@@ -153,8 +143,11 @@ export const ConversationList = ({
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
   const previousConversationsRef = useRef<WaConversation[]>([]);
 
+  // Always filter by the active session (passed from parent)
+  const activeSessionName = sessions.length === 1 ? sessions[0].name : undefined;
+
   const { conversations, loading, hasMore, loadMore } = useConversations({
-    session: selectedSession || undefined,
+    session: activeSessionName,
     search: search || undefined,
   });
 
@@ -306,21 +299,8 @@ export const ConversationList = ({
 
   return (
     <StyledContainer>
+      {sessionHeader}
       <StyledHeader>
-        {sessions.length > 1 && (
-          <StyledSessionSelect
-            value={selectedSession}
-            onChange={(e) => setSelectedSession(e.target.value)}
-          >
-            <option value="">All sessions</option>
-            {sessions.map((session) => (
-              <option key={session.name} value={session.name}>
-                {session.name}
-                {session.me?.pushName ? ` (${session.me.pushName})` : ''}
-              </option>
-            ))}
-          </StyledSessionSelect>
-        )}
         <ConversationSearch value={search} onChange={setSearch} />
         <ConversationFilters
           stateFilter={stateFilter}

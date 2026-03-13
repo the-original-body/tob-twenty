@@ -7,6 +7,7 @@ import { ChatHeader } from '@/whatsapp-chat/components/ChatHeader';
 import { ChatThread } from '@/whatsapp-chat/components/ChatThread';
 import { ConversationDetails } from '@/whatsapp-chat/components/ConversationDetails';
 import { ConversationList } from '@/whatsapp-chat/components/ConversationList';
+import { SessionPicker } from '@/whatsapp-chat/components/SessionPicker';
 import { useLabels } from '@/whatsapp-chat/hooks/useLabels';
 import { useMessages } from '@/whatsapp-chat/hooks/useMessages';
 import { useSendMessage } from '@/whatsapp-chat/hooks/useSendMessage';
@@ -16,6 +17,7 @@ import { useWhatsAppWebSocket } from '@/whatsapp-chat/hooks/useWhatsAppWebSocket
 import {
   type WaConversation,
   type WaMessage,
+  type WaSession,
   type WsEvent,
 } from '@/whatsapp-chat/types/WhatsAppTypes';
 
@@ -77,9 +79,45 @@ const StyledDot = styled.div<{ connected: boolean }>`
   width: 6px;
 `;
 
+const StyledSessionHeader = styled.div`
+  align-items: center;
+  background: #F0F2F5;
+  border-bottom: 1px solid #D1D5DB;
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+`;
+
+const StyledBackButton = styled.button`
+  align-items: center;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: #1A6CFF;
+  cursor: pointer;
+  display: flex;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  gap: 4px;
+  padding: 4px 8px;
+
+  &:hover {
+    background: #E8EBF0;
+  }
+`;
+
+const StyledSessionName = styled.span`
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+`;
+
 export const WhatsAppChatContainer = () => {
   const { bridgeFetch } = useWhatsAppBridge();
-  const { sessions } = useSessions();
+  const { sessions, loading: sessionsLoading, error: sessionsError } = useSessions();
+
+  const [activeSession, setActiveSession] = useState<WaSession | null>(null);
 
   const [currentConversationId, setCurrentConversationId] = useRecoilStateV2(
     currentConversationIdState,
@@ -88,6 +126,18 @@ export const WhatsAppChatContainer = () => {
   const [selectedConversation, setSelectedConversation] =
     useState<WaConversation | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+
+  const handleSelectSession = useCallback((session: WaSession) => {
+    setActiveSession(session);
+    setCurrentConversationId(null);
+    setSelectedConversation(null);
+  }, [setCurrentConversationId]);
+
+  const handleBackToSessions = useCallback(() => {
+    setActiveSession(null);
+    setCurrentConversationId(null);
+    setSelectedConversation(null);
+  }, [setCurrentConversationId]);
 
   const conversationsRef = useRef<WaConversation[]>([]);
 
@@ -367,10 +417,23 @@ export const WhatsAppChatContainer = () => {
     [selectedConversation],
   );
 
+  if (!activeSession) {
+    return (
+      <SessionPicker
+        sessions={sessions}
+        loading={sessionsLoading}
+        error={sessionsError}
+        onSelectSession={handleSelectSession}
+      />
+    );
+  }
+
+  const activeSessionArray = [activeSession];
+
   return (
     <StyledContainer>
       <ConversationList
-        sessions={sessions}
+        sessions={activeSessionArray}
         selectedConversationId={currentConversationId}
         onSelectConversation={handleSelectConversation}
         onConversationsLoaded={(convs) => {
@@ -379,6 +442,16 @@ export const WhatsAppChatContainer = () => {
         onTogglePin={handleTogglePin}
         onArchive={handleArchive}
         onToggleRead={handleToggleRead}
+        sessionHeader={
+          <StyledSessionHeader>
+            <StyledBackButton onClick={handleBackToSessions}>
+              ← Sessions
+            </StyledBackButton>
+            <StyledSessionName>
+              {activeSession.me?.pushName || activeSession.name}
+            </StyledSessionName>
+          </StyledSessionHeader>
+        }
       />
 
       <StyledCenterPanel>
