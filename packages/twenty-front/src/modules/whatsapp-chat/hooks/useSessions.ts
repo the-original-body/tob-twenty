@@ -18,8 +18,20 @@ export const useSessions = () => {
     setError(null);
 
     try {
-      const data = await bridgeFetch<WaSession[]>('/api/v1/sessions');
-      const result = data ?? [];
+      const data = await bridgeFetch<WaSession[] | { items?: WaSession[] }>(
+        '/api/v1/sessions',
+      );
+
+      // Handle both array and object-wrapped responses
+      let result: WaSession[];
+
+      if (Array.isArray(data)) {
+        result = data;
+      } else if (data && typeof data === 'object' && Array.isArray((data as { items?: WaSession[] }).items)) {
+        result = (data as { items: WaSession[] }).items;
+      } else {
+        result = [];
+      }
 
       setLocalSessions(result);
       setSessions(result);

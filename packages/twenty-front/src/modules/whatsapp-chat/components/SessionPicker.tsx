@@ -8,8 +8,10 @@ const StyledContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
+  height: 100%;
   justify-content: center;
   padding: 40px;
+  width: 100%;
 `;
 
 const StyledTitle = styled.h1`
