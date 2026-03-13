@@ -33,9 +33,9 @@ const StyledRow = styled.div`
 `;
 
 const StyledLabel = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  color: #9CA3AF;
+  font-size: 11px;
+  font-weight: 500;
   min-width: 70px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -43,58 +43,58 @@ const StyledLabel = styled.span`
 `;
 
 const StyledPill = styled.button<{ isActive: boolean }>`
-  background: ${({ isActive, theme }) =>
-    isActive ? theme.background.transparent.blue : theme.background.transparent.lighter};
+  background: ${({ isActive }) =>
+    isActive ? '#EBF0FF' : '#F3F4F6'};
   border: 1px solid
-    ${({ isActive, theme }) =>
-      isActive ? theme.accent.tertiary : theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.pill};
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue : theme.font.color.tertiary};
+    ${({ isActive }) =>
+      isActive ? '#1A6CFF' : '#E5E7EB'};
+  border-radius: 12px;
+  color: ${({ isActive }) =>
+    isActive ? '#1A6CFF' : '#6B7280'};
   cursor: pointer;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  font-size: 11px;
+  font-weight: 500;
   padding: 3px 10px;
   transition: all 120ms ease;
   white-space: nowrap;
 
   &:hover {
-    background: ${({ isActive, theme }) =>
-      isActive ? theme.background.transparent.blue : theme.background.transparent.light};
-    color: ${({ isActive, theme }) =>
-      isActive ? theme.color.blue : theme.font.color.secondary};
+    background: ${({ isActive }) =>
+      isActive ? '#EBF0FF' : '#E5E7EB'};
+    color: ${({ isActive }) =>
+      isActive ? '#1A6CFF' : '#374151'};
   }
 `;
 
 const StyledToggle = styled.button<{ isActive: boolean }>`
-  background: ${({ isActive, theme }) =>
-    isActive ? theme.background.transparent.blue : 'transparent'};
+  background: ${({ isActive }) =>
+    isActive ? '#EBF0FF' : 'transparent'};
   border: 1px solid
-    ${({ isActive, theme }) =>
-      isActive ? theme.accent.tertiary : theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue : theme.font.color.tertiary};
+    ${({ isActive }) =>
+      isActive ? '#1A6CFF' : '#E5E7EB'};
+  border-radius: 6px;
+  color: ${({ isActive }) =>
+    isActive ? '#1A6CFF' : '#6B7280'};
   cursor: pointer;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.xs};
+  font-size: 11px;
   padding: 3px 8px;
   white-space: nowrap;
 
   &:hover {
-    color: ${({ theme }) => theme.font.color.secondary};
+    color: #374151;
   }
 `;
 
 const StyledSortSelect = styled.select`
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.tertiary};
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  color: #6B7280;
   cursor: pointer;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.xs};
+  font-size: 11px;
   margin-left: auto;
   outline: none;
   padding: 3px 6px;
@@ -110,39 +110,39 @@ const StyledDropdownWrapper = styled.div`
 
 const StyledDropdownButton = styled.button<{ isActive: boolean }>`
   align-items: center;
-  background: ${({ isActive, theme }) =>
-    isActive ? theme.background.transparent.blue : theme.background.transparent.lighter};
+  background: ${({ isActive }) =>
+    isActive ? '#EBF0FF' : '#F3F4F6'};
   border: 1px solid
-    ${({ isActive, theme }) =>
-      isActive ? theme.accent.tertiary : theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue : theme.font.color.tertiary};
+    ${({ isActive }) =>
+      isActive ? '#1A6CFF' : '#E5E7EB'};
+  border-radius: 6px;
+  color: ${({ isActive }) =>
+    isActive ? '#1A6CFF' : '#6B7280'};
   cursor: pointer;
   display: flex;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
-  gap: ${({ theme }) => theme.spacing(1)};
+  font-size: 11px;
+  font-weight: 500;
+  gap: 4px;
   padding: 4px 10px;
   white-space: nowrap;
 
   &:hover {
-    background: ${({ isActive, theme }) =>
-      isActive ? theme.background.transparent.blue : theme.background.transparent.light};
-    color: ${({ isActive, theme }) =>
-      isActive ? theme.color.blue : theme.font.color.secondary};
+    background: ${({ isActive }) =>
+      isActive ? '#EBF0FF' : '#E5E7EB'};
+    color: ${({ isActive }) =>
+      isActive ? '#1A6CFF' : '#374151'};
   }
 `;
 
 const StyledBadge = styled.span`
   align-items: center;
-  background: ${({ theme }) => theme.color.blue};
-  border-radius: ${({ theme }) => theme.border.radius.pill};
-  color: ${({ theme }) => theme.background.primary};
+  background: #1A6CFF;
+  border-radius: 10px;
+  color: #FFFFFF;
   display: inline-flex;
   font-size: 10px;
-  font-weight: ${({ theme }) => theme.font.weight.bold};
+  font-weight: 700;
   height: 16px;
   justify-content: center;
   min-width: 16px;
@@ -150,10 +150,10 @@ const StyledBadge = styled.span`
 `;
 
 const StyledDropdownPanel = styled.div`
-  background: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.color.medium};
-  border-radius: ${({ theme }) => theme.border.radius.md};
-  box-shadow: ${({ theme }) => theme.boxShadow.strong};
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   left: 0;
   max-height: 280px;
   min-width: 200px;
@@ -165,25 +165,25 @@ const StyledDropdownPanel = styled.div`
 
 const StyledDropdownHeader = styled.div`
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
+  border-bottom: 1px solid #F3F4F6;
   display: flex;
   justify-content: space-between;
-  padding: ${({ theme }) => theme.spacing(1.5)} ${({ theme }) => theme.spacing(2)};
+  padding: 6px 8px;
 `;
 
 const StyledDropdownTitle = styled.span`
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.semiBold};
+  color: #111827;
+  font-size: 12px;
+  font-weight: 600;
 `;
 
 const StyledDropdownClear = styled.button`
   background: none;
   border: none;
-  color: ${({ theme }) => theme.color.blue};
+  color: #1A6CFF;
   cursor: pointer;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.xs};
+  font-size: 12px;
   padding: 0;
 
   &:hover {
@@ -195,16 +195,16 @@ const StyledCheckboxRow = styled.label`
   align-items: center;
   cursor: pointer;
   display: flex;
-  gap: ${({ theme }) => theme.spacing(1.5)};
-  padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(2)};
+  gap: 6px;
+  padding: 4px 8px;
 
   &:hover {
-    background: ${({ theme }) => theme.background.transparent.lighter};
+    background: #F5F6F7;
   }
 `;
 
 const StyledCheckbox = styled.input`
-  accent-color: ${({ theme }) => theme.color.blue};
+  accent-color: #1A6CFF;
   cursor: pointer;
   height: 14px;
   margin: 0;
@@ -221,8 +221,8 @@ const StyledColorDot = styled.span<{ dotColor: string }>`
 `;
 
 const StyledCheckboxLabel = styled.span`
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #374151;
+  font-size: 12px;
 `;
 
 const StyledCountRow = styled.div`
@@ -233,17 +233,17 @@ const StyledCountRow = styled.div`
 `;
 
 const StyledCountText = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #9CA3AF;
+  font-size: 12px;
 `;
 
 const StyledClearLink = styled.button`
   background: none;
   border: none;
-  color: ${({ theme }) => theme.color.blue};
+  color: #1A6CFF;
   cursor: pointer;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.xs};
+  font-size: 12px;
   padding: 0;
 
   &:hover {

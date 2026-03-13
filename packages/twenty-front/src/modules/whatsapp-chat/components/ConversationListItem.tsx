@@ -54,20 +54,20 @@ const PIPELINE_ICONS = {
 // ── Styled components ───────────────────────────────────────────
 
 const StyledItem = styled.div<{ isSelected: boolean }>`
-  background: ${({ isSelected, theme }) =>
-    isSelected ? theme.accent.quaternary : 'transparent'};
-  border-left: 3px solid ${({ isSelected, theme }) =>
-    isSelected ? theme.accent.primary : 'transparent'};
-  border-radius: ${({ theme }) => theme.border.radius.md};
+  background: ${({ isSelected }) =>
+    isSelected ? '#EBF0FF' : 'transparent'};
+  border-left: 3px solid ${({ isSelected }) =>
+    isSelected ? '#1A6CFF' : 'transparent'};
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  padding: ${({ theme }) => theme.spacing(2.5)} ${({ theme }) => theme.spacing(3)};
+  padding: 10px 12px;
   transition: background 120ms ease, border-color 120ms ease;
 
   &:hover {
-    background: ${({ isSelected, theme }) =>
-      isSelected ? theme.accent.quaternary : theme.background.transparent.lighter};
+    background: ${({ isSelected }) =>
+      isSelected ? '#EBF0FF' : '#F5F6F7'};
   }
 `;
 
@@ -79,17 +79,16 @@ const StyledCompactRow = styled.div`
 
 const StyledAvatar = styled.div<{ isClient?: boolean }>`
   align-items: center;
-  background: ${({ isClient, theme }) =>
-    isClient ? theme.color.blue : theme.background.transparent.light};
-  border: 1px solid ${({ isClient, theme }) =>
-    isClient ? theme.color.blue : theme.border.color.medium};
+  background: ${({ isClient }) =>
+    isClient ? '#1A6CFF' : '#E5E7EB'};
+  border: none;
   border-radius: 50%;
-  color: ${({ isClient, theme }) =>
-    isClient ? theme.font.color.inverted : theme.font.color.secondary};
+  color: ${({ isClient }) =>
+    isClient ? '#FFFFFF' : '#374151'};
   display: flex;
   flex-shrink: 0;
-  font-size: ${({ theme }) => theme.font.size.md};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  font-size: 14px;
+  font-weight: 600;
   height: 40px;
   justify-content: center;
   position: relative;
@@ -119,18 +118,18 @@ const StyledNameGroup = styled.div`
 `;
 
 const StyledName = styled.span<{ isUnread?: boolean }>`
-  color: ${({ isUnread, theme }) =>
-    isUnread ? theme.font.color.primary : theme.font.color.secondary};
-  font-size: ${({ theme }) => theme.font.size.md};
-  font-weight: ${({ isUnread, theme }) =>
-    isUnread ? theme.font.weight.semiBold : theme.font.weight.medium};
+  color: ${({ isUnread }) =>
+    isUnread ? '#111827' : '#374151'};
+  font-size: 14px;
+  font-weight: ${({ isUnread }) =>
+    isUnread ? 600 : 500};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 const StyledNeedsReplyDot = styled.div`
-  background: ${({ theme }) => theme.color.orange};
+  background: #F59E0B;
   border-radius: 50%;
   flex-shrink: 0;
   height: 8px;
@@ -158,10 +157,10 @@ const StyledProgramBadge = styled.span<{ bg: string; border: string; text: strin
 `;
 
 const StyledTimestamp = styled.span<{ isUnread?: boolean }>`
-  color: ${({ isUnread, theme }) =>
-    isUnread ? theme.color.blue : theme.font.color.light};
+  color: ${({ isUnread }) =>
+    isUnread ? '#1A6CFF' : '#9CA3AF'};
   flex-shrink: 0;
-  font-size: ${({ theme }) => theme.font.size.xs};
+  font-size: 12px;
   white-space: nowrap;
 `;
 
@@ -173,11 +172,11 @@ const StyledBottomRow = styled.div`
 `;
 
 const StyledPreview = styled.span<{ isUnread?: boolean }>`
-  color: ${({ isUnread, theme }) =>
-    isUnread ? theme.font.color.secondary : theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.sm};
-  font-weight: ${({ isUnread, theme }) =>
-    isUnread ? theme.font.weight.medium : theme.font.weight.regular};
+  color: ${({ isUnread }) =>
+    isUnread ? '#374151' : '#6B7280'};
+  font-size: 13px;
+  font-weight: ${({ isUnread }) =>
+    isUnread ? 500 : 400};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -191,23 +190,23 @@ const StyledBadges = styled.div`
 `;
 
 const StyledUnreadDot = styled.div`
-  background: ${({ theme }) => theme.color.blue};
+  background: #1A6CFF;
   border-radius: 50%;
   height: 8px;
   width: 8px;
 `;
 
 const StyledPinIcon = styled.div`
-  color: ${({ theme }) => theme.font.color.light};
+  color: #9CA3AF;
   display: flex;
 `;
 
 const StyledMessageCount = styled.span`
-  background: ${({ theme }) => theme.background.transparent.medium};
-  border-radius: ${({ theme }) => theme.border.radius.pill};
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  background: #E5E7EB;
+  border-radius: 10px;
+  color: #6B7280;
+  font-size: 10px;
+  font-weight: 600;
   min-width: 20px;
   padding: 1px 6px;
   position: absolute;
@@ -220,14 +219,14 @@ const StyledMessageCount = styled.span`
 
 const StyledPipelineContainer = styled.div`
   align-items: center;
-  background: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.md};
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
   display: flex;
   gap: 0;
   justify-content: space-between;
-  margin-top: ${({ theme }) => theme.spacing(2)};
-  padding: ${({ theme }) => theme.spacing(2.5)} ${({ theme }) => theme.spacing(3)};
+  margin-top: 8px;
+  padding: 10px 12px;
 `;
 
 const StyledPipelineStepWrapper = styled.div`
@@ -240,12 +239,12 @@ const StyledPipelineStepWrapper = styled.div`
 
 const StyledPipelineCircle = styled.div<{ active: boolean }>`
   align-items: center;
-  background: ${({ active, theme }) => (active ? theme.background.transparent.success : 'transparent')};
-  border: 2px solid ${({ active, theme }) =>
-    active ? theme.color.green : theme.border.color.medium};
+  background: ${({ active }) => (active ? '#DCFCE7' : 'transparent')};
+  border: 2px solid ${({ active }) =>
+    active ? '#22C55E' : '#D1D5DB'};
   border-radius: 50%;
-  color: ${({ active, theme }) =>
-    active ? theme.color.green : theme.font.color.extraLight};
+  color: ${({ active }) =>
+    active ? '#22C55E' : '#D1D5DB'};
   display: flex;
   height: 36px;
   justify-content: center;
@@ -253,16 +252,16 @@ const StyledPipelineCircle = styled.div<{ active: boolean }>`
 `;
 
 const StyledPipelineLine = styled.div<{ active: boolean }>`
-  background: ${({ active, theme }) =>
-    active ? theme.color.green : theme.border.color.light};
+  background: ${({ active }) =>
+    active ? '#22C55E' : '#E5E7EB'};
   flex: 1;
   height: 2px;
   margin-bottom: 20px;
 `;
 
 const StyledPipelineLabel = styled.span<{ active: boolean }>`
-  color: ${({ active, theme }) =>
-    active ? theme.color.green : theme.font.color.light};
+  color: ${({ active }) =>
+    active ? '#22C55E' : '#9CA3AF'};
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -286,29 +285,29 @@ const StyledDetailRow = styled.div`
 
 const StyledDetailIcon = styled.span`
   align-items: center;
-  color: ${({ theme }) => theme.font.color.light};
+  color: #9CA3AF;
   display: flex;
   flex-shrink: 0;
   width: 16px;
 `;
 
 const StyledDetailLabel = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #9CA3AF;
+  font-size: 12px;
   min-width: 52px;
 `;
 
 const StyledDetailValue = styled.span`
-  color: ${({ theme }) => theme.font.color.secondary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #374151;
+  font-size: 12px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
 
 const StyledDetailLink = styled.a`
-  color: ${({ theme }) => theme.color.blue};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #1A6CFF;
+  font-size: 12px;
   overflow: hidden;
   text-decoration: none;
   text-overflow: ellipsis;
@@ -361,11 +360,11 @@ const StyledCompactPipeline = styled.div`
 `;
 
 const StyledCompactStep = styled.div<{ active: boolean }>`
-  background: ${({ active, theme }) =>
-    active ? theme.background.transparent.success : theme.background.transparent.lighter};
+  background: ${({ active }) =>
+    active ? '#DCFCE7' : '#F3F4F6'};
   border-radius: 2px;
-  color: ${({ active, theme }) =>
-    active ? theme.color.green : theme.font.color.extraLight};
+  color: ${({ active }) =>
+    active ? '#22C55E' : '#D1D5DB'};
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -385,13 +384,13 @@ const StyledContextOverlay = styled.div`
 `;
 
 const StyledContextMenu = styled.div<{ x: number; y: number }>`
-  background: ${({ theme }) => theme.background.primary};
-  border: 1px solid ${({ theme }) => theme.border.color.medium};
-  border-radius: ${({ theme }) => theme.border.radius.md};
-  box-shadow: ${({ theme }) => theme.boxShadow.strong};
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   left: ${({ x }) => x}px;
   min-width: 180px;
-  padding: ${({ theme }) => theme.spacing(1)};
+  padding: 4px;
   position: fixed;
   top: ${({ y }) => y}px;
   z-index: 101;
@@ -401,18 +400,19 @@ const StyledContextMenuItem = styled.button`
   align-items: center;
   background: none;
   border: none;
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.primary};
+  border-radius: 6px;
+  color: #374151;
   cursor: pointer;
   display: flex;
-  font-size: ${({ theme }) => theme.font.size.sm};
-  gap: ${({ theme }) => theme.spacing(2)};
-  padding: ${({ theme }) => theme.spacing(1.5)} ${({ theme }) => theme.spacing(2)};
+  font-family: inherit;
+  font-size: 13px;
+  gap: 8px;
+  padding: 6px 8px;
   text-align: left;
   width: 100%;
 
   &:hover {
-    background: ${({ theme }) => theme.background.transparent.lighter};
+    background: #F5F6F7;
   }
 `;
 

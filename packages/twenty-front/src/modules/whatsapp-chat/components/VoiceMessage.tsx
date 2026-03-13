@@ -14,10 +14,10 @@ const StyledContainer = styled.div`
 
 const StyledPlayButton = styled.button`
   align-items: center;
-  background: ${({ theme }) => theme.color.blue};
+  background: #1A6CFF;
   border: none;
   border-radius: 50%;
-  color: ${({ theme }) => theme.font.color.inverted};
+  color: #FFFFFF;
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
@@ -38,7 +38,7 @@ const StyledWaveform = styled.div`
 `;
 
 const StyledProgressBar = styled.div`
-  background: ${({ theme }) => theme.background.transparent.medium};
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   cursor: pointer;
   height: 4px;
@@ -48,7 +48,7 @@ const StyledProgressBar = styled.div`
 `;
 
 const StyledProgress = styled.div<{ width: number }>`
-  background: ${({ theme }) => theme.color.blue};
+  background: #1A6CFF;
   border-radius: 2px;
   height: 100%;
   transition: width 100ms linear;
@@ -56,8 +56,8 @@ const StyledProgress = styled.div<{ width: number }>`
 `;
 
 const StyledDuration = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #6B7280;
+  font-size: 12px;
 `;
 
 const resolveMediaUrl = (mediaUrl: string): string => {

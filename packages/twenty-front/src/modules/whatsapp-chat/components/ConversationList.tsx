@@ -30,7 +30,8 @@ const NEEDS_REPLY_HOURS: Record<NeedsReplyThreshold, number> = {
 };
 
 const StyledContainer = styled.div`
-  border-right: 1px solid ${({ theme }) => theme.border.color.light};
+  background: #F9FAFB;
+  border-right: 1px solid #E5E7EB;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -39,8 +40,8 @@ const StyledContainer = styled.div`
 `;
 
 const StyledHeader = styled.div`
-  background: ${({ theme }) => theme.background.secondary};
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing(2)};
@@ -48,15 +49,15 @@ const StyledHeader = styled.div`
 `;
 
 const StyledSessionSelect = styled.select`
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.medium};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.secondary};
+  background: #F5F6F7;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  color: #374151;
   cursor: pointer;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.sm};
+  font-size: 13px;
   outline: none;
-  padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(2)};
+  padding: 4px 8px;
 `;
 
 const StyledList = styled.div`
@@ -68,11 +69,11 @@ const StyledList = styled.div`
 `;
 
 const StyledSectionLabel = styled.div`
-  color: ${({ theme }) => theme.font.color.light};
+  color: #9CA3AF;
   font-size: 10px;
-  font-weight: ${({ theme }) => theme.font.weight.semiBold};
+  font-weight: 600;
   letter-spacing: 0.08em;
-  padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
+  padding: 8px 12px;
   text-transform: uppercase;
 `;
 
@@ -80,13 +81,15 @@ const StyledLoadMore = styled.button`
   align-items: center;
   background: none;
   border: none;
-  color: ${({ theme }) => theme.color.blue};
+  color: #1A6CFF;
   cursor: pointer;
   display: flex;
-  font-size: ${({ theme }) => theme.font.size.sm};
-  gap: ${({ theme }) => theme.spacing(1)};
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  gap: 4px;
   justify-content: center;
-  padding: ${({ theme }) => theme.spacing(2)};
+  padding: 8px;
 
   &:hover {
     opacity: 0.8;
@@ -95,12 +98,12 @@ const StyledLoadMore = styled.button`
 
 const StyledEmptyState = styled.div`
   align-items: center;
-  color: ${({ theme }) => theme.font.color.light};
+  color: #9CA3AF;
   display: flex;
   flex: 1;
-  font-size: ${({ theme }) => theme.font.size.md};
+  font-size: 14px;
   justify-content: center;
-  padding: ${({ theme }) => theme.spacing(8)};
+  padding: 32px;
   text-align: center;
 `;
 

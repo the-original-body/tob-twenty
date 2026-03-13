@@ -37,40 +37,41 @@ const StyledCenterPanel = styled.div`
 
 const StyledEmptyCenter = styled.div`
   align-items: center;
-  color: ${({ theme }) => theme.font.color.tertiary};
+  background: #FAFBFC;
+  color: #6B7280;
   display: flex;
   flex: 1;
   flex-direction: column;
-  font-size: ${({ theme }) => theme.font.size.lg};
-  gap: ${({ theme }) => theme.spacing(2)};
+  font-size: 18px;
+  font-weight: 500;
+  gap: 8px;
   justify-content: center;
 `;
 
 const StyledEmptySubtext = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.md};
+  color: #9CA3AF;
+  font-size: 14px;
+  font-weight: 400;
 `;
 
 const StyledConnectionStatus = styled.div<{ connected: boolean }>`
   align-items: center;
-  background: ${({ connected, theme }) =>
-    connected
-      ? theme.background.secondary
-      : theme.background.transparent.danger};
-  border-bottom: 1px solid ${({ connected, theme }) =>
-    connected ? theme.border.color.light : theme.border.color.danger};
-  color: ${({ connected, theme }) =>
-    connected ? theme.font.color.tertiary : theme.color.red};
+  background: ${({ connected }) =>
+    connected ? '#F0FDF4' : '#FEF2F2'};
+  border-bottom: 1px solid ${({ connected }) =>
+    connected ? '#BBF7D0' : '#FECACA'};
+  color: ${({ connected }) =>
+    connected ? '#166534' : '#DC2626'};
   display: flex;
-  font-size: ${({ theme }) => theme.font.size.xs};
-  gap: ${({ theme }) => theme.spacing(1)};
+  font-size: 12px;
+  gap: 4px;
   justify-content: center;
-  padding: ${({ theme }) => theme.spacing(0.5)};
+  padding: 2px;
 `;
 
 const StyledDot = styled.div<{ connected: boolean }>`
-  background: ${({ connected, theme }) =>
-    connected ? theme.color.green : theme.color.red};
+  background: ${({ connected }) =>
+    connected ? '#22C55E' : '#EF4444'};
   border-radius: 50%;
   height: 6px;
   width: 6px;

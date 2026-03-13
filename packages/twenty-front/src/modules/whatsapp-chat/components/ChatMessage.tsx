@@ -14,26 +14,23 @@ const StyledRow = styled.div<{ fromAgent: boolean }>`
 `;
 
 const StyledBubble = styled.div<{ fromAgent: boolean }>`
-  background: ${({ fromAgent, theme }) =>
-    fromAgent
-      ? theme.accent.tertiary
-      : theme.background.secondary};
-  border: 1px solid
-    ${({ fromAgent, theme }) =>
-      fromAgent ? theme.accent.quaternary : theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.md};
+  background: ${({ fromAgent }) =>
+    fromAgent ? '#1A6CFF' : '#F1F1F4'};
+  border: none;
+  border-radius: ${({ fromAgent }) =>
+    fromAgent ? '18px 18px 4px 18px' : '18px 18px 18px 4px'};
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing(1)};
   max-width: 65%;
   min-width: 80px;
-  padding: ${({ theme }) => theme.spacing(2)};
+  padding: 10px 14px;
   position: relative;
 `;
 
-const StyledBody = styled.div`
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.md};
+const StyledBody = styled.div<{ fromAgent?: boolean }>`
+  color: ${({ fromAgent }) => (fromAgent ? '#FFFFFF' : '#1A1A1A')};
+  font-size: 14px;
   letter-spacing: 0.01em;
   line-height: 1.5;
   white-space: pre-wrap;
@@ -47,41 +44,41 @@ const StyledFooter = styled.div`
   justify-content: flex-end;
 `;
 
-const StyledTime = styled.span`
-  color: ${({ theme }) => theme.font.color.light};
+const StyledTime = styled.span<{ fromAgent?: boolean }>`
+  color: ${({ fromAgent }) => (fromAgent ? 'rgba(255,255,255,0.7)' : '#9CA3AF')};
   font-size: 11px;
 `;
 
 const StyledStatus = styled.div<{ status: WaMessage['status'] }>`
   align-items: center;
-  color: ${({ status, theme }) => {
+  color: ${({ status }) => {
     switch (status) {
       case 'SENDING':
-        return theme.font.color.light;
+        return 'rgba(255,255,255,0.5)';
       case 'SENT':
-        return theme.font.color.tertiary;
+        return 'rgba(255,255,255,0.7)';
       case 'DELIVERED':
-        return theme.color.blue;
+        return '#FFFFFF';
       case 'READ':
-        return theme.color.blue;
+        return '#FFFFFF';
       case 'FAILED':
-        return theme.color.red;
+        return '#FF6B6B';
       default:
-        return theme.font.color.light;
+        return 'rgba(255,255,255,0.5)';
     }
   }};
   display: flex;
 `;
 
-const StyledEditedLabel = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
+const StyledEditedLabel = styled.span<{ fromAgent?: boolean }>`
+  color: ${({ fromAgent }) => (fromAgent ? 'rgba(255,255,255,0.6)' : '#9CA3AF')};
   font-size: 11px;
   font-style: italic;
 `;
 
-const StyledDeletedMessage = styled.div`
-  color: ${({ theme }) => theme.font.color.light};
-  font-size: ${({ theme }) => theme.font.size.md};
+const StyledDeletedMessage = styled.div<{ fromAgent?: boolean }>`
+  color: ${({ fromAgent }) => (fromAgent ? 'rgba(255,255,255,0.6)' : '#9CA3AF')};
+  font-size: 14px;
   font-style: italic;
 `;
 
@@ -224,11 +221,11 @@ export const ChatMessage = ({ message, onEdit, onDelete }: ChatMessageProps) => 
     return (
       <StyledRow fromAgent={message.fromAgent}>
         <StyledBubble fromAgent={message.fromAgent}>
-          <StyledDeletedMessage>
+          <StyledDeletedMessage fromAgent={message.fromAgent}>
             This message was deleted
           </StyledDeletedMessage>
           <StyledFooter>
-            <StyledTime>
+            <StyledTime fromAgent={message.fromAgent}>
               {formatMessageTime(message.messageTimestamp)}
             </StyledTime>
           </StyledFooter>
@@ -279,12 +276,12 @@ export const ChatMessage = ({ message, onEdit, onDelete }: ChatMessageProps) => 
         ) : (
           <>
             {message.body && !isVoice && (
-              <StyledBody>{message.body}</StyledBody>
+              <StyledBody fromAgent={message.fromAgent}>{message.body}</StyledBody>
             )}
 
             <StyledFooter>
-              {message.isEdited && <StyledEditedLabel>edited</StyledEditedLabel>}
-              <StyledTime>{formatMessageTime(message.messageTimestamp)}</StyledTime>
+              {message.isEdited && <StyledEditedLabel fromAgent={message.fromAgent}>edited</StyledEditedLabel>}
+              <StyledTime fromAgent={message.fromAgent}>{formatMessageTime(message.messageTimestamp)}</StyledTime>
               {message.fromAgent && (
                 <StyledStatus status={message.status}>
                   <StatusIcon status={message.status} />
