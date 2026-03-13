@@ -1,7 +1,6 @@
 import { MeetingTranscriptsTranscriptRenderer } from '@/meeting-transcripts/components/MeetingTranscriptsTranscriptRenderer';
 import { type MeetingTranscriptRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 
 type MeetingTranscriptsDetailProps = {
   meeting: MeetingTranscriptRecord;
@@ -98,85 +97,78 @@ const formatDateTime = (dateString: string | null): string => {
 export const MeetingTranscriptsDetail = ({
   meeting,
 }: MeetingTranscriptsDetailProps) => {
-  const { t } = useLingui();
-
   return (
     <StyledDetailContainer>
-      {/* Meeting Info */}
       <StyledSection>
         <StyledMeetingTitle>
-          {meeting.name || t`Untitled Meeting`}
+          {meeting.name || 'Untitled Meeting'}
         </StyledMeetingTitle>
         <StyledInfoGrid>
-          <StyledInfoLabel>{t`Meeting ID`}</StyledInfoLabel>
+          <StyledInfoLabel>Meeting ID</StyledInfoLabel>
           <StyledInfoValue>
             {meeting.meetingUUID || (
-              <StyledEmptyText>{t`Not available`}</StyledEmptyText>
+              <StyledEmptyText>Not available</StyledEmptyText>
             )}
           </StyledInfoValue>
 
-          <StyledInfoLabel>{t`Start`}</StyledInfoLabel>
+          <StyledInfoLabel>Start</StyledInfoLabel>
           <StyledInfoValue>{formatDateTime(meeting.startTime)}</StyledInfoValue>
 
-          <StyledInfoLabel>{t`End`}</StyledInfoLabel>
+          <StyledInfoLabel>End</StyledInfoLabel>
           <StyledInfoValue>{formatDateTime(meeting.endTime)}</StyledInfoValue>
 
-          <StyledInfoLabel>{t`Duration`}</StyledInfoLabel>
+          <StyledInfoLabel>Duration</StyledInfoLabel>
           <StyledInfoValue>
             {meeting.duration || (
-              <StyledEmptyText>{t`Unknown`}</StyledEmptyText>
+              <StyledEmptyText>Unknown</StyledEmptyText>
             )}
           </StyledInfoValue>
 
-          <StyledInfoLabel>{t`Host`}</StyledInfoLabel>
+          <StyledInfoLabel>Host</StyledInfoLabel>
           <StyledInfoValue>
             {meeting.hostEmail || (
-              <StyledEmptyText>{t`Not available`}</StyledEmptyText>
+              <StyledEmptyText>Not available</StyledEmptyText>
             )}
           </StyledInfoValue>
 
           {meeting.meetingTopic && (
             <>
-              <StyledInfoLabel>{t`Topic`}</StyledInfoLabel>
+              <StyledInfoLabel>Topic</StyledInfoLabel>
               <StyledInfoValue>{meeting.meetingTopic}</StyledInfoValue>
             </>
           )}
         </StyledInfoGrid>
       </StyledSection>
 
-      {/* Participants */}
       <StyledSection>
-        <StyledSectionTitle>{t`Participants`}</StyledSectionTitle>
+        <StyledSectionTitle>Participants</StyledSectionTitle>
         <StyledParticipantsList>
           {meeting.participants || (
-            <StyledEmptyText>{t`No participants available`}</StyledEmptyText>
+            <StyledEmptyText>No participants available</StyledEmptyText>
           )}
         </StyledParticipantsList>
       </StyledSection>
 
-      {/* English Summary */}
       <StyledSection>
-        <StyledSectionTitle>{t`Summary (EN)`}</StyledSectionTitle>
+        <StyledSectionTitle>Summary (EN)</StyledSectionTitle>
         <StyledSummaryText>
           {meeting.summaryEN || (
-            <StyledEmptyText>{t`No summary available`}</StyledEmptyText>
+            <StyledEmptyText>No summary available</StyledEmptyText>
           )}
         </StyledSummaryText>
       </StyledSection>
 
-      {/* German Summary */}
       <StyledSection>
-        <StyledSectionTitle>{t`Summary (DE)`}</StyledSectionTitle>
+        <StyledSectionTitle>Summary (DE)</StyledSectionTitle>
         <StyledSummaryText>
           {meeting.summaryDE || (
-            <StyledEmptyText>{t`No summary available`}</StyledEmptyText>
+            <StyledEmptyText>No summary available</StyledEmptyText>
           )}
         </StyledSummaryText>
       </StyledSection>
 
-      {/* Full Transcript */}
       <StyledSection>
-        <StyledSectionTitle>{t`Full Transcript`}</StyledSectionTitle>
+        <StyledSectionTitle>Full Transcript</StyledSectionTitle>
         <MeetingTranscriptsTranscriptRenderer transcript={meeting.transcript} />
       </StyledSection>
     </StyledDetailContainer>

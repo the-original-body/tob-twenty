@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 import { isDefined } from 'twenty-shared/utils';
 
 type MeetingTranscriptsListItemProps = {
@@ -69,17 +68,16 @@ export const MeetingTranscriptsListItem = ({
   isSelected,
   onClick,
 }: MeetingTranscriptsListItemProps) => {
-  const { t } = useLingui();
   const formattedDate = formatMeetingDate(meetingDate);
 
   return (
     <StyledListItem isSelected={isSelected} onClick={onClick}>
       <StyledMeetingName>
-        {meetingName || t`Untitled Meeting`}
+        {meetingName || 'Untitled Meeting'}
       </StyledMeetingName>
       <StyledMetaRow>
         {isDefined(meetingId) && <span>{meetingId}</span>}
-        <span>{formattedDate ?? t`Date unknown`}</span>
+        <span>{formattedDate ?? 'Date unknown'}</span>
       </StyledMetaRow>
     </StyledListItem>
   );

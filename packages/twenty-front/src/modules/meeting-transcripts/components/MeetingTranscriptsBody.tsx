@@ -5,7 +5,6 @@ import { useMeetingObjectExists } from '@/meeting-transcripts/hooks/useMeetingOb
 import { useMeetingTranscriptsList } from '@/meeting-transcripts/hooks/useMeetingTranscriptsList';
 import { type MeetingFilterValues } from '@/meeting-transcripts/types/meeting-transcripts.types';
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 import { useCallback, useState } from 'react';
 import { IconAlertTriangle } from 'twenty-ui/display';
 import { useDebouncedCallback } from 'use-debounce';
@@ -101,13 +100,12 @@ export const MeetingTranscriptsBody = ({
   selectedMeetingId,
   onSelectMeeting,
 }: MeetingTranscriptsBodyProps) => {
-  const { t } = useLingui();
   const { exists, isLoading } = useMeetingObjectExists();
 
   if (isLoading) {
     return (
       <StyledMessageContainer>
-        <StyledMessageText>{t`Loading...`}</StyledMessageText>
+        <StyledMessageText>Loading...</StyledMessageText>
       </StyledMessageContainer>
     );
   }
@@ -118,9 +116,11 @@ export const MeetingTranscriptsBody = ({
         <StyledMessageIcon>
           <IconAlertTriangle size={48} />
         </StyledMessageIcon>
-        <StyledMessageTitle>{t`Meeting object not found`}</StyledMessageTitle>
+        <StyledMessageTitle>Meeting object not found</StyledMessageTitle>
         <StyledMessageText>
-          {t`The Meeting object has not been set up in this workspace. Please contact your administrator to create the Meeting object and sync meeting data.`}
+          The Meeting object has not been set up in this workspace. Please
+          contact your administrator to create the Meeting object and sync
+          meeting data.
         </StyledMessageText>
       </StyledMessageContainer>
     );

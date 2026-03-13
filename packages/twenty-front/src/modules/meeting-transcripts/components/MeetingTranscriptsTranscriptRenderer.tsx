@@ -1,6 +1,5 @@
 import { parseTranscriptSegments } from '@/meeting-transcripts/utils/parse-transcript.util';
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 
 type MeetingTranscriptsTranscriptRendererProps = {
   transcript: string | null;
@@ -43,11 +42,9 @@ const StyledEmptyMessage = styled.div`
 export const MeetingTranscriptsTranscriptRenderer = ({
   transcript,
 }: MeetingTranscriptsTranscriptRendererProps) => {
-  const { t } = useLingui();
-
   if (!transcript || transcript.trim().length === 0) {
     return (
-      <StyledEmptyMessage>{t`No transcript available`}</StyledEmptyMessage>
+      <StyledEmptyMessage>No transcript available</StyledEmptyMessage>
     );
   }
 
@@ -55,7 +52,7 @@ export const MeetingTranscriptsTranscriptRenderer = ({
 
   if (segments.length === 0) {
     return (
-      <StyledEmptyMessage>{t`No transcript available`}</StyledEmptyMessage>
+      <StyledEmptyMessage>No transcript available</StyledEmptyMessage>
     );
   }
 
