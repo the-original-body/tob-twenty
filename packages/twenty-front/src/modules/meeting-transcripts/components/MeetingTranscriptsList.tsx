@@ -1,7 +1,6 @@
 import { MeetingTranscriptsListItem } from '@/meeting-transcripts/components/MeetingTranscriptsListItem';
 import { type MeetingTranscriptRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 import { type ObjectRecord } from '@/object-record/types/ObjectRecord';
 
 type MeetingTranscriptsListProps = {
@@ -42,12 +41,10 @@ export const MeetingTranscriptsList = ({
   selectedMeetingId,
   onSelectMeeting,
 }: MeetingTranscriptsListProps) => {
-  const { t } = useLingui();
-
   if (loading && meetings.length === 0) {
     return (
       <StyledListContainer>
-        <StyledLoadingContainer>{t`Loading meetings...`}</StyledLoadingContainer>
+        <StyledLoadingContainer>{"Loading meetings..."}</StyledLoadingContainer>
       </StyledListContainer>
     );
   }
@@ -55,7 +52,7 @@ export const MeetingTranscriptsList = ({
   if (meetings.length === 0) {
     return (
       <StyledListContainer>
-        <StyledEmptyContainer>{t`No meetings found`}</StyledEmptyContainer>
+        <StyledEmptyContainer>{"No meetings found"}</StyledEmptyContainer>
       </StyledListContainer>
     );
   }

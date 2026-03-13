@@ -3,7 +3,6 @@ import { MeetingTranscriptsEmptyDetail } from '@/meeting-transcripts/components/
 import { useMeetingTranscriptDetail } from '@/meeting-transcripts/hooks/useMeetingTranscriptDetail';
 import { type MeetingTranscriptRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 import { isDefined } from 'twenty-shared/utils';
 
 type MeetingTranscriptsRightPanelProps = {
@@ -40,7 +39,6 @@ const StyledErrorContainer = styled.div`
 export const MeetingTranscriptsRightPanel = ({
   selectedMeetingId,
 }: MeetingTranscriptsRightPanelProps) => {
-  const { t } = useLingui();
   const { meeting, loading, error } =
     useMeetingTranscriptDetail(selectedMeetingId);
 
@@ -56,7 +54,7 @@ export const MeetingTranscriptsRightPanel = ({
     return (
       <StyledRightPanel>
         <StyledLoadingContainer>
-          {t`Loading meeting details...`}
+          Loading meeting details...
         </StyledLoadingContainer>
       </StyledRightPanel>
     );
@@ -66,7 +64,7 @@ export const MeetingTranscriptsRightPanel = ({
     return (
       <StyledRightPanel>
         <StyledErrorContainer>
-          {t`Failed to load meeting details. Please try again.`}
+          Failed to load meeting details. Please try again.
         </StyledErrorContainer>
       </StyledRightPanel>
     );

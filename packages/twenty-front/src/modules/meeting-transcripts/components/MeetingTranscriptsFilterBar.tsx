@@ -1,7 +1,6 @@
 import { type MeetingFilterValues } from '@/meeting-transcripts/types/meeting-transcripts.types';
 import { TextInput } from '@/ui/input/components/TextInput';
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 import { IconId, IconMail, IconSearch } from 'twenty-ui/display';
 
 type MeetingTranscriptsFilterBarProps = {
@@ -48,8 +47,6 @@ export const MeetingTranscriptsFilterBar = ({
   filterValues,
   onFilterChange,
 }: MeetingTranscriptsFilterBarProps) => {
-  const { t } = useLingui();
-
   const updateFilter = (key: keyof MeetingFilterValues, value: string) => {
     onFilterChange({ ...filterValues, [key]: value });
   };
@@ -60,7 +57,7 @@ export const MeetingTranscriptsFilterBar = ({
         <TextInput
           value={filterValues.searchTerm}
           onChange={(value) => updateFilter('searchTerm', value)}
-          placeholder={t`Search transcripts...`}
+          placeholder="Search transcripts..."
           LeftIcon={IconSearch}
           fullWidth
           sizeVariant="sm"
@@ -70,7 +67,7 @@ export const MeetingTranscriptsFilterBar = ({
         <TextInput
           value={filterValues.topic}
           onChange={(value) => updateFilter('topic', value)}
-          placeholder={t`Topic`}
+          placeholder="Topic"
           fullWidth
           sizeVariant="sm"
         />
@@ -79,7 +76,7 @@ export const MeetingTranscriptsFilterBar = ({
         <TextInput
           value={filterValues.host}
           onChange={(value) => updateFilter('host', value)}
-          placeholder={t`Host email`}
+          placeholder="Host email"
           LeftIcon={IconMail}
           fullWidth
           sizeVariant="sm"
@@ -89,7 +86,7 @@ export const MeetingTranscriptsFilterBar = ({
         <TextInput
           value={filterValues.meetingId}
           onChange={(value) => updateFilter('meetingId', value)}
-          placeholder={t`Meeting ID`}
+          placeholder="Meeting ID"
           LeftIcon={IconId}
           fullWidth
           sizeVariant="sm"
@@ -102,8 +99,8 @@ export const MeetingTranscriptsFilterBar = ({
           onChange={(event) =>
             updateFilter('startDateFrom', event.target.value)
           }
-          placeholder={t`Start date`}
-          title={t`Filter by start date`}
+          placeholder="Start date"
+          title="Filter by start date"
         />
       </StyledFilterInput>
     </StyledFilterContainer>

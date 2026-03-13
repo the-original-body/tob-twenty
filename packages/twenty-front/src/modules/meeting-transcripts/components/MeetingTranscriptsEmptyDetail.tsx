@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useLingui } from '@lingui/react/macro';
 import { IconVideo } from 'twenty-ui/display';
 
 const StyledContainer = styled.div`
@@ -29,16 +28,14 @@ const StyledSubtitle = styled.div`
 `;
 
 export const MeetingTranscriptsEmptyDetail = () => {
-  const { t } = useLingui();
-
   return (
     <StyledContainer>
       <StyledIconContainer>
         <IconVideo size={48} />
       </StyledIconContainer>
-      <StyledTitle>{t`Select a meeting`}</StyledTitle>
+      <StyledTitle>Select a meeting</StyledTitle>
       <StyledSubtitle>
-        {t`Click on a meeting from the list to view its transcript and details.`}
+        Click on a meeting from the list to view its transcript and details.
       </StyledSubtitle>
     </StyledContainer>
   );
