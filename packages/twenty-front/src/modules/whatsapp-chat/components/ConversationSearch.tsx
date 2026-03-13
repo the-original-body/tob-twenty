@@ -3,10 +3,11 @@ import { useCallback, useState } from 'react';
 
 import { IconSearch, IconX } from 'twenty-ui/display';
 
-const StyledSearchContainer = styled.div`
+const StyledSearchContainer = styled.div<{ isFocused?: boolean }>`
   align-items: center;
   background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.medium};
+  border: 1px solid ${({ isFocused, theme }) =>
+    isFocused ? theme.color.blue : theme.border.color.medium};
   border-radius: ${({ theme }) => theme.border.radius.sm};
   display: flex;
   gap: ${({ theme }) => theme.spacing(2)};
@@ -65,11 +66,7 @@ export const ConversationSearch = ({
   }, [onChange]);
 
   return (
-    <StyledSearchContainer
-      style={{
-        borderColor: isFocused ? 'var(--tw-color-blue-400, #60a5fa)' : undefined,
-      }}
-    >
+    <StyledSearchContainer isFocused={isFocused}>
       <StyledSearchIcon>
         <IconSearch size={16} />
       </StyledSearchIcon>

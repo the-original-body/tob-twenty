@@ -26,8 +26,8 @@ const PROGRAM_COLORS: Record<string, { bg: string; text: string }> = {
 // ── Styled components ───────────────────────────────────────────
 
 const StyledContainer = styled.div`
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  background: ${({ theme }) => theme.background.secondary};
+  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -51,13 +51,13 @@ const StyledLeft = styled.div`
 
 const StyledAvatar = styled.div<{ isClient?: boolean }>`
   align-items: center;
-  background: ${({ isClient }) =>
-    isClient ? '#2563eb' : 'rgba(255, 255, 255, 0.10)'};
-  border: 1px solid ${({ isClient }) =>
-    isClient ? 'rgba(37, 99, 235, 0.5)' : 'rgba(255, 255, 255, 0.12)'};
+  background: ${({ isClient, theme }) =>
+    isClient ? theme.color.blue : theme.background.transparent.light};
+  border: 1px solid ${({ isClient, theme }) =>
+    isClient ? theme.color.blue : theme.border.color.medium};
   border-radius: 50%;
-  color: ${({ isClient }) =>
-    isClient ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'};
+  color: ${({ isClient, theme }) =>
+    isClient ? theme.font.color.inverted : theme.font.color.secondary};
   display: flex;
   flex-shrink: 0;
   font-size: ${({ theme }) => theme.font.size.md};
@@ -75,7 +75,7 @@ const StyledInfo = styled.div`
 `;
 
 const StyledName = styled.span`
-  color: #f0f0f0;
+  color: ${({ theme }) => theme.font.color.primary};
   font-size: ${({ theme }) => theme.font.size.md};
   font-weight: ${({ theme }) => theme.font.weight.semiBold};
   overflow: hidden;
@@ -90,7 +90,7 @@ const StyledPhoneRow = styled.div`
 `;
 
 const StyledPhone = styled.span`
-  color: rgba(255, 255, 255, 0.5);
+  color: ${({ theme }) => theme.font.color.tertiary};
   font-size: ${({ theme }) => theme.font.size.sm};
 `;
 
@@ -108,7 +108,7 @@ const StyledProgramBadge = styled.span<{ bg: string; text: string }>`
 `;
 
 const StyledOwnerLine = styled.span`
-  color: rgba(255, 255, 255, 0.4);
+  color: ${({ theme }) => theme.font.color.tertiary};
   font-size: ${({ theme }) => theme.font.size.xs};
   overflow: hidden;
   text-overflow: ellipsis;
@@ -125,9 +125,9 @@ const StyledRight = styled.div`
 const StyledIconButton = styled.button`
   align-items: center;
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid ${({ theme }) => theme.border.color.light};
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: rgba(255, 255, 255, 0.5);
+  color: ${({ theme }) => theme.font.color.tertiary};
   cursor: pointer;
   display: flex;
   height: 32px;
@@ -135,9 +135,9 @@ const StyledIconButton = styled.button`
   width: 32px;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.85);
+    background: ${({ theme }) => theme.background.transparent.lighter};
+    border-color: ${({ theme }) => theme.border.color.medium};
+    color: ${({ theme }) => theme.font.color.primary};
   }
 `;
 
@@ -178,9 +178,9 @@ const StyledLabelsRow = styled.div`
 const StyledAddLabelButton = styled.button`
   align-items: center;
   background: none;
-  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border: 1px dashed ${({ theme }) => theme.border.color.medium};
   border-radius: ${({ theme }) => theme.border.radius.pill};
-  color: rgba(255, 255, 255, 0.4);
+  color: ${({ theme }) => theme.font.color.tertiary};
   cursor: pointer;
   display: inline-flex;
   font-family: inherit;
@@ -191,8 +191,8 @@ const StyledAddLabelButton = styled.button`
   white-space: nowrap;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.35);
-    color: rgba(255, 255, 255, 0.7);
+    border-color: ${({ theme }) => theme.border.color.strong};
+    color: ${({ theme }) => theme.font.color.secondary};
   }
 `;
 

@@ -37,7 +37,7 @@ const StyledCenterPanel = styled.div`
 
 const StyledEmptyCenter = styled.div`
   align-items: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${({ theme }) => theme.font.color.tertiary};
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -53,14 +53,14 @@ const StyledEmptySubtext = styled.span`
 
 const StyledConnectionStatus = styled.div<{ connected: boolean }>`
   align-items: center;
-  background: ${({ connected }) =>
+  background: ${({ connected, theme }) =>
     connected
-      ? 'rgba(255, 255, 255, 0.03)'
-      : 'rgba(239, 68, 68, 0.12)'};
-  border-bottom: 1px solid ${({ connected }) =>
-    connected ? 'rgba(255, 255, 255, 0.08)' : 'rgba(239, 68, 68, 0.3)'};
-  color: ${({ connected }) =>
-    connected ? 'rgba(255, 255, 255, 0.5)' : '#f87171'};
+      ? theme.background.secondary
+      : theme.background.transparent.danger};
+  border-bottom: 1px solid ${({ connected, theme }) =>
+    connected ? theme.border.color.light : theme.border.color.danger};
+  color: ${({ connected, theme }) =>
+    connected ? theme.font.color.tertiary : theme.color.red};
   display: flex;
   font-size: ${({ theme }) => theme.font.size.xs};
   gap: ${({ theme }) => theme.spacing(1)};
@@ -70,7 +70,7 @@ const StyledConnectionStatus = styled.div<{ connected: boolean }>`
 
 const StyledDot = styled.div<{ connected: boolean }>`
   background: ${({ connected, theme }) =>
-    connected ? '#22c55e' : theme.color.red};
+    connected ? theme.color.green : theme.color.red};
   border-radius: 50%;
   height: 6px;
   width: 6px;

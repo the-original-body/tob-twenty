@@ -15,8 +15,8 @@ import {
 import { IconMic } from '@/whatsapp-chat/components/IconMic';
 
 const StyledContainer = styled.div`
-  background: rgba(255, 255, 255, 0.02);
-  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  background: ${({ theme }) => theme.background.secondary};
+  border-top: 1px solid ${({ theme }) => theme.border.color.light};
   display: flex;
   flex-direction: column;
   padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
@@ -29,10 +29,10 @@ const StyledInputRow = styled.div`
 `;
 
 const StyledTextArea = styled.textarea`
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: ${({ theme }) => theme.background.transparent.lighter};
+  border: 1px solid ${({ theme }) => theme.border.color.medium};
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: rgba(255, 255, 255, 0.9);
+  color: ${({ theme }) => theme.font.color.primary};
   flex: 1;
   font-family: inherit;
   font-size: ${({ theme }) => theme.font.size.md};
@@ -44,12 +44,12 @@ const StyledTextArea = styled.textarea`
   resize: none;
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: ${({ theme }) => theme.font.color.light};
   }
 
   &:focus {
-    border-color: rgba(96, 165, 250, 0.6);
-    background: rgba(255, 255, 255, 0.07);
+    border-color: ${({ theme }) => theme.color.blue};
+    background: ${({ theme }) => theme.background.primary};
   }
 `;
 
