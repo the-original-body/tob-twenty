@@ -139,6 +139,13 @@ export const WhatsAppChatContainer = () => {
     setSelectedConversation(null);
   }, [setCurrentConversationId]);
 
+  // Auto-select if there's only one session
+  useEffect(() => {
+    if (!activeSession && !sessionsLoading && sessions.length === 1) {
+      setActiveSession(sessions[0]);
+    }
+  }, [activeSession, sessionsLoading, sessions]);
+
   const conversationsRef = useRef<WaConversation[]>([]);
 
   const { labels, addLabel, removeLabel } = useLabels(currentConversationId);
