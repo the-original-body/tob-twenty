@@ -1,6 +1,12 @@
+import { MeetingTranscriptsCollapsibleSection } from '@/meeting-transcripts/components/MeetingTranscriptsCollapsibleSection';
+import { MeetingTranscriptsParticipantCard } from '@/meeting-transcripts/components/MeetingTranscriptsParticipantCard';
 import { MeetingTranscriptsTranscriptRenderer } from '@/meeting-transcripts/components/MeetingTranscriptsTranscriptRenderer';
 import { type MeetingTranscriptRecord } from '@/meeting-transcripts/types/meeting-transcripts.types';
+import { parseParticipants } from '@/meeting-transcripts/utils/parse-participants.util';
 import styled from '@emotion/styled';
+import { IconCopy } from 'twenty-ui/display';
+import { isDefined } from 'twenty-shared/utils';
+import { useCopyToClipboard } from '~/hooks/useCopyToClipboard';
 
 type MeetingTranscriptsDetailProps = {
   meeting: MeetingTranscriptRecord;
@@ -12,24 +18,6 @@ const StyledDetailContainer = styled.div`
   height: 100%;
   overflow-y: auto;
   padding: ${({ theme }) => theme.spacing(4)};
-`;
-
-const StyledSection = styled.div`
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
-  padding-bottom: ${({ theme }) => theme.spacing(4)};
-  margin-bottom: ${({ theme }) => theme.spacing(4)};
-
-  &:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-`;
-
-const StyledSectionTitle = styled.h3`
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.md};
-  font-weight: ${({ theme }) => theme.font.weight.semiBold};
-  margin: 0 0 ${({ theme }) => theme.spacing(3)} 0;
 `;
 
 const StyledMeetingTitle = styled.h2`
@@ -56,10 +44,10 @@ const StyledInfoValue = styled.span`
   font-size: ${({ theme }) => theme.font.size.sm};
 `;
 
-const StyledParticipantsList = styled.div`
-  color: ${({ theme }) => theme.font.color.secondary};
-  font-size: ${({ theme }) => theme.font.size.sm};
-  line-height: 1.6;
+const StyledParticipantsGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing(2)};
 `;
 
 const StyledSummaryText = styled.div`
@@ -72,6 +60,22 @@ const StyledSummaryText = styled.div`
 const StyledEmptyText = styled.span`
   color: ${({ theme }) => theme.font.color.light};
   font-style: italic;
+`;
+
+const StyledCopyButton = styled.button`
+  align-items: center;
+  background: none;
+  border: none;
+  border-radius: ${({ theme }) => theme.border.radius.sm};
+  color: ${({ theme }) => theme.font.color.tertiary};
+  cursor: pointer;
+  display: flex;
+  padding: ${({ theme }) => theme.spacing(1)};
+
+  &:hover {
+    background: ${({ theme }) => theme.background.transparent.light};
+    color: ${({ theme }) => theme.font.color.primary};
+  }
 `;
 
 const formatDateTime = (dateString: string | null): string => {
@@ -94,15 +98,59 @@ const formatDateTime = (dateString: string | null): string => {
   }
 };
 
+const buildMeetingInfoText = (meeting: MeetingTranscriptRecord): string => {
+  const lines = [
+    `Meeting ID: ${meeting.meetingUuid || 'N/A'}`,
+    `Start: ${formatDateTime(meeting.meetingStartTime)}`,
+    `End: ${formatDateTime(meeting.meetingEndTime)}`,
+    `Duration: ${meeting.meetingDuration || 'Unknown'}`,
+    `Host: ${meeting.hostEmail || 'N/A'}`,
+  ];
+
+  if (isDefined(meeting.meetingTopic)) {
+    lines.push(`Topic: ${meeting.meetingTopic}`);
+  }
+
+  return lines.join('\n');
+};
+
 export const MeetingTranscriptsDetail = ({
   meeting,
 }: MeetingTranscriptsDetailProps) => {
+  const { copyToClipboard } = useCopyToClipboard();
+  const parsedParticipants = parseParticipants(meeting.participants);
+  const participantCountLabel = isDefined(meeting.participantCount)
+    ? ` (${meeting.participantCount})`
+    : parsedParticipants.length > 0
+      ? ` (${parsedParticipants.length})`
+      : '';
+
+  const renderCopyButton = (content: string | null, message: string) => {
+    if (!isDefined(content) || content.trim().length === 0) {
+      return undefined;
+    }
+
+    return (
+      <StyledCopyButton onClick={() => copyToClipboard(content, message)}>
+        <IconCopy size={14} />
+      </StyledCopyButton>
+    );
+  };
+
   return (
     <StyledDetailContainer>
-      <StyledSection>
-        <StyledMeetingTitle>
-          {meeting.name || 'Untitled Meeting'}
-        </StyledMeetingTitle>
+      <StyledMeetingTitle>
+        {meeting.name || 'Untitled Meeting'}
+      </StyledMeetingTitle>
+
+      <MeetingTranscriptsCollapsibleSection
+        title="Meeting Info"
+        isInitiallyExpanded={true}
+        rightElement={renderCopyButton(
+          buildMeetingInfoText(meeting),
+          'Meeting info copied',
+        )}
+      >
         <StyledInfoGrid>
           <StyledInfoLabel>Meeting ID</StyledInfoLabel>
           <StyledInfoValue>
@@ -112,10 +160,14 @@ export const MeetingTranscriptsDetail = ({
           </StyledInfoValue>
 
           <StyledInfoLabel>Start</StyledInfoLabel>
-          <StyledInfoValue>{formatDateTime(meeting.meetingStartTime)}</StyledInfoValue>
+          <StyledInfoValue>
+            {formatDateTime(meeting.meetingStartTime)}
+          </StyledInfoValue>
 
           <StyledInfoLabel>End</StyledInfoLabel>
-          <StyledInfoValue>{formatDateTime(meeting.meetingEndTime)}</StyledInfoValue>
+          <StyledInfoValue>
+            {formatDateTime(meeting.meetingEndTime)}
+          </StyledInfoValue>
 
           <StyledInfoLabel>Duration</StyledInfoLabel>
           <StyledInfoValue>
@@ -138,39 +190,69 @@ export const MeetingTranscriptsDetail = ({
             </>
           )}
         </StyledInfoGrid>
-      </StyledSection>
+      </MeetingTranscriptsCollapsibleSection>
 
-      <StyledSection>
-        <StyledSectionTitle>Participants</StyledSectionTitle>
-        <StyledParticipantsList>
-          {meeting.participants || (
-            <StyledEmptyText>No participants available</StyledEmptyText>
-          )}
-        </StyledParticipantsList>
-      </StyledSection>
+      <MeetingTranscriptsCollapsibleSection
+        title={`Participants${participantCountLabel}`}
+        isInitiallyExpanded={true}
+        rightElement={renderCopyButton(
+          meeting.participants,
+          'Participants copied',
+        )}
+      >
+        {parsedParticipants.length > 0 ? (
+          <StyledParticipantsGrid>
+            {parsedParticipants.map((participant, index) => (
+              <MeetingTranscriptsParticipantCard
+                key={`${participant.name}-${index}`}
+                participant={participant}
+              />
+            ))}
+          </StyledParticipantsGrid>
+        ) : (
+          <StyledEmptyText>No participants available</StyledEmptyText>
+        )}
+      </MeetingTranscriptsCollapsibleSection>
 
-      <StyledSection>
-        <StyledSectionTitle>Summary (EN)</StyledSectionTitle>
+      <MeetingTranscriptsCollapsibleSection
+        title="Summary (EN)"
+        isInitiallyExpanded={true}
+        rightElement={renderCopyButton(meeting.summaryEng, 'Summary copied')}
+      >
         <StyledSummaryText>
           {meeting.summaryEng || (
             <StyledEmptyText>No summary available</StyledEmptyText>
           )}
         </StyledSummaryText>
-      </StyledSection>
+      </MeetingTranscriptsCollapsibleSection>
 
-      <StyledSection>
-        <StyledSectionTitle>Summary (DE)</StyledSectionTitle>
+      <MeetingTranscriptsCollapsibleSection
+        title="Summary (DE)"
+        isInitiallyExpanded={false}
+        rightElement={renderCopyButton(
+          meeting.zusammenfassung,
+          'Summary copied',
+        )}
+      >
         <StyledSummaryText>
           {meeting.zusammenfassung || (
             <StyledEmptyText>No summary available</StyledEmptyText>
           )}
         </StyledSummaryText>
-      </StyledSection>
+      </MeetingTranscriptsCollapsibleSection>
 
-      <StyledSection>
-        <StyledSectionTitle>Full Transcript</StyledSectionTitle>
-        <MeetingTranscriptsTranscriptRenderer transcript={meeting.transcriptText} />
-      </StyledSection>
+      <MeetingTranscriptsCollapsibleSection
+        title="Full Transcript"
+        isInitiallyExpanded={false}
+        rightElement={renderCopyButton(
+          meeting.transcriptText,
+          'Transcript copied',
+        )}
+      >
+        <MeetingTranscriptsTranscriptRenderer
+          transcript={meeting.transcriptText}
+        />
+      </MeetingTranscriptsCollapsibleSection>
     </StyledDetailContainer>
   );
 };

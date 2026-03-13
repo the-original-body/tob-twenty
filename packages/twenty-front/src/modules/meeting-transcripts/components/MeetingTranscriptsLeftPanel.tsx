@@ -7,6 +7,8 @@ import styled from '@emotion/styled';
 type MeetingTranscriptsLeftPanelProps = {
   meetings: ObjectRecord[];
   loading: boolean;
+  fetchMoreRecords: (() => void) | undefined;
+  hasNextPage: boolean;
   filterValues: MeetingFilterValues;
   onFilterChange: (values: MeetingFilterValues) => void;
   selectedMeetingId: string | null;
@@ -26,6 +28,8 @@ const StyledLeftPanel = styled.div`
 export const MeetingTranscriptsLeftPanel = ({
   meetings,
   loading,
+  fetchMoreRecords,
+  hasNextPage,
   filterValues,
   onFilterChange,
   selectedMeetingId,
@@ -40,6 +44,8 @@ export const MeetingTranscriptsLeftPanel = ({
       <MeetingTranscriptsList
         meetings={meetings}
         loading={loading}
+        fetchMoreRecords={fetchMoreRecords}
+        hasNextPage={hasNextPage}
         selectedMeetingId={selectedMeetingId}
         onSelectMeeting={onSelectMeeting}
       />

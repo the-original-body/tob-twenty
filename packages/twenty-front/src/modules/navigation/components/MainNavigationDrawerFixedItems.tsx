@@ -1,6 +1,7 @@
 import { useOpenAskAIPageInCommandMenu } from '@/command-menu/hooks/useOpenAskAIPageInCommandMenu';
 import { useOpenRecordsSearchPageInCommandMenu } from '@/command-menu/hooks/useOpenRecordsSearchPageInCommandMenu';
 import { NavigationDrawerItem } from '@/ui/navigation/navigation-drawer/components/NavigationDrawerItem';
+import { NavigationDrawerSubItem } from '@/ui/navigation/navigation-drawer/components/NavigationDrawerSubItem';
 import { isNavigationDrawerExpandedState } from '@/ui/navigation/states/isNavigationDrawerExpanded';
 import { navigationDrawerExpandedMemorizedStateV2 } from '@/ui/navigation/states/navigationDrawerExpandedMemorizedStateV2';
 import { navigationMemorizedUrlState } from '@/ui/navigation/states/navigationMemorizedUrlState';
@@ -8,6 +9,7 @@ import { useRecoilStateV2 } from '@/ui/utilities/state/jotai/hooks/useRecoilStat
 import { useSetRecoilStateV2 } from '@/ui/utilities/state/jotai/hooks/useSetRecoilStateV2';
 import { useIsFeatureEnabled } from '@/workspace/hooks/useIsFeatureEnabled';
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
@@ -17,6 +19,7 @@ import {
   IconSparkles,
   IconVideo,
 } from 'twenty-ui/display';
+import { AnimatedExpandableContainer } from 'twenty-ui/layout';
 import { useIsMobile } from 'twenty-ui/utilities';
 import { FeatureFlagKey } from '~/generated-metadata/graphql';
 
@@ -41,6 +44,13 @@ export const MainNavigationDrawerFixedItems = () => {
   const { openAskAIPage } = useOpenAskAIPageInCommandMenu();
   const isAiEnabled = useIsFeatureEnabled(FeatureFlagKey.IS_AI_ENABLED);
 
+  const isOnTranscriptRoute =
+    location.pathname.startsWith('/meeting-transcripts') ||
+    location.pathname.startsWith('/objects/tobMeetingTranscripts');
+
+  const [isTranscriptsExpanded, setIsTranscriptsExpanded] =
+    useState(isOnTranscriptRoute);
+
   return (
     !isMobile && (
       <>
@@ -62,9 +72,24 @@ export const MainNavigationDrawerFixedItems = () => {
         )}
         <NavigationDrawerItem
           label={t`Transcripts`}
-          to="/meeting-transcripts"
           Icon={IconVideo}
+          onClick={() => setIsTranscriptsExpanded((previous) => !previous)}
+          active={isOnTranscriptRoute}
         />
+        <AnimatedExpandableContainer isExpanded={isTranscriptsExpanded}>
+          <NavigationDrawerSubItem
+            label={t`Viewer`}
+            to="/meeting-transcripts"
+            active={location.pathname === '/meeting-transcripts'}
+          />
+          <NavigationDrawerSubItem
+            label={t`Dataset`}
+            to="/objects/tobMeetingTranscripts"
+            active={location.pathname.startsWith(
+              '/objects/tobMeetingTranscripts',
+            )}
+          />
+        </AnimatedExpandableContainer>
         <NavigationDrawerItem
           label={t`Settings`}
           to={getSettingsPath(SettingsPath.ProfilePage)}
