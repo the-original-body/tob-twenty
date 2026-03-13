@@ -67,7 +67,7 @@ const StyledItem = styled.div<{ isSelected: boolean }>`
 
   &:hover {
     background: ${({ isSelected }) =>
-      isSelected ? '#EBF0FF' : '#F5F6F7'};
+      isSelected ? '#EBF0FF' : '#F5F6FA'};
   }
 `;
 

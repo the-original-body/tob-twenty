@@ -30,8 +30,8 @@ const NEEDS_REPLY_HOURS: Record<NeedsReplyThreshold, number> = {
 };
 
 const StyledContainer = styled.div`
-  background: #F9FAFB;
-  border-right: 1px solid #E5E7EB;
+  background: #E8EBF0;
+  border-right: 1px solid #D1D5DB;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -40,8 +40,8 @@ const StyledContainer = styled.div`
 `;
 
 const StyledHeader = styled.div`
-  background: #FFFFFF;
-  border-bottom: 1px solid #E5E7EB;
+  background: #F0F2F5;
+  border-bottom: 1px solid #D1D5DB;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing(2)};
