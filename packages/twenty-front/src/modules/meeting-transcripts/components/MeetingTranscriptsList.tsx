@@ -66,8 +66,8 @@ export const MeetingTranscriptsList = ({
           <MeetingTranscriptsListItem
             key={meetingRecord.id}
             meetingName={meetingRecord.name}
-            meetingId={meetingRecord.meetingUUID}
-            meetingDate={meetingRecord.startTime}
+            meetingId={meetingRecord.meetingUuid}
+            meetingDate={meetingRecord.meetingStartTime}
             isSelected={meetingRecord.id === selectedMeetingId}
             onClick={() => onSelectMeeting(meetingRecord.id)}
           />

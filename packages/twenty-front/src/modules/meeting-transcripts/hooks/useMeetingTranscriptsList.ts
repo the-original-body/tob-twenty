@@ -15,7 +15,7 @@ export const useMeetingTranscriptsList = (
     useFindManyRecords({
       objectNameSingular: MEETING_OBJECT_NAME_SINGULAR,
       filter,
-      orderBy: [{ startTime: 'DescNullsLast' }],
+      orderBy: [{ meetingStartTime: 'DescNullsLast' }],
       recordGqlFields: MEETING_LIST_GQL_FIELDS,
       limit: MEETING_LIST_PAGE_SIZE,
     });

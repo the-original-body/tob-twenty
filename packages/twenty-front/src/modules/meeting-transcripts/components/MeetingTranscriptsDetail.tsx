@@ -106,20 +106,20 @@ export const MeetingTranscriptsDetail = ({
         <StyledInfoGrid>
           <StyledInfoLabel>Meeting ID</StyledInfoLabel>
           <StyledInfoValue>
-            {meeting.meetingUUID || (
+            {meeting.meetingUuid || (
               <StyledEmptyText>Not available</StyledEmptyText>
             )}
           </StyledInfoValue>
 
           <StyledInfoLabel>Start</StyledInfoLabel>
-          <StyledInfoValue>{formatDateTime(meeting.startTime)}</StyledInfoValue>
+          <StyledInfoValue>{formatDateTime(meeting.meetingStartTime)}</StyledInfoValue>
 
           <StyledInfoLabel>End</StyledInfoLabel>
-          <StyledInfoValue>{formatDateTime(meeting.endTime)}</StyledInfoValue>
+          <StyledInfoValue>{formatDateTime(meeting.meetingEndTime)}</StyledInfoValue>
 
           <StyledInfoLabel>Duration</StyledInfoLabel>
           <StyledInfoValue>
-            {meeting.duration || (
+            {meeting.meetingDuration || (
               <StyledEmptyText>Unknown</StyledEmptyText>
             )}
           </StyledInfoValue>
@@ -152,7 +152,7 @@ export const MeetingTranscriptsDetail = ({
       <StyledSection>
         <StyledSectionTitle>Summary (EN)</StyledSectionTitle>
         <StyledSummaryText>
-          {meeting.summaryEN || (
+          {meeting.summaryEng || (
             <StyledEmptyText>No summary available</StyledEmptyText>
           )}
         </StyledSummaryText>
@@ -161,7 +161,7 @@ export const MeetingTranscriptsDetail = ({
       <StyledSection>
         <StyledSectionTitle>Summary (DE)</StyledSectionTitle>
         <StyledSummaryText>
-          {meeting.summaryDE || (
+          {meeting.zusammenfassung || (
             <StyledEmptyText>No summary available</StyledEmptyText>
           )}
         </StyledSummaryText>
@@ -169,7 +169,7 @@ export const MeetingTranscriptsDetail = ({
 
       <StyledSection>
         <StyledSectionTitle>Full Transcript</StyledSectionTitle>
-        <MeetingTranscriptsTranscriptRenderer transcript={meeting.transcript} />
+        <MeetingTranscriptsTranscriptRenderer transcript={meeting.transcriptText} />
       </StyledSection>
     </StyledDetailContainer>
   );
