@@ -14,13 +14,13 @@ const StyledRow = styled.div<{ fromAgent: boolean }>`
 `;
 
 const StyledBubble = styled.div<{ fromAgent: boolean }>`
-  background: ${({ fromAgent, theme }) =>
+  background: ${({ fromAgent }) =>
     fromAgent
-      ? theme.background.transparent.medium
-      : theme.background.primary};
+      ? 'rgba(29, 78, 216, 0.12)'
+      : 'rgba(255, 255, 255, 0.06)'};
   border: 1px solid
-    ${({ fromAgent, theme }) =>
-      fromAgent ? theme.border.color.light : theme.border.color.medium};
+    ${({ fromAgent }) =>
+      fromAgent ? 'rgba(29, 78, 216, 0.25)' : 'rgba(255, 255, 255, 0.12)'};
   border-radius: ${({ theme }) => theme.border.radius.md};
   display: flex;
   flex-direction: column;
@@ -34,7 +34,8 @@ const StyledBubble = styled.div<{ fromAgent: boolean }>`
 const StyledBody = styled.div`
   color: ${({ theme }) => theme.font.color.primary};
   font-size: ${({ theme }) => theme.font.size.md};
-  line-height: 1.45;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-word;
 `;
@@ -47,7 +48,7 @@ const StyledFooter = styled.div`
 `;
 
 const StyledTime = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
+  color: ${({ theme }) => theme.font.color.light};
   font-size: 11px;
 `;
 
