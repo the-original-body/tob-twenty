@@ -14,7 +14,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledMessages = styled.div`
-  background: #FAFBFC;
+  background: #EEF0F3;
   display: flex;
   flex: 1;
   flex-direction: column;

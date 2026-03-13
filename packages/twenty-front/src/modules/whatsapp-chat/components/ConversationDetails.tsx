@@ -11,7 +11,8 @@ import { type WaConversation } from '@/whatsapp-chat/types/WhatsAppTypes';
 // ── Styled components ───────────────────────────────────────────
 
 const StyledContainer = styled.div`
-  border-left: 1px solid ${({ theme }) => theme.border.color.medium};
+  background: #F5F6F8;
+  border-left: 1px solid #D1D5DB;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -21,7 +22,8 @@ const StyledContainer = styled.div`
 
 const StyledHeader = styled.div`
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
+  background: #FFFFFF;
+  border-bottom: 1px solid #D1D5DB;
   display: flex;
   justify-content: space-between;
   min-height: 56px;
@@ -29,17 +31,17 @@ const StyledHeader = styled.div`
 `;
 
 const StyledTitle = styled.span`
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.md};
-  font-weight: ${({ theme }) => theme.font.weight.semiBold};
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
 `;
 
 const StyledCloseButton = styled.button`
   align-items: center;
   background: none;
   border: none;
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.secondary};
+  border-radius: 4px;
+  color: #9CA3AF;
   cursor: pointer;
   display: flex;
   height: 28px;
@@ -47,13 +49,14 @@ const StyledCloseButton = styled.button`
   width: 28px;
 
   &:hover {
-    background: ${({ theme }) => theme.background.transparent.lighter};
-    color: ${({ theme }) => theme.font.color.primary};
+    background: #F3F4F6;
+    color: #374151;
   }
 `;
 
 const StyledTabs = styled.div`
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
+  background: #FFFFFF;
+  border-bottom: 1px solid #D1D5DB;
   display: flex;
   gap: 0;
 `;
@@ -62,10 +65,10 @@ const StyledTab = styled.button<{ isActive: boolean }>`
   background: none;
   border: none;
   border-bottom: 2px solid
-    ${({ isActive, theme }) =>
-      isActive ? theme.color.blue : 'transparent'};
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue : theme.font.color.tertiary};
+    ${({ isActive }) =>
+      isActive ? '#1A6CFF' : 'transparent'};
+  color: ${({ isActive }) =>
+    isActive ? '#1A6CFF' : '#9CA3AF'};
   cursor: pointer;
   flex: 1;
   font-family: inherit;
@@ -91,11 +94,11 @@ const StyledBody = styled.div`
 const StyledAvatar = styled.div<{ isClient?: boolean }>`
   align-items: center;
   align-self: center;
-  background: ${({ isClient, theme }) =>
-    isClient ? theme.color.blue : theme.background.transparent.medium};
+  background: ${({ isClient }) =>
+    isClient ? '#1A6CFF' : '#E5E7EB'};
   border-radius: 50%;
-  color: ${({ isClient, theme }) =>
-    isClient ? theme.font.color.inverted : theme.font.color.secondary};
+  color: ${({ isClient }) =>
+    isClient ? '#FFFFFF' : '#374151'};
   display: flex;
   font-size: 24px;
   font-weight: ${({ theme }) => theme.font.weight.medium};
@@ -106,16 +109,16 @@ const StyledAvatar = styled.div<{ isClient?: boolean }>`
 
 const StyledContactName = styled.div`
   align-self: center;
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.lg};
-  font-weight: ${({ theme }) => theme.font.weight.semiBold};
+  color: #111827;
+  font-size: 18px;
+  font-weight: 600;
   text-align: center;
 `;
 
 const StyledContactSubtext = styled.div`
   align-self: center;
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.sm};
+  color: #9CA3AF;
+  font-size: 13px;
   text-align: center;
 `;
 
@@ -126,9 +129,9 @@ const StyledSection = styled.div`
 `;
 
 const StyledSectionTitle = styled.span`
-  color: ${({ theme }) => theme.font.color.light};
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.semiBold};
+  color: #9CA3AF;
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 `;
@@ -140,51 +143,33 @@ const StyledField = styled.div`
 `;
 
 const StyledFieldLabel = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #9CA3AF;
+  font-size: 12px;
 `;
 
 const StyledFieldValue = styled.span`
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.sm};
+  color: #111827;
+  font-size: 13px;
   word-break: break-word;
 `;
+
+const BADGE_STYLES = {
+  success: { bg: '#DCFCE7', color: '#166534' },
+  warning: { bg: '#FEF3C7', color: '#92400E' },
+  danger: { bg: '#FEE2E2', color: '#DC2626' },
+  info: { bg: '#DBEAFE', color: '#1D4ED8' },
+  neutral: { bg: '#F3F4F6', color: '#6B7280' },
+};
 
 const StyledBadge = styled.span<{
   variant: 'success' | 'warning' | 'neutral' | 'danger' | 'info';
 }>`
-  background: ${({ theme, variant }) => {
-    switch (variant) {
-      case 'success':
-        return theme.color.green + '20';
-      case 'warning':
-        return theme.color.orange + '20';
-      case 'danger':
-        return theme.color.red + '20';
-      case 'info':
-        return theme.color.blue + '20';
-      default:
-        return theme.background.transparent.lighter;
-    }
-  }};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme, variant }) => {
-    switch (variant) {
-      case 'success':
-        return theme.color.green;
-      case 'warning':
-        return theme.color.orange;
-      case 'danger':
-        return theme.color.red;
-      case 'info':
-        return theme.color.blue;
-      default:
-        return theme.font.color.secondary;
-    }
-  }};
+  background: ${({ variant }) => BADGE_STYLES[variant].bg};
+  border-radius: 4px;
+  color: ${({ variant }) => BADGE_STYLES[variant].color};
   display: inline-block;
-  font-size: ${({ theme }) => theme.font.size.xs};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  font-size: 11px;
+  font-weight: 500;
   padding: 2px 8px;
   width: fit-content;
 `;
@@ -196,28 +181,28 @@ const StyledBadgeRow = styled.div`
 `;
 
 const StyledAssignInput = styled.input`
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.medium};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.primary};
+  background: #FFFFFF;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  color: #111827;
   font-family: inherit;
-  font-size: ${({ theme }) => theme.font.size.sm};
+  font-size: 13px;
   outline: none;
-  padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(2)};
+  padding: 4px 8px;
 
   &:focus {
-    border-color: ${({ theme }) => theme.color.blue};
+    border-color: #1A6CFF;
   }
 `;
 
 const StyledAssignButton = styled.button`
-  background: ${({ theme }) => theme.color.blue};
+  background: #1A6CFF;
   border: none;
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.inverted};
+  border-radius: 4px;
+  color: #FFFFFF;
   cursor: pointer;
-  font-size: ${({ theme }) => theme.font.size.sm};
-  padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(2)};
+  font-size: 13px;
+  padding: 4px 8px;
 
   &:hover {
     opacity: 0.9;
@@ -225,13 +210,13 @@ const StyledAssignButton = styled.button`
 `;
 
 const StyledLoadingText = styled.span`
-  color: ${({ theme }) => theme.font.color.light};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #9CA3AF;
+  font-size: 11px;
   font-style: italic;
 `;
 
 const StyledDivider = styled.div`
-  background: ${({ theme }) => theme.border.color.light};
+  background: #E5E7EB;
   height: 1px;
   width: 100%;
 `;
@@ -244,36 +229,36 @@ const StyledPipelineRow = styled.div`
 
 const StyledPipelineStep = styled.div<{ active: boolean }>`
   align-items: center;
-  background: ${({ active, theme }) =>
-    active ? theme.color.green + '20' : theme.background.transparent.lighter};
-  border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ active, theme }) =>
-    active ? theme.color.green : theme.font.color.light};
+  background: ${({ active }) =>
+    active ? '#DCFCE7' : '#F3F4F6'};
+  border-radius: 4px;
+  color: ${({ active }) =>
+    active ? '#166534' : '#9CA3AF'};
   display: flex;
   flex: 1;
   flex-direction: column;
   font-size: 10px;
   font-weight: 600;
   gap: 2px;
-  padding: ${({ theme }) => theme.spacing(1)};
+  padding: 4px;
   text-align: center;
 `;
 
 const StyledPipelineConnector = styled.div<{ active: boolean }>`
-  background: ${({ active, theme }) =>
-    active ? theme.color.green : theme.border.color.light};
+  background: ${({ active }) =>
+    active ? '#22C55E' : '#E5E7EB'};
   height: 2px;
   width: 8px;
 `;
 
 const StyledCard = styled.div`
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.light};
-  border-radius: ${({ theme }) => theme.border.radius.md};
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing(1)};
-  padding: ${({ theme }) => theme.spacing(2)};
+  gap: 4px;
+  padding: 8px;
 `;
 
 const StyledCardHeader = styled.div`
@@ -283,26 +268,26 @@ const StyledCardHeader = styled.div`
 `;
 
 const StyledCardTitle = styled.span`
-  color: ${({ theme }) => theme.font.color.primary};
-  font-size: ${({ theme }) => theme.font.size.sm};
-  font-weight: ${({ theme }) => theme.font.weight.medium};
+  color: #111827;
+  font-size: 13px;
+  font-weight: 500;
 `;
 
 const StyledCardMeta = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #9CA3AF;
+  font-size: 11px;
 `;
 
 const StyledCardBody = styled.span`
-  color: ${({ theme }) => theme.font.color.secondary};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: #6B7280;
+  font-size: 11px;
   line-height: 1.4;
 `;
 
 const StyledEmptyState = styled.div`
-  color: ${({ theme }) => theme.font.color.light};
-  font-size: ${({ theme }) => theme.font.size.sm};
-  padding: ${({ theme }) => theme.spacing(4)} 0;
+  color: #9CA3AF;
+  font-size: 13px;
+  padding: 16px 0;
   text-align: center;
 `;
 

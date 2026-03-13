@@ -37,7 +37,7 @@ const StyledCenterPanel = styled.div`
 
 const StyledEmptyCenter = styled.div`
   align-items: center;
-  background: #FAFBFC;
+  background: #EEF0F3;
   color: #6B7280;
   display: flex;
   flex: 1;
