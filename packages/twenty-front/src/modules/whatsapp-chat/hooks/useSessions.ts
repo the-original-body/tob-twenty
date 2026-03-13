@@ -18,17 +18,25 @@ export const useSessions = () => {
     setError(null);
 
     try {
-      const data = await bridgeFetch<WaSession[] | { items?: WaSession[] }>(
-        '/api/v1/sessions',
-      );
+      const data = await bridgeFetch<
+        WaSession[] | { data?: WaSession[]; items?: WaSession[] }
+      >('/api/v1/sessions');
 
-      // Handle both array and object-wrapped responses
+      // Handle array, { data: [...] }, and { items: [...] } response formats
       let result: WaSession[];
 
       if (Array.isArray(data)) {
         result = data;
-      } else if (data && typeof data === 'object' && Array.isArray((data as { items?: WaSession[] }).items)) {
-        result = (data as { items: WaSession[] }).items;
+      } else if (data && typeof data === 'object') {
+        const wrapped = data as { data?: WaSession[]; items?: WaSession[] };
+
+        if (Array.isArray(wrapped.data)) {
+          result = wrapped.data;
+        } else if (Array.isArray(wrapped.items)) {
+          result = wrapped.items;
+        } else {
+          result = [];
+        }
       } else {
         result = [];
       }
