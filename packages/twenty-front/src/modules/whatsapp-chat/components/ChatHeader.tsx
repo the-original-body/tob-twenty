@@ -10,6 +10,7 @@ import {
 import { type WaConversation, type WaLabel } from '@/whatsapp-chat/types/WhatsAppTypes';
 import { LabelBadge } from '@/whatsapp-chat/components/LabelBadge';
 import { LabelPicker } from '@/whatsapp-chat/components/LabelPicker';
+import { useProfilePicture } from '@/whatsapp-chat/hooks/useProfilePicture';
 
 // ── Program colors (same as ConversationListItem) ───────────────
 
@@ -63,6 +64,14 @@ const StyledAvatar = styled.div<{ isClient?: boolean }>`
   font-weight: 600;
   height: 40px;
   justify-content: center;
+  width: 40px;
+`;
+
+const StyledProfilePicture = styled.img`
+  border-radius: 50%;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: cover;
   width: 40px;
 `;
 
@@ -219,6 +228,11 @@ export const ChatHeader = ({
   const [showPicker, setShowPicker] = useState(false);
   const addButtonRef = useRef<HTMLButtonElement>(null);
 
+  const { pictureUrl } = useProfilePicture(
+    conversation.sessionName,
+    conversation.leadPhoneNumber,
+  );
+
   const displayName =
     conversation.leadFullName ||
     conversation.whatsappName ||
@@ -253,9 +267,13 @@ export const ChatHeader = ({
     <StyledContainer>
       <StyledTopRow>
         <StyledLeft>
-          <StyledAvatar isClient={conversation.isClient}>
-            {initials || '?'}
-          </StyledAvatar>
+          {pictureUrl ? (
+            <StyledProfilePicture src={pictureUrl} alt={displayName} />
+          ) : (
+            <StyledAvatar isClient={conversation.isClient}>
+              {initials || '?'}
+            </StyledAvatar>
+          )}
           <StyledInfo>
             <StyledName>{displayName}</StyledName>
             {showPhone && (
