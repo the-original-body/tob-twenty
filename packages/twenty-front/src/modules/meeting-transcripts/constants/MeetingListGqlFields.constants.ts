@@ -4,8 +4,8 @@ export const MEETING_LIST_GQL_FIELDS: RecordGqlOperationGqlRecordFields = {
   id: true,
   name: true,
   createdAt: true,
-  meetingUUID: true,
-  startTime: true,
-  duration: true,
+  meetingUuid: true,
+  meetingStartTime: true,
+  meetingDuration: true,
   hostEmail: true,
 };
