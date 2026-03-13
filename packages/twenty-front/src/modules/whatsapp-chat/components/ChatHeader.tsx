@@ -26,7 +26,8 @@ const PROGRAM_COLORS: Record<string, { bg: string; text: string }> = {
 // ── Styled components ───────────────────────────────────────────
 
 const StyledContainer = styled.div`
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.medium};
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -50,11 +51,13 @@ const StyledLeft = styled.div`
 
 const StyledAvatar = styled.div<{ isClient?: boolean }>`
   align-items: center;
-  background: ${({ isClient, theme }) =>
-    isClient ? theme.color.blue : theme.background.transparent.medium};
+  background: ${({ isClient }) =>
+    isClient ? '#2563eb' : 'rgba(255, 255, 255, 0.10)'};
+  border: 1px solid ${({ isClient }) =>
+    isClient ? 'rgba(37, 99, 235, 0.5)' : 'rgba(255, 255, 255, 0.12)'};
   border-radius: 50%;
-  color: ${({ isClient, theme }) =>
-    isClient ? theme.font.color.inverted : theme.font.color.secondary};
+  color: ${({ isClient }) =>
+    isClient ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'};
   display: flex;
   flex-shrink: 0;
   font-size: ${({ theme }) => theme.font.size.md};
@@ -72,7 +75,7 @@ const StyledInfo = styled.div`
 `;
 
 const StyledName = styled.span`
-  color: ${({ theme }) => theme.font.color.primary};
+  color: #f0f0f0;
   font-size: ${({ theme }) => theme.font.size.md};
   font-weight: ${({ theme }) => theme.font.weight.semiBold};
   overflow: hidden;
@@ -87,7 +90,7 @@ const StyledPhoneRow = styled.div`
 `;
 
 const StyledPhone = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
+  color: rgba(255, 255, 255, 0.5);
   font-size: ${({ theme }) => theme.font.size.sm};
 `;
 
@@ -105,7 +108,7 @@ const StyledProgramBadge = styled.span<{ bg: string; text: string }>`
 `;
 
 const StyledOwnerLine = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
+  color: rgba(255, 255, 255, 0.4);
   font-size: ${({ theme }) => theme.font.size.xs};
   overflow: hidden;
   text-overflow: ellipsis;
@@ -122,9 +125,9 @@ const StyledRight = styled.div`
 const StyledIconButton = styled.button`
   align-items: center;
   background: none;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.secondary};
+  color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
   display: flex;
   height: 32px;
@@ -132,8 +135,9 @@ const StyledIconButton = styled.button`
   width: 32px;
 
   &:hover {
-    background: ${({ theme }) => theme.background.transparent.lighter};
-    color: ${({ theme }) => theme.font.color.primary};
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.85);
   }
 `;
 
@@ -174,9 +178,9 @@ const StyledLabelsRow = styled.div`
 const StyledAddLabelButton = styled.button`
   align-items: center;
   background: none;
-  border: 1px dashed ${({ theme }) => theme.border.color.medium};
+  border: 1px dashed rgba(255, 255, 255, 0.18);
   border-radius: ${({ theme }) => theme.border.radius.pill};
-  color: ${({ theme }) => theme.font.color.tertiary};
+  color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
   display: inline-flex;
   font-family: inherit;
@@ -187,8 +191,8 @@ const StyledAddLabelButton = styled.button`
   white-space: nowrap;
 
   &:hover {
-    border-color: ${({ theme }) => theme.font.color.secondary};
-    color: ${({ theme }) => theme.font.color.secondary};
+    border-color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.7);
   }
 `;
 

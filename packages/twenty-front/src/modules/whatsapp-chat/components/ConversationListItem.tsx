@@ -54,17 +54,20 @@ const PIPELINE_ICONS = {
 // ── Styled components ───────────────────────────────────────────
 
 const StyledItem = styled.div<{ isSelected: boolean }>`
-  background: ${({ isSelected, theme }) =>
-    isSelected ? theme.background.transparent.light : 'transparent'};
+  background: ${({ isSelected }) =>
+    isSelected ? 'rgba(29, 78, 216, 0.10)' : 'transparent'};
+  border-left: 3px solid ${({ isSelected }) =>
+    isSelected ? 'rgba(29, 78, 216, 0.7)' : 'transparent'};
   border-radius: ${({ theme }) => theme.border.radius.md};
   cursor: pointer;
   display: flex;
   flex-direction: column;
   padding: ${({ theme }) => theme.spacing(2.5)} ${({ theme }) => theme.spacing(3)};
-  transition: background 120ms ease;
+  transition: background 120ms ease, border-color 120ms ease;
 
   &:hover {
-    background: ${({ theme }) => theme.background.transparent.lighter};
+    background: ${({ isSelected }) =>
+      isSelected ? 'rgba(29, 78, 216, 0.10)' : 'rgba(255, 255, 255, 0.04)'};
   }
 `;
 
@@ -76,11 +79,13 @@ const StyledCompactRow = styled.div`
 
 const StyledAvatar = styled.div<{ isClient?: boolean }>`
   align-items: center;
-  background: ${({ isClient, theme }) =>
-    isClient ? theme.color.blue : theme.background.transparent.medium};
+  background: ${({ isClient }) =>
+    isClient ? '#2563eb' : 'rgba(255, 255, 255, 0.10)'};
+  border: 1px solid ${({ isClient }) =>
+    isClient ? 'rgba(37, 99, 235, 0.5)' : 'rgba(255, 255, 255, 0.12)'};
   border-radius: 50%;
-  color: ${({ isClient, theme }) =>
-    isClient ? theme.font.color.inverted : theme.font.color.secondary};
+  color: ${({ isClient }) =>
+    isClient ? '#ffffff' : 'rgba(255, 255, 255, 0.7)'};
   display: flex;
   flex-shrink: 0;
   font-size: ${({ theme }) => theme.font.size.md};
@@ -114,7 +119,8 @@ const StyledNameGroup = styled.div`
 `;
 
 const StyledName = styled.span<{ isUnread?: boolean }>`
-  color: ${({ theme }) => theme.font.color.primary};
+  color: ${({ isUnread }) =>
+    isUnread ? '#f0f0f0' : 'rgba(255, 255, 255, 0.85)'};
   font-size: ${({ theme }) => theme.font.size.md};
   font-weight: ${({ isUnread, theme }) =>
     isUnread ? theme.font.weight.semiBold : theme.font.weight.medium};
@@ -152,8 +158,8 @@ const StyledProgramBadge = styled.span<{ bg: string; border: string; text: strin
 `;
 
 const StyledTimestamp = styled.span<{ isUnread?: boolean }>`
-  color: ${({ isUnread, theme }) =>
-    isUnread ? theme.color.blue : theme.font.color.tertiary};
+  color: ${({ isUnread }) =>
+    isUnread ? '#60a5fa' : 'rgba(255, 255, 255, 0.35)'};
   flex-shrink: 0;
   font-size: ${({ theme }) => theme.font.size.xs};
   white-space: nowrap;
@@ -167,8 +173,8 @@ const StyledBottomRow = styled.div`
 `;
 
 const StyledPreview = styled.span<{ isUnread?: boolean }>`
-  color: ${({ isUnread, theme }) =>
-    isUnread ? theme.font.color.primary : theme.font.color.tertiary};
+  color: ${({ isUnread }) =>
+    isUnread ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.4)'};
   font-size: ${({ theme }) => theme.font.size.sm};
   font-weight: ${({ isUnread, theme }) =>
     isUnread ? theme.font.weight.medium : theme.font.weight.regular};
@@ -234,12 +240,12 @@ const StyledPipelineStepWrapper = styled.div`
 
 const StyledPipelineCircle = styled.div<{ active: boolean }>`
   align-items: center;
-  background: ${({ active }) => (active ? '#ffffff' : 'transparent')};
-  border: 2px solid ${({ active, theme }) =>
-    active ? theme.color.green : theme.border.color.medium};
+  background: ${({ active }) => (active ? 'rgba(34, 197, 94, 0.12)' : 'transparent')};
+  border: 2px solid ${({ active }) =>
+    active ? '#22c55e' : 'rgba(255, 255, 255, 0.15)'};
   border-radius: 50%;
-  color: ${({ active, theme }) =>
-    active ? theme.color.green : theme.font.color.light};
+  color: ${({ active }) =>
+    active ? '#22c55e' : 'rgba(255, 255, 255, 0.25)'};
   display: flex;
   height: 36px;
   justify-content: center;
@@ -247,16 +253,16 @@ const StyledPipelineCircle = styled.div<{ active: boolean }>`
 `;
 
 const StyledPipelineLine = styled.div<{ active: boolean }>`
-  background: ${({ active, theme }) =>
-    active ? theme.color.green : theme.border.color.medium};
+  background: ${({ active }) =>
+    active ? '#22c55e' : 'rgba(255, 255, 255, 0.12)'};
   flex: 1;
   height: 2px;
   margin-bottom: 20px;
 `;
 
 const StyledPipelineLabel = styled.span<{ active: boolean }>`
-  color: ${({ active, theme }) =>
-    active ? theme.font.color.primary : theme.font.color.light};
+  color: ${({ active }) =>
+    active ? '#22c55e' : 'rgba(255, 255, 255, 0.3)'};
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -287,13 +293,13 @@ const StyledDetailIcon = styled.span`
 `;
 
 const StyledDetailLabel = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
+  color: rgba(255, 255, 255, 0.45);
   font-size: ${({ theme }) => theme.font.size.xs};
   min-width: 52px;
 `;
 
 const StyledDetailValue = styled.span`
-  color: ${({ theme }) => theme.font.color.primary};
+  color: rgba(255, 255, 255, 0.8);
   font-size: ${({ theme }) => theme.font.size.xs};
   overflow: hidden;
   text-overflow: ellipsis;
@@ -355,11 +361,11 @@ const StyledCompactPipeline = styled.div`
 `;
 
 const StyledCompactStep = styled.div<{ active: boolean }>`
-  background: ${({ active, theme }) =>
-    active ? theme.color.green + '30' : theme.background.transparent.lighter};
+  background: ${({ active }) =>
+    active ? 'rgba(34, 197, 94, 0.20)' : 'rgba(255, 255, 255, 0.05)'};
   border-radius: 2px;
-  color: ${({ active, theme }) =>
-    active ? theme.color.green : theme.font.color.light};
+  color: ${({ active }) =>
+    active ? '#4ade80' : 'rgba(255, 255, 255, 0.25)'};
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.03em;

@@ -30,7 +30,7 @@ const NEEDS_REPLY_HOURS: Record<NeedsReplyThreshold, number> = {
 };
 
 const StyledContainer = styled.div`
-  border-right: 1px solid ${({ theme }) => theme.border.color.medium};
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -39,7 +39,8 @@ const StyledContainer = styled.div`
 `;
 
 const StyledHeader = styled.div`
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing(2)};
@@ -47,10 +48,10 @@ const StyledHeader = styled.div`
 `;
 
 const StyledSessionSelect = styled.select`
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.medium};
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.primary};
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   font-family: inherit;
   font-size: ${({ theme }) => theme.font.size.sm};
@@ -67,10 +68,10 @@ const StyledList = styled.div`
 `;
 
 const StyledSectionLabel = styled.div`
-  color: ${({ theme }) => theme.font.color.light};
-  font-size: ${({ theme }) => theme.font.size.xs};
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 10px;
   font-weight: ${({ theme }) => theme.font.weight.semiBold};
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
   text-transform: uppercase;
 `;
@@ -79,7 +80,7 @@ const StyledLoadMore = styled.button`
   align-items: center;
   background: none;
   border: none;
-  color: ${({ theme }) => theme.font.color.secondary};
+  color: #60a5fa;
   cursor: pointer;
   display: flex;
   font-size: ${({ theme }) => theme.font.size.sm};
@@ -88,7 +89,7 @@ const StyledLoadMore = styled.button`
   padding: ${({ theme }) => theme.spacing(2)};
 
   &:hover {
-    color: ${({ theme }) => theme.font.color.primary};
+    color: #93bbfd;
   }
 `;
 

@@ -15,7 +15,8 @@ import {
 import { IconMic } from '@/whatsapp-chat/components/IconMic';
 
 const StyledContainer = styled.div`
-  border-top: 1px solid ${({ theme }) => theme.border.color.medium};
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
   display: flex;
   flex-direction: column;
   padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(3)};
@@ -28,10 +29,10 @@ const StyledInputRow = styled.div`
 `;
 
 const StyledTextArea = styled.textarea`
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.medium};
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.primary};
+  color: rgba(255, 255, 255, 0.9);
   flex: 1;
   font-family: inherit;
   font-size: ${({ theme }) => theme.font.size.md};
@@ -43,11 +44,12 @@ const StyledTextArea = styled.textarea`
   resize: none;
 
   &::placeholder {
-    color: ${({ theme }) => theme.font.color.light};
+    color: rgba(255, 255, 255, 0.3);
   }
 
   &:focus {
-    border-color: ${({ theme }) => theme.color.blue};
+    border-color: rgba(96, 165, 250, 0.6);
+    background: rgba(255, 255, 255, 0.07);
   }
 `;
 

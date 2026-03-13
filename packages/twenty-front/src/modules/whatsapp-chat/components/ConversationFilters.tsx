@@ -33,22 +33,24 @@ const StyledRow = styled.div`
 `;
 
 const StyledLabel = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
+  color: rgba(255, 255, 255, 0.45);
   font-size: ${({ theme }) => theme.font.size.xs};
   font-weight: ${({ theme }) => theme.font.weight.medium};
   min-width: 70px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   white-space: nowrap;
 `;
 
 const StyledPill = styled.button<{ isActive: boolean }>`
-  background: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue + '18' : theme.background.transparent.lighter};
+  background: ${({ isActive }) =>
+    isActive ? 'rgba(96, 165, 250, 0.18)' : 'rgba(255, 255, 255, 0.04)'};
   border: 1px solid
-    ${({ isActive, theme }) =>
-      isActive ? theme.color.blue + '40' : theme.border.color.light};
+    ${({ isActive }) =>
+      isActive ? 'rgba(96, 165, 250, 0.45)' : 'rgba(255, 255, 255, 0.10)'};
   border-radius: ${({ theme }) => theme.border.radius.pill};
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue : theme.font.color.secondary};
+  color: ${({ isActive }) =>
+    isActive ? '#93bbfd' : 'rgba(255, 255, 255, 0.5)'};
   cursor: pointer;
   font-family: inherit;
   font-size: ${({ theme }) => theme.font.size.xs};
@@ -58,20 +60,22 @@ const StyledPill = styled.button<{ isActive: boolean }>`
   white-space: nowrap;
 
   &:hover {
-    background: ${({ isActive, theme }) =>
-      isActive ? theme.color.blue + '25' : theme.background.transparent.light};
+    background: ${({ isActive }) =>
+      isActive ? 'rgba(96, 165, 250, 0.25)' : 'rgba(255, 255, 255, 0.08)'};
+    color: ${({ isActive }) =>
+      isActive ? '#93bbfd' : 'rgba(255, 255, 255, 0.7)'};
   }
 `;
 
 const StyledToggle = styled.button<{ isActive: boolean }>`
-  background: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue + '18' : 'transparent'};
+  background: ${({ isActive }) =>
+    isActive ? 'rgba(96, 165, 250, 0.18)' : 'transparent'};
   border: 1px solid
-    ${({ isActive, theme }) =>
-      isActive ? theme.color.blue + '40' : theme.border.color.light};
+    ${({ isActive }) =>
+      isActive ? 'rgba(96, 165, 250, 0.45)' : 'rgba(255, 255, 255, 0.10)'};
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue : theme.font.color.tertiary};
+  color: ${({ isActive }) =>
+    isActive ? '#93bbfd' : 'rgba(255, 255, 255, 0.4)'};
   cursor: pointer;
   font-family: inherit;
   font-size: ${({ theme }) => theme.font.size.xs};
@@ -79,15 +83,15 @@ const StyledToggle = styled.button<{ isActive: boolean }>`
   white-space: nowrap;
 
   &:hover {
-    color: ${({ theme }) => theme.font.color.primary};
+    color: rgba(255, 255, 255, 0.7);
   }
 `;
 
 const StyledSortSelect = styled.select`
-  background: ${({ theme }) => theme.background.transparent.lighter};
-  border: 1px solid ${({ theme }) => theme.border.color.light};
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ theme }) => theme.font.color.secondary};
+  color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   font-family: inherit;
   font-size: ${({ theme }) => theme.font.size.xs};
@@ -106,14 +110,14 @@ const StyledDropdownWrapper = styled.div`
 
 const StyledDropdownButton = styled.button<{ isActive: boolean }>`
   align-items: center;
-  background: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue + '18' : theme.background.transparent.lighter};
+  background: ${({ isActive }) =>
+    isActive ? 'rgba(96, 165, 250, 0.18)' : 'rgba(255, 255, 255, 0.04)'};
   border: 1px solid
-    ${({ isActive, theme }) =>
-      isActive ? theme.color.blue + '40' : theme.border.color.light};
+    ${({ isActive }) =>
+      isActive ? 'rgba(96, 165, 250, 0.45)' : 'rgba(255, 255, 255, 0.10)'};
   border-radius: ${({ theme }) => theme.border.radius.sm};
-  color: ${({ isActive, theme }) =>
-    isActive ? theme.color.blue : theme.font.color.secondary};
+  color: ${({ isActive }) =>
+    isActive ? '#93bbfd' : 'rgba(255, 255, 255, 0.5)'};
   cursor: pointer;
   display: flex;
   font-family: inherit;
@@ -124,8 +128,10 @@ const StyledDropdownButton = styled.button<{ isActive: boolean }>`
   white-space: nowrap;
 
   &:hover {
-    background: ${({ isActive, theme }) =>
-      isActive ? theme.color.blue + '25' : theme.background.transparent.light};
+    background: ${({ isActive }) =>
+      isActive ? 'rgba(96, 165, 250, 0.25)' : 'rgba(255, 255, 255, 0.08)'};
+    color: ${({ isActive }) =>
+      isActive ? '#93bbfd' : 'rgba(255, 255, 255, 0.7)'};
   }
 `;
 
@@ -227,7 +233,7 @@ const StyledCountRow = styled.div`
 `;
 
 const StyledCountText = styled.span`
-  color: ${({ theme }) => theme.font.color.tertiary};
+  color: rgba(255, 255, 255, 0.4);
   font-size: ${({ theme }) => theme.font.size.xs};
 `;
 

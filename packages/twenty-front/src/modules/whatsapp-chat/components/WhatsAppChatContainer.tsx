@@ -37,7 +37,7 @@ const StyledCenterPanel = styled.div`
 
 const StyledEmptyCenter = styled.div`
   align-items: center;
-  color: ${({ theme }) => theme.font.color.light};
+  color: rgba(255, 255, 255, 0.5);
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -53,13 +53,14 @@ const StyledEmptySubtext = styled.span`
 
 const StyledConnectionStatus = styled.div<{ connected: boolean }>`
   align-items: center;
-  background: ${({ connected, theme }) =>
+  background: ${({ connected }) =>
     connected
-      ? theme.background.transparent.lighter
-      : theme.background.danger};
-  border-bottom: 1px solid ${({ theme }) => theme.border.color.light};
-  color: ${({ connected, theme }) =>
-    connected ? theme.font.color.tertiary : theme.color.red};
+      ? 'rgba(255, 255, 255, 0.03)'
+      : 'rgba(239, 68, 68, 0.12)'};
+  border-bottom: 1px solid ${({ connected }) =>
+    connected ? 'rgba(255, 255, 255, 0.08)' : 'rgba(239, 68, 68, 0.3)'};
+  color: ${({ connected }) =>
+    connected ? 'rgba(255, 255, 255, 0.5)' : '#f87171'};
   display: flex;
   font-size: ${({ theme }) => theme.font.size.xs};
   gap: ${({ theme }) => theme.spacing(1)};
