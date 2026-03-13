@@ -5,7 +5,9 @@ export const normalizeUrl = (url: string) => {
     return trimmedUrl;
   }
 
-  return trimmedUrl.startsWith('http://') || trimmedUrl.startsWith('https://')
+  return trimmedUrl.startsWith('http://') ||
+    trimmedUrl.startsWith('https://') ||
+    trimmedUrl.startsWith('/')
     ? trimmedUrl
     : `https://${trimmedUrl}`;
 };

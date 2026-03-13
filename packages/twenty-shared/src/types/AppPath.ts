@@ -21,6 +21,8 @@ export enum AppPath {
   TasksPage = '/objects/tasks',
   OpportunitiesPage = '/objects/opportunities',
 
+  MeetingTranscripts = '/meeting-transcripts',
+
   RecordIndexPage = '/objects/:objectNamePlural',
   RecordShowPage = '/object/:objectNameSingular/:objectRecordId',
 
@@ -30,6 +32,9 @@ export enum AppPath {
   DevelopersCatchAll = `/${Developers}/*`,
 
   Authorize = '/authorize',
+
+  // WhatsApp Chat
+  WhatsAppChat = '/chat',
 
   // 404 page not found
   NotFoundWildcard = '*',
